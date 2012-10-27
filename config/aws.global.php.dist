@@ -1,0 +1,22 @@
+<?php
+return array(
+    'aws' => array(
+        'includes' => array('_aws'),
+        'services' => array(
+            'default_settings' => array(
+                'params' => array(
+                    'key'    => 'change_me',
+                    'secret' => 'change_me',
+                    'region' => 'change_me'
+                )
+            ),
+            'cloudfront' => array(
+                'extends' => 'cloudfront',
+                'params' => array(
+                    'private_key' => 'change_me',
+                    'key_pair_id' => 'change_me'
+                )
+            )
+        )
+    )
+);
