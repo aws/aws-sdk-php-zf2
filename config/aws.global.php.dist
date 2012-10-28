@@ -1,22 +1,12 @@
 <?php
 return array(
+    // These are the minimum required settings for using the SDK
     'aws' => array(
-        'includes' => array('_aws'),
-        'services' => array(
-            'default_settings' => array(
-                'params' => array(
-                    'key'    => 'change_me',
-                    'secret' => 'change_me',
-                    'region' => 'change_me'
-                )
-            ),
-            'cloudfront' => array(
-                'extends' => 'cloudfront',
-                'params' => array(
-                    'private_key' => 'change_me',
-                    'key_pair_id' => 'change_me'
-                )
-            )
-        )
-    )
+        'key'    => 'change_me',
+        'secret' => 'change_me',
+        'region' => 'change_me'
+    ),
+
+    // Instead of defining settings in this file, you can provide a path to an AWS SDK for PHP config file
+    // 'aws' => 'path/to/aws-config.php',
 );

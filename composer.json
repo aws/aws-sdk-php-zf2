@@ -1,23 +1,23 @@
 {
     "name": "aws/aws-sdk-php-zf2",
-    "description": "Zend Framework 2 Module that allows easy use of the AWS SDK for PHP",
+    "description": "Zend Framework 2 Module that allows easy consumption of the AWS SDK for PHP",
     "type": "library",
     "license": "Apache",
     "keywords": [
         "aws",
         "amazon",
         "s3",
-        "dynamodb"
-    ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "http://github.com/aws/aws-sdk-php"
-        }
+        "dynamodb",
+        "zf2"
     ],
     "require": {
         "php": ">=5.3.3",
-        "aws/aws-sdk-php": "dev-master",
+        "aws/aws-sdk-php": "2.*",
         "zendframework/zendframework": "2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "./Module.php"
+        ]
     }
 }
