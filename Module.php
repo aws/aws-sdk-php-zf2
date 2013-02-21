@@ -15,16 +15,6 @@ class Module implements ConfigProviderInterface, ServiceProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfig()
-    {
-        return array(
-            'aws' => array()
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getServiceConfig()
     {
         return array(
