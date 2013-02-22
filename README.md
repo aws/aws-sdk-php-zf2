@@ -1,16 +1,13 @@
 # AWS SDK ZF2 Module
-Version 0.1
 
 ## Introduction
 
-This module provides a simple wrapper for the AWS PHP SDK library. It registers
-the AWS service builder as a service in the service manager, making it easily
-accessible anywhere in your application.
+This module provides a simple wrapper for the AWS SDK for PHP. It registers the AWS service builder as a service in the
+ZF2 service manager, making it easily accessible anywhere in your application.
 
 ## Installation
 
-Add your secret/public keys and region to your local config file
-(`config/autoload/aws.local.php` for example):
+Add your access keys and region to your local config file (e.g., `config/autoload/aws.local.php`):
 
 ```php
 <?php
@@ -59,4 +56,10 @@ public function indexAction()
 }
 ```
 
-See the full PHP SDK documentation [here](http://docs.aws.amazon.com/awssdkdocsphp2/latest/gettingstartedguide/sdk-php2-using-the-sdk.html).
+## Links
+
+* [AWS SDK for PHP on Github](http://github.com/aws/aws-sdk-php)
+* [AWS SDK for PHP website](http://aws.amazon.com/sdkforphp/)
+* [AWS on Packagist](https://packagist.org/packages/aws)
+* [License](http://aws.amazon.com/apache2.0/)
+* [ZF2 website](http://framework.zend.com)
