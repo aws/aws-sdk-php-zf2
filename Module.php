@@ -38,8 +38,9 @@ class Module implements ServiceProviderInterface
             'factories' => array(
                 'aws' => function (ServiceManager $serviceManager) {
                     // Instantiate the AWS SDK for PHP
-                    $config = $serviceManager->get('Config');
-                    $aws = Aws::factory($config->get('aws', array()));
+                    $config = $serviceManager->has('Config') ? $serviceManager->get('Config') : array();
+                    $config = isset($config['aws']) ? $config['aws'] : array();
+                    $aws = Aws::factory($config);
 
                     // Attach an event listener that will append the ZF2 version number in the user agent string
                     $aws->getEventDispatcher()->addListener('service_builder.create_client', function (Event $event) {
@@ -49,6 +50,8 @@ class Module implements ServiceProviderInterface
                             UserAgentListener::OPTION => 'ZF2/' . Version::VERSION,
                         )));
                     });
+
+                    return $aws;
                 },
             )
         );
