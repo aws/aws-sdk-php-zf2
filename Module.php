@@ -14,46 +14,20 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws;
+namespace AwsModule;
 
-use Aws\Common\Aws;
-use Aws\Common\Client\UserAgentListener;
-use Guzzle\Common\Event;
-use Guzzle\Service\Client;
-use Zend\ModuleManager\Feature\ServiceProviderInterface;
-use Zend\ServiceManager\ServiceManager;
-use Zend\Version\Version;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
 /**
  * Zend Framework 2 module that allows easy consumption of the AWS SDK for PHP
  */
-class Module implements ServiceProviderInterface
+class Module implements ConfigProviderInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function getServiceConfig()
+    public function getConfig()
     {
-        return array(
-            'factories' => array(
-                'aws' => function (ServiceManager $serviceManager) {
-                    // Instantiate the AWS SDK for PHP
-                    $config = $serviceManager->has('Config') ? $serviceManager->get('Config') : array();
-                    $config = isset($config['aws']) ? $config['aws'] : array();
-                    $aws = Aws::factory($config);
-
-                    // Attach an event listener that will append the ZF2 version number in the user agent string
-                    $aws->getEventDispatcher()->addListener('service_builder.create_client', function (Event $event) {
-                        $clientConfig = $event['client']->getConfig();
-                        $commandParams = $clientConfig->get(Client::COMMAND_PARAMS) ?: array();
-                        $clientConfig->set(Client::COMMAND_PARAMS, array_merge_recursive($commandParams, array(
-                            UserAgentListener::OPTION => 'ZF2/' . Version::VERSION,
-                        )));
-                    });
-
-                    return $aws;
-                },
-            )
-        );
+        return include __DIR__ . '/config/module.config.php';
     }
 }

@@ -7,7 +7,18 @@ ZF2 service manager, making it easily accessible anywhere in your application.
 
 ## Installation
 
-Add your access keys and region to your local config file (e.g., `config/autoload/aws.local.php`):
+Enable the module in your ``application.config.php`` file:
+
+```php
+return array(
+    'modules' => array(
+        'AwsModule'
+    )
+);
+```
+
+Copy-paste the file aws.local.php.dist to your ``config/autoload`` folder and customize it to your needs (don't
+forget to remove the .dist !).
 
 ```php
 <?php
