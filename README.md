@@ -18,7 +18,7 @@ return array(
 ```
 
 Copy-paste the file aws.local.php.dist to your ``config/autoload`` folder and customize it to your needs (don't
-forget to remove the .dist !).
+forget to remove the .dist !):
 
 ```php
 <?php
@@ -66,6 +66,13 @@ public function indexAction()
     echo "The {$table} table has been created.\n";
 }
 ```
+
+## Third-parties modules
+
+Here are some Zend Framework 2 modules that are built on top of this SDK:
+
+* [SlmQueueSqs](https://github.com/juriansluiman/SlmQueueSqs): module that simplify the use of Amazon SQS
+
 
 ## Links
 
