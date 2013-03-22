@@ -14,9 +14,9 @@
  * permissions and limitations under the License.
  */
 
-namespace AwsModuleTests;
+namespace AwsTests;
 
-use AwsModule\Module as AwsModule;
+use Aws\Module as AwsModule;
 use Zend\ServiceManager\Config as ServiceConfig;
 use Zend\ServiceManager\ServiceManager;
 

@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-namespace AwsModule\Factory;
+namespace Aws\Factory;
 
 use Aws\Common\Aws;
 use Aws\Common\Client\UserAgentListener;

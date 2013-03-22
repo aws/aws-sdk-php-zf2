@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-namespace AwsModule;
+namespace Aws;
 
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 

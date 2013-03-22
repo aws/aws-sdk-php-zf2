@@ -8,4 +8,4 @@ if  (
 }
 
 /* @var $loader \Composer\Autoload\ClassLoader */
-$loader->add('AwsModuleTests\\', __DIR__);
+$loader->add('AwsTests\\', __DIR__);
