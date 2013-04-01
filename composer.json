@@ -7,9 +7,16 @@
     "require": {
         "php": ">=5.3.3",
         "aws/aws-sdk-php": "2.*",
-        "zendframework/zendframework": "2.*"
+        "zendframework/zend-servicemanager": "2.*",
+        "zendframework/zend-version": "2.*"
+    },
+    "require-dev": {
+        "zendframework/zend-moduleemanager": "2.*"
     },
     "autoload": {
+        "psr-0": {
+            "Aws\\": "src/"
+        },
         "classmap": [
             "./Module.php"
         ]

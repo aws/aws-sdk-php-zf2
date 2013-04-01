@@ -1,0 +1,17 @@
+<?php
+
+return array(
+    'aws' => array(
+        /**
+         * These are the minimum required settings for using the SDK
+         */
+        // 'key'    => '',
+        // 'secret' => '',
+        // 'region' => ''
+    )
+
+    /**
+     * Instead of defining settings in this file, you can provide a path to an AWS SDK for PHP config file
+     */
+    // 'aws' => 'path/to/aws-config.php'
+);

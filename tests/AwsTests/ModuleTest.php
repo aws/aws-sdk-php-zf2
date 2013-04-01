@@ -14,9 +14,9 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws\Tests;
+namespace AwsTests;
 
-use Aws\Module;
+use Aws\Module as AwsModule;
 use Zend\ServiceManager\Config as ServiceConfig;
 use Zend\ServiceManager\ServiceManager;
 
@@ -28,9 +28,10 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     public function testRegisterAwsModule()
     {
         // Create the module and service manager, and register the module
-        $module = new Module();
-        $serviceConfig = new ServiceConfig($module->getServiceConfig());
-        $serviceManager = new ServiceManager($serviceConfig);
+        $module = new AwsModule();
+        $config = $module->getConfig();
+
+        $serviceManager = new ServiceManager(new ServiceConfig($config['service_manager']));
         $serviceManager->setService('config', array('aws' => array(
             'key'    => 'your-aws-access-key-id',
             'secret' => 'your-aws-secret-access-key',
@@ -62,12 +63,15 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Aws\Common\Exception\InstanceProfileCredentialsException
      */
-    public function testNoConfigProvided()
+    public function testNoCredentialsConfigProvided()
     {
         // Create the module and service manager, and register the module without any configuration
-        $module = new Module();
-        $serviceConfig = new ServiceConfig($module->getServiceConfig());
+        $module = new AwsModule();
+        $config = $module->getConfig();
+
+        $serviceConfig  = new ServiceConfig($config['service_manager']);
         $serviceManager = new ServiceManager($serviceConfig);
+        $serviceManager->setService('config', array('aws' => array()));
 
         // Instantiate a client and get the access key, which should trigger an exception trying to use IAM credentials
         $s3 = $serviceManager->get('aws')->get('s3');
