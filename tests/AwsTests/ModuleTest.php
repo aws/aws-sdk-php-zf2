@@ -63,7 +63,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Aws\Common\Exception\InstanceProfileCredentialsException
      */
-    public function testNoConfigProvided()
+    public function testNoCredentialsConfigProvided()
     {
         // Create the module and service manager, and register the module without any configuration
         $module = new AwsModule();
@@ -71,6 +71,8 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
 
         $serviceConfig  = new ServiceConfig($config['service_manager']);
         $serviceManager = new ServiceManager($serviceConfig);
+        $serviceManager->setService('config', array('aws' => array(
+        )));
 
         // Instantiate a client and get the access key, which should trigger an exception trying to use IAM credentials
         $s3 = $serviceManager->get('aws')->get('s3');
