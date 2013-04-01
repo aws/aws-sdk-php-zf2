@@ -16,7 +16,6 @@
 
 namespace Aws\Factory;
 
-use RuntimeException;
 use Aws\Common\Aws;
 use Aws\Common\Client\UserAgentListener;
 use Guzzle\Common\Event;
