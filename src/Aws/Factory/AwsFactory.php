@@ -39,20 +39,29 @@ class AwsFactory implements FactoryInterface
         // Instantiate the AWS SDK for PHP
         $config = $serviceLocator->get('Config');
         if (!isset($config['aws'])) {
-            throw new RuntimeException('No config was set for AWS module');    
+            throw new RuntimeException('No config was set for AWS module');
         }
-        
+
         $aws = Aws::factory($config['aws']);
 
         // Attach an event listener that will append the ZF2 version number in the user agent string
-        $aws->getEventDispatcher()->addListener('service_builder.create_client', function (Event $event) {
-            $clientConfig  = $event['client']->getConfig();
-            $commandParams = $clientConfig->get(Client::COMMAND_PARAMS) ?: array();
-            $clientConfig->set(Client::COMMAND_PARAMS, array_merge_recursive($commandParams, array(
-                UserAgentListener::OPTION => 'ZF2/' . Version::VERSION,
-            )));
-        });
+        $aws->getEventDispatcher()->addListener('service_builder.create_client', array($this, 'createClient'));
 
         return $aws;
+    }
+
+    /**
+     * Adds ZF 2 version in UserAgent (mainly for statistics purpose on Amazon side)
+     *
+     * @param  Event $event
+     * @return void
+     */
+    public function createClient(Event $event)
+    {
+        $clientConfig  = $event['client']->getConfig();
+        $commandParams = $clientConfig->get(Client::COMMAND_PARAMS) ?: array();
+        $clientConfig->set(Client::COMMAND_PARAMS, array_merge_recursive($commandParams, array(
+            UserAgentListener::OPTION => 'ZF2/' . Version::VERSION,
+        )));
     }
 }

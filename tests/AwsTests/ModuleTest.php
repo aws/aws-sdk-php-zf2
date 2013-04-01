@@ -78,4 +78,21 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $s3 = $serviceManager->get('aws')->get('s3');
         $s3->getCredentials()->getAccessKeyId();
     }
+
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testNoAwsConfigProvided()
+    {
+        // Create the module and service manager, and register the module without any configuration
+        $module = new AwsModule();
+        $config = $module->getConfig();
+
+        $serviceConfig  = new ServiceConfig($config['service_manager']);
+        $serviceManager = new ServiceManager($serviceConfig);
+        $serviceManager->setService('config', array());
+
+        // Instantiate a client and get the access key, which should trigger an exception trying to use IAM credentials
+        $serviceManager->get('aws');
+    }
 }
