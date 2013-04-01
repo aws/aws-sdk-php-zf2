@@ -16,6 +16,7 @@
 
 namespace Aws\Factory;
 
+use RuntimeException;
 use Aws\Common\Aws;
 use Aws\Common\Client\UserAgentListener;
 use Guzzle\Common\Event;
@@ -31,13 +32,17 @@ class AwsFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
+     * @return \Aws\Common\Aws
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         // Instantiate the AWS SDK for PHP
-        $config = $serviceLocator->has('Config') ? $serviceLocator->get('Config') : array();
-        $config = isset($config['aws']) ? $config['aws'] : array();
-        $aws    = Aws::factory($config);
+        $config = $serviceLocator->get('Config');
+        if (!isset($config['aws'])) {
+            throw new RuntimeException('No config was set for AWS module');    
+        }
+        
+        $aws = Aws::factory($config['aws']);
 
         // Attach an event listener that will append the ZF2 version number in the user agent string
         $aws->getEventDispatcher()->addListener('service_builder.create_client', function (Event $event) {
