@@ -11,7 +11,7 @@
         "zendframework/zend-version": "2.*"
     },
     "require-dev": {
-        "zendframework/zend-moduleemanager": "2.*"
+        "zendframework/zend-modulemanager": "2.*"
     },
     "autoload": {
         "psr-0": {
