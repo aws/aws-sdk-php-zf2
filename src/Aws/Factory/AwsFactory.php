@@ -32,7 +32,7 @@ class AwsFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
-     * @return \Aws\Common\Aws
+     * @return Aws
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
@@ -51,7 +51,7 @@ class AwsFactory implements FactoryInterface
     }
 
     /**
-     * Adds ZF 2 version in UserAgent (mainly for statistics purpose on Amazon side)
+     * Add ZF2 version in UserAgent (mainly for statistics purpose on Amazon side)
      *
      * @param  Event $event
      * @return void
