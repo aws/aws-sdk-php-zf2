@@ -71,7 +71,7 @@ public function indexAction()
 
 Here are some ZF2 modules that are built on top of the AWS SDK for PHP using this module:
 
-* [SlmQueueSqs](https://github.com/juriansluiman/SlmQueueSqs): module that simplify the use of Amazon SQS
+* [SlmQueueSqs](https://github.com/juriansluiman/SlmQueueSqs) – Module that simplifies the use of Amazon SQS
 
 ## Links
 
