@@ -7,7 +7,20 @@ ZF2 service manager, making it easily accessible anywhere in your application.
 
 ## Installation
 
-Enable the module in your ``application.config.php`` file:
+Install the module using Composer into your application's vendor directory. Add the following line to your
+`composer.json`. This will also install the AWS SDK for PHP.
+
+```json
+{
+    "require": {
+        "aws/aws-sdk-php-zf2": "1.0.*"
+    }
+}
+```
+
+## Configuration
+
+Enable the module in your `application.config.php` file.
 
 ```php
 return array(
@@ -17,7 +30,7 @@ return array(
 );
 ```
 
-Copy-paste the file `aws.local.php.dist` to your `config/autoload` folder and customize it with your credentials and
+Copy and paste the `aws.local.php.dist` file to your `config/autoload` folder and customize it with your credentials and
 other configuration settings. Make sure to remove `.dist` from your file. Your `aws.local.php` might look something like
 the following:
 
@@ -35,7 +48,8 @@ return array(
 
 ## Usage
 
-You can get the AWS service builder from anywhere that the ZF2 service locator is available (e.g. controller classes).
+You can get the AWS service builder object from anywhere that the ZF2 service locator is available (e.g. controller
+classes). The following example instantiates an Amazon DynamoDB client and creates a table in DynamoDb.
 
 ```php
 public function indexAction()
@@ -69,7 +83,7 @@ public function indexAction()
 
 ## Third-parties modules
 
-Here are some ZF2 modules that are built on top of the AWS SDK for PHP using this module:
+The following are some ZF2 modules that are built on top of the AWS SDK for PHP using this module:
 
 * [SlmQueueSqs](https://github.com/juriansluiman/SlmQueueSqs) – Module that simplifies the use of Amazon SQS
 

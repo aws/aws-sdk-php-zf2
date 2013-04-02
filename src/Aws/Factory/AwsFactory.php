@@ -47,9 +47,10 @@ class AwsFactory implements FactoryInterface
     }
 
     /**
-     * Add ZF2 version in UserAgent (mainly for statistics purpose on Amazon side)
+     * Add ZF2 version in UserAgent (used for metrics)
      *
-     * @param  Event $event
+     * @param  Event $event The event containing the instantiated client object
+     *
      * @return void
      */
     public function onCreateClient(Event $event)
