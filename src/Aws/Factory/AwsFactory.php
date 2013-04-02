@@ -41,7 +41,7 @@ class AwsFactory implements FactoryInterface
         $aws    = Aws::factory($config);
 
         // Attach an event listener that will append the ZF2 version number in the user agent string
-        $aws->getEventDispatcher()->addListener('service_builder.create_client', array($this, 'createClient'));
+        $aws->getEventDispatcher()->addListener('service_builder.create_client', array($this, 'onCreateClient'));
 
         return $aws;
     }
@@ -52,7 +52,7 @@ class AwsFactory implements FactoryInterface
      * @param  Event $event
      * @return void
      */
-    public function createClient(Event $event)
+    public function onCreateClient(Event $event)
     {
         $clientConfig  = $event['client']->getConfig();
         $commandParams = $clientConfig->get(Client::COMMAND_PARAMS) ?: array();

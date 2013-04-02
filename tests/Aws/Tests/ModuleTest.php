@@ -14,24 +14,38 @@
  * permissions and limitations under the License.
  */
 
-namespace AwsTests;
+namespace Aws\Tests;
 
 use Aws\Module as AwsModule;
-use Zend\ServiceManager\Config as ServiceConfig;
-use Zend\ServiceManager\ServiceManager;
 
 /**
  * AWS Module test cases
  */
-class ModuleTest extends \PHPUnit_Framework_TestCase
+class ModuleTest extends BaseModuleTest
 {
-    public function testRegisterAwsModule()
+    /**
+     * Tests that getConfig is returning valid data for the module
+     */
+    public function testConfigIsReturnedAsArray()
     {
-        // Create the module and service manager, and register the module
         $module = new AwsModule();
         $config = $module->getConfig();
 
-        $serviceManager = new ServiceManager(new ServiceConfig($config['service_manager']));
+        $this->assertInternalType('array', $config);
+
+        $classExists = isset($config['service_manager']['factories']['Aws'])
+            && class_exists($config['service_manager']['factories']['Aws']);
+
+        $this->assertTrue($classExists);
+    }
+
+    /**
+     * Tests a normal module registration
+     */
+    public function testRegisterAwsModule()
+    {
+        // Create the module and service manager, and register the module
+        $serviceManager = $this->createServiceManagerForTest();
         $serviceManager->setService('config', array('aws' => array(
             'key'    => 'your-aws-access-key-id',
             'secret' => 'your-aws-secret-access-key',
@@ -61,20 +75,30 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests modules registration with no config provided
+     *
+     * @dataProvider dataForNoConfigTest
      * @expectedException \Aws\Common\Exception\InstanceProfileCredentialsException
      */
-    public function testNoCredentialsConfigProvided()
+    public function testNoConfigProvided(array $providedConfig)
     {
         // Create the module and service manager, and register the module without any configuration
-        $module = new AwsModule();
-        $config = $module->getConfig();
-
-        $serviceConfig  = new ServiceConfig($config['service_manager']);
-        $serviceManager = new ServiceManager($serviceConfig);
-        $serviceManager->setService('config', array('aws' => array()));
+        $serviceManager = $this->createServiceManagerForTest();
+        $serviceManager->setService('config', $providedConfig);
 
         // Instantiate a client and get the access key, which should trigger an exception trying to use IAM credentials
         $s3 = $serviceManager->get('aws')->get('s3');
         $s3->getCredentials()->getAccessKeyId();
+    }
+
+    /**
+     * @return array
+     */
+    public function dataForNoConfigTest()
+    {
+        return array(
+            array(array()),
+            array(array('aws' => array())),
+        );
     }
 }
