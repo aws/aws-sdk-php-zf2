@@ -6,14 +6,14 @@ return array(
      * credentials (key and secret key) and the region (e.g. us-west-2) in which you would like to use your services.
      */
     // 'aws' => array(
-    //     'key'    => '<your_aws_access_key_id>',
-    //     'secret' => '<your_aws_secret_access_key>',
-    //     'region' => 'us-west-2'
+    //     'key'    => 'change_me',
+    //     'secret' => 'change_me',
+    //     'region' => 'change_me'
     // )
 
     /**
      * You can alternatively provide a path to an AWS SDK for PHP config file containing your configuration settings.
      * Config files can allow you to have finer-grained control over the configuration settings for each service client.
      */
-    // 'aws' => 'path/to/aws-config.php'
+    // 'aws' => 'path/to/your/aws-config.php'
 );

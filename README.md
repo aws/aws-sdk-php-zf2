@@ -17,25 +17,25 @@ return array(
 );
 ```
 
-Copy-paste the file aws.local.php.dist to your ``config/autoload`` folder and customize it to your needs (don't
-forget to remove the .dist !):
+Copy-paste the file `aws.local.php.dist` to your `config/autoload` folder and customize it with your credentials and
+other configuration settings. Make sure to remove `.dist` from your file. Your `aws.local.php` might look something like
+the following:
 
 ```php
 <?php
-return array(
-    // These are the minimum required settings for using the SDK
-    'aws' => array(
-        'key'    => 'change_me',
-        'secret' => 'change_me',
-        'region' => 'change_me'
-    ),
 
-    // Instead of defining settings in this file, you can provide a path to an AWS SDK for PHP config file
-    // 'aws' => 'path/to/aws-config.php',
+return array(
+    'aws' => array(
+        'key'    => '<your-aws-access-key-id>',
+        'secret' => '<your-aws-secret-access-key>',
+        'region' => 'us-west-2'
+    )
 );
 ```
 
 ## Usage
+
+You can get the AWS service builder from anywhere that the ZF2 service locator is available (e.g. controller classes).
 
 ```php
 public function indexAction()
@@ -61,7 +61,7 @@ public function indexAction()
     ));
 
     // Wait until the table is created and active
-    $client->waitUntil('TableExists', array('TableName' => $table));
+    $client->waitUntilTableExists(array('TableName' => $table));
 
     echo "The {$table} table has been created.\n";
 }
@@ -69,10 +69,9 @@ public function indexAction()
 
 ## Third-parties modules
 
-Here are some Zend Framework 2 modules that are built on top of this SDK:
+Here are some ZF2 modules that are built on top of the AWS SDK for PHP using this module:
 
 * [SlmQueueSqs](https://github.com/juriansluiman/SlmQueueSqs): module that simplify the use of Amazon SQS
-
 
 ## Links
 
