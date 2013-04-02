@@ -81,7 +81,7 @@ public function indexAction()
 }
 ```
 
-## Third-parties modules
+## Related Modules
 
 The following are some ZF2 modules that are built on top of the AWS SDK for PHP using this module:
 
