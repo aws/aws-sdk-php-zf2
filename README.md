@@ -46,6 +46,9 @@ return array(
 );
 ```
 
+> Note: if you are using IAM EC2 instance role (also called instance profile in Amazon Beanstalk), you can omit
+your credentials parameters as they will be fetched automatically from EC2 instance.
+
 ## Usage
 
 You can get the AWS service builder object from anywhere that the ZF2 service locator is available (e.g. controller
