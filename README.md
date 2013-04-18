@@ -46,8 +46,10 @@ return array(
 );
 ```
 
-> Note: if you are using IAM EC2 instance role (also called instance profile in Amazon Beanstalk), you can omit
-your credentials parameters as they will be fetched automatically from EC2 instance.
+> NOTE: If you are using [IAM Instance Profile
+credentials](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UsingIAM.html#UsingIAMrolesWithAmazonEC2Instances)
+(also referred to as IAM Roles for instances), you can omit your `key` and `secret` parameters since they will be
+fetched from the Amazon EC2 instance automatically.
 
 ## Usage
 
