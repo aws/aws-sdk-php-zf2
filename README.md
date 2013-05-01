@@ -90,6 +90,7 @@ public function indexAction()
 
 The following are some ZF2 modules that are built on top of the AWS SDK for PHP using this module:
 
+* [SlmMail](https://github.com/juriansluiman/SlmMail) - Module that allow to send emails with various providers (including Amazon SES)
 * [SlmQueueSqs](https://github.com/juriansluiman/SlmQueueSqs) – Module that simplifies the use of Amazon SQS
 
 ## Links
