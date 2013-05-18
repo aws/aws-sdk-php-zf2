@@ -14,73 +14,60 @@
  * permissions and limitations under the License.
  */
 
+namespace Aws\View\Helper;
+
+use Aws\S3\S3Client;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * View helper that can render a link to a S3 object, or turn the link to a CloudFront domain
+ * View helper that can render a link to a S3 object. It can also create signed URLs
  */
 class S3Link extends AbstractHelper
 {
     /**
-     * @var bool
+     * Amazon AWS endpoint
      */
-    protected $useCloudFront = false;
+    const S3_ENDPOINT = 's3.amazon.com';
 
     /**
-     * @var null|string
+     * @var S3Client
      */
-    protected $cloudFrontDomain;
+    protected $client;
 
     /**
-     * @param bool $useCloudFront
-     * @param string $cloudFrontDomain
+     * Constuctor
+     *
+     * @param S3Client $client
      */
-    public function __construct($useCloudFront = false, $cloudFrontDomain = '')
+    public function __construct(S3Client $client)
     {
-        $this->useCloudFront = $useCloudFront;
-
-        if (!empty($cloudFrontDomain)) {
-            $this->cloudFrontDomain = $cloudFrontDomain;
-        }
+        $this->client = $client;
     }
 
     /**
-     * @param  string $bucket
-     * @param  string $object
+     * Create a link to a S3 object from a bucket. If expiration is not empty, then it is used to create
+     * a signed URL
+     *
+     * @param  string $object The object name (full path)
+     * @param  string $bucket The bucket name
+     * @param  string $expiration The Unix timestamp to expire at or a string that can be evaluated by strtotime
      * @return string
      */
-    public function __invoke($bucket, $object)
+    public function __invoke($object, $bucket, $expiration = '')
     {
-        if ($this->useCloudFront) {
-            return $this->generateCloudFrontLink($object);
-        }
-
-        return $this->generateS3Link($bucket, $object);
-    }
-
-    /**
-     * @param  string $object
-     * @return string
-     */
-    public function generateCloudFrontLink($object)
-    {
-        return sprintf(
-            'https://%s.cloudfront.net/%s',
-            $this->cloudFrontDomain,
-            $object
+        $url = sprintf(
+            'https://%s.%s/%s',
+            trim($bucket, '/'),
+            self::S3_ENDPOINT,
+            ltrim($object, '/')
         );
-    }
 
-    /**
-     * @param  string $bucket
-     * @param  string $object
-     * @return string
-     */
-    public function generateS3Link($bucket, $object)
-    {
-        return sprintf(
-            'https://%s.s3.amazonaws.com/%s',
-            $bucket, $object
-        );
+        if (empty($expiration)) {
+            return $url;
+        }
+
+        $request = $this->client->get($url);
+
+        return $this->client->createPresignedUrl($request, $expiration);
     }
 }

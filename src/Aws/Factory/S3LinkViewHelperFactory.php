@@ -16,6 +16,7 @@
 
 namespace Aws\Factory;
 
+use Aws\View\Helper\S3Link;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -26,6 +27,9 @@ class S3LinkViewHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        // TODO: Implement createService() method.
+        $parentLocator = $serviceLocator->getServiceLocator();
+        $s3Client      = $parentLocator->get('Aws')->get('S3');
+
+        return new S3Link($s3Client);
     }
 }
