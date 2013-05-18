@@ -8,12 +8,9 @@ return array(
     ),
 
     'view_helpers' => array(
-        'invokables' => array(
-            'Aws\View\Helper\CloudFrontLink' => 'Aws\Factory\CloudFrontLinkViewHelperFactory',
-        ),
-
         'factories' => array(
-            'Aws\View\Helper\S3Link' => 'Aws\Factory\S3LinkViewHelperFactory'
+            'Aws\View\Helper\S3Link'         => 'Aws\Factory\S3LinkViewHelperFactory',
+            'Aws\View\Helper\CloudFrontLink' => 'Aws\Factory\CloudFrontLinkViewHelperFactory'
         ),
 
         'aliases' => array(

@@ -16,6 +16,8 @@
 
 namespace Aws\View\Helper;
 
+use Aws\CloudFront\CloudFrontClient;
+use Aws\View\Exception\InvalidDomainNameException;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -29,6 +31,16 @@ class CloudFrontLink extends AbstractHelper
     const CLOUD_FRONT_ENDPOINT = 'cloudfront.net';
 
     /**
+     * @var CloudFrontClient
+     */
+    protected $client;
+
+    /**
+     * @var bool
+     */
+    protected $useSsl = false;
+
+    /**
      * Default CloudFront domain to use
      *
      * @var string
@@ -38,11 +50,31 @@ class CloudFrontLink extends AbstractHelper
     /**
      * Constructor
      *
-     * @param string $defaultDomain
+     * @param CloudFrontClient $client
      */
-    public function __construct($defaultDomain = '')
+    public function __construct(CloudFrontClient $client)
     {
-        $this->defaultDomain = $defaultDomain;
+        $this->client = $client;
+    }
+
+    /**
+     * Set if HTTPS should be used for generating URLs
+     *
+     * @param bool $useSsl
+     */
+    public function setUseSsl($useSsl)
+    {
+        $this->useSsl = (bool) $useSsl;
+    }
+
+    /**
+     * Get if HTTPS should be used for generating URLs
+     *
+     * @return bool
+     */
+    public function getUseSsl()
+    {
+        return $this->useSsl;
     }
 
     /**
@@ -68,25 +100,35 @@ class CloudFrontLink extends AbstractHelper
     /**
      * Create a link to a CloudFront object
      *
-     * @param  string $object
-     * @param  string $domain
+     * @param  string     $object
+     * @param  string     $domain
+     * @param  string|int $expiration
+     * @throws InvalidDomainNameException
      * @return string
      */
-    public function __invoke($object, $domain = '')
+    public function __invoke($object, $domain = '', $expiration = '')
     {
         if (empty($domain)) {
             $domain = $this->getDefaultDomain();
         }
 
-        // @TODO: should we throw an exception if $domain is still empty?
+        // If $domain is still empty, we throw an exception as it makes no sense
+        if (empty($domain)) {
+            throw new InvalidDomainNameException('An empty Cloud Front domain name was given');
+        }
 
         $url = sprintf(
-            'https://%s.%s/%s',
+            '%s://%s.%s/%s',
+            $this->useSsl ? 'https' : 'http',
             ltrim($domain, '.cloudfront.net'), // Trim the end part because we already include it
             self::CLOUD_FRONT_ENDPOINT,
             ltrim($object, '/')
         );
 
-        return $url;
+        if (empty($expiration)) {
+            return $url;
+        }
+
+        return $this->client->getSignedUrl(compact('url', 'expiration'));
     }
 }

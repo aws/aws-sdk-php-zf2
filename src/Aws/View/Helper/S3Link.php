@@ -35,6 +35,11 @@ class S3Link extends AbstractHelper
     protected $client;
 
     /**
+     * @var bool
+     */
+    protected $useSsl = false;
+
+    /**
      * Constuctor
      *
      * @param S3Client $client
@@ -45,18 +50,39 @@ class S3Link extends AbstractHelper
     }
 
     /**
+     * Set if HTTPS should be used for generating URLs
+     *
+     * @param bool $useSsl
+     */
+    public function setUseSsl($useSsl)
+    {
+        $this->useSsl = (bool) $useSsl;
+    }
+
+    /**
+     * Get if HTTPS should be used for generating URLs
+     *
+     * @return bool
+     */
+    public function getUseSsl()
+    {
+        return $this->useSsl;
+    }
+
+    /**
      * Create a link to a S3 object from a bucket. If expiration is not empty, then it is used to create
      * a signed URL
      *
-     * @param  string $object The object name (full path)
-     * @param  string $bucket The bucket name
-     * @param  string $expiration The Unix timestamp to expire at or a string that can be evaluated by strtotime
+     * @param  string     $object The object name (full path)
+     * @param  string     $bucket The bucket name
+     * @param  string|int $expiration The Unix timestamp to expire at or a string that can be evaluated by strtotime
      * @return string
      */
     public function __invoke($object, $bucket, $expiration = '')
     {
         $url = sprintf(
-            'https://%s.%s/%s',
+            '%s://%s.%s/%s',
+            $this->useSsl ? 'https' : 'http',
             trim($bucket, '/'),
             self::S3_ENDPOINT,
             ltrim($object, '/')
