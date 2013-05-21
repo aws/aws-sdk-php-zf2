@@ -78,7 +78,7 @@ class CloudFrontLink extends AbstractHelper
     }
 
     /**
-     * Set the default CloudFront domain (which is used if none is specified when creating a link)
+     * Set the CloudFront domain to use if none is provided
      *
      * @param string $defaultDomain
      */
@@ -88,7 +88,7 @@ class CloudFrontLink extends AbstractHelper
     }
 
     /**
-     * Get the default CloudFront domain (which is used if none is specified when creating a link)
+     * Get the CloudFront domain to use if none is provided
      *
      * @return string
      */
@@ -129,6 +129,9 @@ class CloudFrontLink extends AbstractHelper
             return $url;
         }
 
-        return $this->client->getSignedUrl(compact('url', 'expiration'));
+        return $this->client->getSignedUrl(array(
+            'url'     => $url,
+            'expires' => $expiration
+        ));
     }
 }
