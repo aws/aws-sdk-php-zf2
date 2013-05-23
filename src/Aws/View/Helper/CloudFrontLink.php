@@ -21,7 +21,8 @@ use Aws\View\Exception\InvalidDomainNameException;
 use Zend\View\Helper\AbstractHelper;
 
 /**
- * View helper that can render a link to a CloudFront object
+ * View helper that can render a link to a CloudFront object. It can also create signed URLs
+ * using a canned policy
  */
 class CloudFrontLink extends AbstractHelper
 {
@@ -41,8 +42,6 @@ class CloudFrontLink extends AbstractHelper
     protected $useSsl = false;
 
     /**
-     * Default CloudFront domain to use
-     *
      * @var string
      */
     protected $defaultDomain = '';
@@ -84,7 +83,7 @@ class CloudFrontLink extends AbstractHelper
      */
     public function setDefaultDomain($defaultDomain)
     {
-        $this->defaultDomain = $defaultDomain;
+        $this->defaultDomain = (string) $defaultDomain;
     }
 
     /**

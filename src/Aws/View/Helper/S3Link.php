@@ -83,7 +83,7 @@ class S3Link extends AbstractHelper
      */
     public function setDefaultBucket($defaultBucket)
     {
-        $this->defaultBucket = $defaultBucket;
+        $this->defaultBucket = (string) $defaultBucket;
     }
 
     /**
