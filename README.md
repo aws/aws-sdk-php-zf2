@@ -13,7 +13,7 @@ Install the module using Composer into your application's vendor directory. Add 
 ```json
 {
     "require": {
-        "aws/aws-sdk-php-zf2": "1.0.*"
+        "aws/aws-sdk-php-zf2": "1.*"
     }
 }
 ```
@@ -84,6 +84,57 @@ public function indexAction()
 
     echo "The {$table} table has been created.\n";
 }
+```
+
+## View helpers
+
+Starting from version 1.1, AWS ZF2 module now provides two view helpers to generate S3 and CloudFront links.
+
+> Note: both view helpers generate a HTTPS URL by default. This is good for security, however please remember that
+CloudFront charge more for HTTPS requests. You can turn off SSL by calling the `setUseSsl` on both helpers.
+
+### S3
+
+To create a S3 link in your view:
+
+```php
+<?php echo $this->s3Link('my-object', 'my-bucket');
+```
+
+The default bucket can be set globally by using the `setDefautBucket` method:
+
+```php
+<?php
+    $this->s3Link->setDefaultBucket('my-bucket');
+    echo $this->s3Link('my-object');
+```
+
+You can also create signed URLs by passing a third argument which is the expiration date:
+
+```php
+<?php echo $this->s3Link('my-object', 'my-bucket', '+10 minutes');
+```
+
+### CloudFront
+
+To create CloudFront link in your view:
+
+```php
+<?php echo $this->cloudFrontLink('my-object', 'my-domain');
+```
+
+The default domain can be set globally by using the `setDefaultDomain` method:
+
+```php
+<?php
+    $this->cloudFrontLink->setDefaultDomain('my-domain');
+    echo $this->cloudFrontLink('my-object');
+```
+
+You can also create signed URLs by passing a third argument which is the expiration date:
+
+```php
+<?php echo $this->cloudFrontLink('my-object', 'my-bucket', time() + 60);
 ```
 
 ## Related Modules

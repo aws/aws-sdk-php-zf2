@@ -39,7 +39,7 @@ class CloudFrontLink extends AbstractHelper
     /**
      * @var bool
      */
-    protected $useSsl = false;
+    protected $useSsl = true;
 
     /**
      * @var string

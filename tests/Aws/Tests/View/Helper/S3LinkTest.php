@@ -42,23 +42,23 @@ class S3LinkTest extends BaseModuleTest
         $this->viewHelper = new S3Link($this->s3Client);
     }
 
-    public function testAssertDoesNotUseSslByDefault()
+    public function testAssertUseSslByDefault()
     {
-        $this->assertFalse($this->viewHelper->getUseSsl());
+        $this->assertTrue($this->viewHelper->getUseSsl());
     }
 
     public function testGenerateSimpleLink()
     {
         $link = $this->viewHelper->__invoke('my-object', 'my-bucket');
-        $this->assertEquals('http://my-bucket.s3.amazonaws.com/my-object', $link);
+        $this->assertEquals('https://my-bucket.s3.amazonaws.com/my-object', $link);
     }
 
-    public function testGenerateSimpleSslLink()
+    public function testGenerateSimpleNonSslLink()
     {
-        $this->viewHelper->setUseSsl(true);
+        $this->viewHelper->setUseSsl(false);
 
         $link = $this->viewHelper->__invoke('my-object', 'my-bucket');
-        $this->assertEquals('https://my-bucket.s3.amazonaws.com/my-object', $link);
+        $this->assertEquals('http://my-bucket.s3.amazonaws.com/my-object', $link);
     }
 
     public function testCanUseDefaultBucket()
@@ -66,7 +66,7 @@ class S3LinkTest extends BaseModuleTest
         $this->viewHelper->setDefaultBucket('my-default-bucket');
 
         $link = $this->viewHelper->__invoke('my-object');
-        $this->assertEquals('http://my-default-bucket.s3.amazonaws.com/my-object', $link);
+        $this->assertEquals('https://my-default-bucket.s3.amazonaws.com/my-object', $link);
     }
 
     public function testAssertGivenBucketOverrideDefaultBucket()
@@ -74,7 +74,7 @@ class S3LinkTest extends BaseModuleTest
         $this->viewHelper->setDefaultBucket('my-default-bucket');
 
         $link = $this->viewHelper->__invoke('my-object', 'my-overriden-bucket');
-        $this->assertEquals('http://my-overriden-bucket.s3.amazonaws.com/my-object', $link);
+        $this->assertEquals('https://my-overriden-bucket.s3.amazonaws.com/my-object', $link);
     }
 
     public function testGenerateSignedLink()
@@ -92,7 +92,7 @@ class S3LinkTest extends BaseModuleTest
         );
 
         $expectedResult = sprintf(
-            'http://my-bucket.s3.amazonaws.com/my-object?AWSAccessKeyId=%s&Expires=%s&Signature=%s',
+            'https://my-bucket.s3.amazonaws.com/my-object?AWSAccessKeyId=%s&Expires=%s&Signature=%s',
             $this->s3Client->getCredentials()->getAccessKeyId(),
             $timeTest,
             urlencode($signature)
@@ -101,9 +101,9 @@ class S3LinkTest extends BaseModuleTest
         $this->assertEquals($expectedResult, $link);
     }
 
-    public function testGenerateSignedSslLink()
+    public function testGenerateSignedNotSslLink()
     {
-        $this->viewHelper->setUseSsl(true);
+        $this->viewHelper->setUseSsl(false);
 
         $timeTest = time() + 10;
 
@@ -118,7 +118,7 @@ class S3LinkTest extends BaseModuleTest
         );
 
         $expectedResult = sprintf(
-            'https://my-bucket.s3.amazonaws.com/my-object?AWSAccessKeyId=%s&Expires=%s&Signature=%s',
+            'http://my-bucket.s3.amazonaws.com/my-object?AWSAccessKeyId=%s&Expires=%s&Signature=%s',
             $this->s3Client->getCredentials()->getAccessKeyId(),
             $timeTest,
             urlencode($signature)

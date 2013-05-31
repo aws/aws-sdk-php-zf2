@@ -44,23 +44,23 @@ class CloudFrontLinkTest extends BaseModuleTest
         $this->viewHelper = new CloudFrontLink($this->cloudFrontLink);
     }
 
-    public function testAssertDoesNotUseSslByDefault()
+    public function testAssertDoesUseSslByDefault()
     {
-        $this->assertFalse($this->viewHelper->getUseSsl());
+        $this->assertTrue($this->viewHelper->getUseSsl());
     }
 
     public function testGenerateSimpleLink()
     {
         $link = $this->viewHelper->__invoke('my-object', 'my-domain');
-        $this->assertEquals('http://my-domain.cloudfront.net/my-object', $link);
+        $this->assertEquals('https://my-domain.cloudfront.net/my-object', $link);
     }
 
-    public function testGenerateSimpleSslLink()
+    public function testGenerateSimpleNonSslLink()
     {
-        $this->viewHelper->setUseSsl(true);
+        $this->viewHelper->setUseSsl(false);
 
         $link = $this->viewHelper->__invoke('my-object', 'my-domain');
-        $this->assertEquals('https://my-domain.cloudfront.net/my-object', $link);
+        $this->assertEquals('http://my-domain.cloudfront.net/my-object', $link);
     }
 
     public function testCanUseDefaultDomain()
@@ -68,7 +68,7 @@ class CloudFrontLinkTest extends BaseModuleTest
         $this->viewHelper->setDefaultDomain('my-default-domain');
 
         $link = $this->viewHelper->__invoke('my-object');
-        $this->assertEquals('http://my-default-domain.cloudfront.net/my-object', $link);
+        $this->assertEquals('https://my-default-domain.cloudfront.net/my-object', $link);
     }
 
     public function testAssertGivenDomainOverrideDefaultDomain()
@@ -76,6 +76,6 @@ class CloudFrontLinkTest extends BaseModuleTest
         $this->viewHelper->setDefaultDomain('my-default-domain');
 
         $link = $this->viewHelper->__invoke('my-object', 'my-overriden-domain');
-        $this->assertEquals('http://my-overriden-domain.cloudfront.net/my-object', $link);
+        $this->assertEquals('https://my-overriden-domain.cloudfront.net/my-object', $link);
     }
 }
