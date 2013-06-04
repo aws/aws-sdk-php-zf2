@@ -78,4 +78,13 @@ class CloudFrontLinkTest extends BaseModuleTest
         $link = $this->viewHelper->__invoke('my-object', 'my-overriden-domain');
         $this->assertEquals('https://my-overriden-domain.cloudfront.net/my-object', $link);
     }
+
+    public function testCanTrimCloudFrontPartInDomain()
+    {
+        $link = $this->viewHelper->__invoke('my-object', '123abc.cloudfront.net');
+        $this->assertEquals('https://123abc.cloudfront.net/my-object', $link);
+
+        $link = $this->viewHelper->__invoke('my-object', '123abc.cloudfront.net/');
+        $this->assertEquals('https://123abc.cloudfront.net/my-object', $link);
+    }
 }

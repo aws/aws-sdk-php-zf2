@@ -119,7 +119,7 @@ class CloudFrontLink extends AbstractHelper
         $url = sprintf(
             '%s://%s.%s/%s',
             $this->useSsl ? 'https' : 'http',
-            ltrim($domain, '.cloudfront.net'), // Trim the end part because we already include it
+            str_replace('.cloudfront.net', '', rtrim($domain, '/')), // Remove .cloudfront.net if provided as we include it already
             self::CLOUD_FRONT_ENDPOINT,
             ltrim($object, '/')
         );
