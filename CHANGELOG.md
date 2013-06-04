@@ -1,11 +1,14 @@
-# 1.1.0
+CHANGELOG
+=========
 
-- Add CloudFront and S3 view helpers
+## 1.0.2
 
-# 1.0.1
+* Added Amazon S3 and Amazon CloudFront view helpers for generating links
 
-- Refactor module architecture
+## 1.0.1
 
-# 1.0.0
+* Refactored module architecture
 
-- Initial release
+## 1.0.0
+
+* Initial release

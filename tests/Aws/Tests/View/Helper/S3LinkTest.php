@@ -77,6 +77,20 @@ class S3LinkTest extends BaseModuleTest
         $this->assertEquals('https://my-overriden-bucket.s3.amazonaws.com/my-object', $link);
     }
 
+    public function testCreatesUrlsForRegionalBuckets()
+    {
+        $this->s3Client->setRegion('sa-east-1');
+
+        $link = $this->viewHelper->__invoke('my-object', 'my-bucket');
+        $this->assertEquals('https://my-bucket.s3-sa-east-1.amazonaws.com/my-object', $link);
+    }
+
+    public function testCreatesUrlsForNonUrlCompatibleBucketNames()
+    {
+        $link = $this->viewHelper->__invoke('my-object', 'my.bucket');
+        $this->assertEquals('https://s3.amazonaws.com/my.bucket/my-object', $link);
+    }
+
     public function testGenerateSignedLink()
     {
         $timeTest = time() + 10;

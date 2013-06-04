@@ -71,7 +71,7 @@ class ModuleTest extends BaseModuleTest
         $command = $s3->getCommand('ListBuckets');
         $request = $command->prepare();
         $s3->dispatch('command.before_send', array('command' => $command));
-        $this->assertRegExp('/.+ZF2\/.+/', $request->getHeader('User-Agent', true));
+        $this->assertRegExp('/.+ZF2\/.+/', (string) $request->getHeader('User-Agent'));
     }
 
     /**

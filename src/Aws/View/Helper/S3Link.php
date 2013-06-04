@@ -16,8 +16,11 @@
 
 namespace Aws\View\Helper;
 
+use Aws\Common\Aws;
+use Aws\S3\BucketStyleListener;
 use Aws\S3\S3Client;
 use Aws\View\Exception\InvalidDomainNameException;
+use Guzzle\Common\Event;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -25,11 +28,6 @@ use Zend\View\Helper\AbstractHelper;
  */
 class S3Link extends AbstractHelper
 {
-    /**
-     * Amazon AWS endpoint
-     */
-    const S3_ENDPOINT = 's3.amazonaws.com';
-
     /**
      * @var S3Client
      */
@@ -108,29 +106,32 @@ class S3Link extends AbstractHelper
      */
     public function __invoke($object, $bucket = '', $expiration = '')
     {
-        if (empty($bucket)) {
-            $bucket = $this->getDefaultBucket();
-        }
-
-        // If $bucket is still empty, we throw an exception as it makes no sense
+        $bucket = trim($bucket ?: $this->getDefaultBucket(), '/');
         if (empty($bucket)) {
             throw new InvalidDomainNameException('An empty bucket name was given');
         }
 
-        $url = sprintf(
-            '%s://%s.%s/%s',
-            $this->useSsl ? 'https' : 'http',
-            trim($bucket, '/'),
-            self::S3_ENDPOINT,
-            ltrim($object, '/')
-        );
+        // Create a command representing the get request
+        // Using a command will make sure the configured regional endpoint is used
+        $command = $this->client->getCommand('GetObject', array(
+            'Bucket' => $bucket,
+            'Key'    => $object,
+        ));
 
-        if (empty($expiration)) {
-            return $url;
+        // Instead of executing the command, retrieve the request and make sure the scheme is set to what was specified
+        $request = $command->prepare()->setScheme($this->useSsl ? 'https' : 'http')->setPort(null);
+
+        // Ensure that the correct bucket URL style (virtual or path) is used based on the bucket name
+        // This addresses a bug in versions of the SDK less than or equal to 2.3.4
+        if (version_compare(Aws::VERSION, '2.3.4', '<=') && strpos($request->getHost(), $bucket) === false) {
+            $bucketStyleListener = new BucketStyleListener();
+            $bucketStyleListener->onCommandBeforeSend(new Event(array('command' => $command)));
         }
 
-        $request = $this->client->get($url);
-
-        return $this->client->createPresignedUrl($request, $expiration);
+        if ($expiration) {
+            return $this->client->createPresignedUrl($request, $expiration);
+        } else {
+            return $request->getUrl();
+        }
     }
 }

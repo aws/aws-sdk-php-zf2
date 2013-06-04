@@ -13,7 +13,7 @@ Install the module using Composer into your application's vendor directory. Add 
 ```json
 {
     "require": {
-        "aws/aws-sdk-php-zf2": "1.*"
+        "aws/aws-sdk-php-zf2": "1.0.*"
     }
 }
 ```
@@ -54,7 +54,7 @@ fetched from the Amazon EC2 instance automatically.
 ## Usage
 
 You can get the AWS service builder object from anywhere that the ZF2 service locator is available (e.g. controller
-classes). The following example instantiates an Amazon DynamoDB client and creates a table in DynamoDb.
+classes). The following example instantiates an Amazon DynamoDB client and creates a table in DynamoDB.
 
 ```php
 public function indexAction()
@@ -86,14 +86,16 @@ public function indexAction()
 }
 ```
 
-## View helpers
+## View Helpers
 
-Starting from version 1.1, AWS ZF2 module now provides two view helpers to generate S3 and CloudFront links.
+Starting from version 1.0.2, the AWS SDK ZF2 Module now provides two view helpers to generate links for Amazon S3 and
+Amazon CloudFront resources.
 
-> Note: both view helpers generate a HTTPS URL by default. This is good for security, however please remember that
-CloudFront charge more for HTTPS requests. You can turn off SSL by calling the `setUseSsl` on both helpers.
+> **Note:** Both of the view helpers generate URLs with an HTTPS scheme by default. This is ideal for security, but
+please keep in mind that Amazon CloudFront charges more for HTTPS requests. You can turn SSL off by calling the
+`setUseSsl` method on both helpers.
 
-### S3
+### S3Link View Helper
 
 To create a S3 link in your view:
 
@@ -101,7 +103,7 @@ To create a S3 link in your view:
 <?php echo $this->s3Link('my-object', 'my-bucket');
 ```
 
-The default bucket can be set globally by using the `setDefautBucket` method:
+The default bucket can be set globally by using the `setDefaultBucket` method:
 
 ```php
 <?php
@@ -109,13 +111,13 @@ The default bucket can be set globally by using the `setDefautBucket` method:
     echo $this->s3Link('my-object');
 ```
 
-You can also create signed URLs by passing a third argument which is the expiration date:
+You can also create signed URLs for private content by passing a third argument which is the expiration date:
 
 ```php
 <?php echo $this->s3Link('my-object', 'my-bucket', '+10 minutes');
 ```
 
-### CloudFront
+### CloudFrontLink View Helper
 
 To create CloudFront link in your view:
 
@@ -131,7 +133,7 @@ The default domain can be set globally by using the `setDefaultDomain` method:
     echo $this->cloudFrontLink('my-object');
 ```
 
-You can also create signed URLs by passing a third argument which is the expiration date:
+You can also create signed URLs for private content by passing a third argument which is the expiration date:
 
 ```php
 <?php echo $this->cloudFrontLink('my-object', 'my-bucket', time() + 60);
@@ -139,9 +141,10 @@ You can also create signed URLs by passing a third argument which is the expirat
 
 ## Related Modules
 
-The following are some ZF2 modules that are built on top of the AWS SDK for PHP using this module:
+The following are some ZF2 modules that use the AWS SDK for PHP by including this module:
 
-* [SlmMail](https://github.com/juriansluiman/SlmMail) - Module that allow to send emails with various providers (including Amazon SES)
+* [SlmMail](https://github.com/juriansluiman/SlmMail) - Module that allow to send emails with various providers
+  (including Amazon SES)
 * [SlmQueueSqs](https://github.com/juriansluiman/SlmQueueSqs) – Module that simplifies the use of Amazon SQS
 
 ## Links

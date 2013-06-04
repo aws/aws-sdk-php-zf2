@@ -27,9 +27,9 @@ use Zend\View\Helper\AbstractHelper;
 class CloudFrontLink extends AbstractHelper
 {
     /**
-     * Amazon AWS endpoint
+     * The hostname for CloudFront domains
      */
-    const CLOUD_FRONT_ENDPOINT = 'cloudfront.net';
+    const CLOUDFRONT_HOSTNAME = '.cloudfront.net';
 
     /**
      * @var CloudFrontClient
@@ -113,14 +113,15 @@ class CloudFrontLink extends AbstractHelper
 
         // If $domain is still empty, we throw an exception as it makes no sense
         if (empty($domain)) {
-            throw new InvalidDomainNameException('An empty Cloud Front domain name was given');
+            throw new InvalidDomainNameException('An empty CloudFront domain name was given');
         }
 
         $url = sprintf(
-            '%s://%s.%s/%s',
+            '%s://%s%s/%s',
             $this->useSsl ? 'https' : 'http',
-            str_replace('.cloudfront.net', '', rtrim($domain, '/')), // Remove .cloudfront.net if provided as we include it already
-            self::CLOUD_FRONT_ENDPOINT,
+            // Remove .cloudfront.net if provided as we include it already
+            str_replace(self::CLOUDFRONT_HOSTNAME, '', rtrim($domain, '/')),
+            self::CLOUDFRONT_HOSTNAME,
             ltrim($object, '/')
         );
 
