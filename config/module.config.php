@@ -7,6 +7,15 @@ return array(
         )
     ),
 
+    'filters' => array(
+        'factories' => array(
+            'Aws\Filter\File\S3RenameUpload' => 'Aws\Factory\S3RenameUploadFactory'
+        ),
+        'aliases' => array(
+            's3renameupload' => 'Aws\Filter\File\S3RenameUpload'
+        )
+    ),
+
     'view_helpers' => array(
         'factories' => array(
             'Aws\View\Helper\S3Link'         => 'Aws\Factory\S3LinkViewHelperFactory',
