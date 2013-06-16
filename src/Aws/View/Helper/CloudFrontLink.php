@@ -27,9 +27,9 @@ use Zend\View\Helper\AbstractHelper;
 class CloudFrontLink extends AbstractHelper
 {
     /**
-     * The hostname for CloudFront domains
+     * @var string
      */
-    const CLOUDFRONT_HOSTNAME = '.cloudfront.net';
+    protected $hostname = '.cloudfront.net';
 
     /**
      * @var CloudFrontClient
@@ -57,13 +57,32 @@ class CloudFrontLink extends AbstractHelper
     }
 
     /**
+     * Set Hostname
+     * 
+     * @param string $hostname
+     * @return CloudFrontLink
+     */
+    public function setHostname($hostname)
+    {
+        $this->hostname = $hostname;
+        return $this;
+    }
+    
+    public function getHostname()
+    {
+        return $this->hostname;
+    }
+
+    /**
      * Set if HTTPS should be used for generating URLs
      *
      * @param bool $useSsl
+     * @return CloudFrontLink
      */
     public function setUseSsl($useSsl)
     {
         $this->useSsl = (bool) $useSsl;
+        return $this;
     }
 
     /**
@@ -80,10 +99,12 @@ class CloudFrontLink extends AbstractHelper
      * Set the CloudFront domain to use if none is provided
      *
      * @param string $defaultDomain
+     * @return CloudFrontLink
      */
     public function setDefaultDomain($defaultDomain)
     {
         $this->defaultDomain = (string) $defaultDomain;
+        return $this;
     }
 
     /**
@@ -119,9 +140,9 @@ class CloudFrontLink extends AbstractHelper
         $url = sprintf(
             '%s://%s%s/%s',
             $this->useSsl ? 'https' : 'http',
-            // Remove .cloudfront.net if provided as we include it already
-            str_replace(self::CLOUDFRONT_HOSTNAME, '', rtrim($domain, '/')),
-            self::CLOUDFRONT_HOSTNAME,
+            // Remove hostname if provided as we include it already
+            str_replace($this->hostname, '', rtrim($domain, '/')),
+            $this->hostname,
             ltrim($object, '/')
         );
 
