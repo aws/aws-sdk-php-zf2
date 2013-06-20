@@ -1,5 +1,8 @@
 # AWS SDK ZF2 Module
 
+[![Latest Stable Version](https://poser.pugx.org/aws/aws-sdk-php-zf2/v/stable.png)](https://packagist.org/packages/aws/aws-sdk-php-zf2)
+[![Total Downloads](https://poser.pugx.org/aws/aws-sdk-php-zf2/downloads.png)](https://packagist.org/packages/aws/aws-sdk-php-zf2)
+
 ## Introduction
 
 This module provides a simple wrapper for the AWS SDK for PHP. It registers the AWS service builder as a service in the
@@ -141,20 +144,19 @@ You can also create signed URLs for private content by passing a third argument 
 
 ## Filters
 
-Starting from version 1.0.3, the AWS SDK ZF2 module provides a simple file filter that allow to directly upload to
-S3. The `S3RenameUpload` extends `RenameUpload` class, so please refer to [its documentation](http://framework.zend.com/manual/2.2/en/modules/zend.filter.file.rename-upload.html#zend-filter-file-rename-upload)
+Starting from version 1.0.3, the AWS SDK ZF2 module provides a simple file filter that allow to directly upload to S3.
+The `S3RenameUpload` extends `RenameUpload` class, so please refer to [its
+documentation](http://framework.zend.com/manual/2.2/en/modules/zend.filter.file.rename-upload.html#zend-filter-file-rename-upload)
 for available options.
 
 This filter only adds one option to set the bucket name (through the `setBucket` method, or by passing a `bucket` key
-to the `setOptions` filter's method).
-
-Usage is simple:
+to the filter's `setOptions` method).
 
 ```php
 $request = new Request();
 $files   = $request->getFiles();
-// i.e. $files['my-upload']['tmp_name'] === '/tmp/php5Wx0aJ'
-// i.e. $files['my-upload']['name'] === 'profile-picture.jpg'
+// e.g., $files['my-upload']['tmp_name'] === '/tmp/php5Wx0aJ'
+// e.g., $files['my-upload']['name'] === 'profile-picture.jpg'
 
 // Fetch the filter from the Filter Plugin Manager to automatically handle dependencies
 $filter = $serviceLocator->get('FilterManager')->get('S3RenameUpload');
@@ -167,7 +169,7 @@ $filter->setOptions(array(
 
 $filter->filter($files['my-upload']);
 
-// File has been renamed and moved to 'my-bucket' bucket, inside the users/5 path
+// File has been renamed and moved to 'my-bucket' bucket, inside the 'users/5' path
 ```
 
 ## Related Modules

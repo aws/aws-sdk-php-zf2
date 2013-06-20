@@ -44,8 +44,6 @@ class S3Link extends AbstractHelper
     protected $defaultBucket = '';
 
     /**
-     * Constuctor
-     *
      * @param S3Client $client
      */
     public function __construct(S3Client $client)
@@ -57,10 +55,14 @@ class S3Link extends AbstractHelper
      * Set if HTTPS should be used for generating URLs
      *
      * @param bool $useSsl
+     *
+     * @return self
      */
     public function setUseSsl($useSsl)
     {
         $this->useSsl = (bool) $useSsl;
+
+        return $this;
     }
 
     /**
@@ -77,11 +79,14 @@ class S3Link extends AbstractHelper
      * Set the default bucket to use if none is provided
      *
      * @param string $defaultBucket
-     * @return void
+     *
+     * @return self
      */
     public function setDefaultBucket($defaultBucket)
     {
         $this->defaultBucket = (string) $defaultBucket;
+
+        return $this;
     }
 
     /**
@@ -123,10 +128,12 @@ class S3Link extends AbstractHelper
 
         // Ensure that the correct bucket URL style (virtual or path) is used based on the bucket name
         // This addresses a bug in versions of the SDK less than or equal to 2.3.4
-        if (version_compare(Aws::VERSION, '2.3.4', '<=') && strpos($request->getHost(), $bucket) === false) {
+        // @codeCoverageIgnoreStart
+        if (version_compare(Aws::VERSION, '2.4.0', '<') && strpos($request->getHost(), $bucket) === false) {
             $bucketStyleListener = new BucketStyleListener();
             $bucketStyleListener->onCommandBeforeSend(new Event(array('command' => $command)));
         }
+        // @codeCoverageIgnoreEnd
 
         if ($expiration) {
             return $this->client->createPresignedUrl($request, $expiration);

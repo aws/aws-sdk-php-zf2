@@ -16,12 +16,11 @@
 
 namespace Aws\Filter\Exception;
 
-use Aws\Common\Exception\AwsExceptionInterface;
-use InvalidArgumentException;
+use Aws\Common\Exception\InvalidArgumentException;
 
 /**
  * Exception thrown when no bucket is passed
  */
-class MissingBucketException extends InvalidArgumentException implements AwsExceptionInterface
+class MissingBucketException extends InvalidArgumentException
 {
 }

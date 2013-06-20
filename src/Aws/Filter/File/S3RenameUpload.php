@@ -44,7 +44,7 @@ class S3RenameUpload extends RenameUpload
 
     /**
      * @param S3Client $client
-     * @param array $options
+     * @param array    $options
      */
     public function __construct(S3Client $client, $options = array())
     {
@@ -59,6 +59,7 @@ class S3RenameUpload extends RenameUpload
      * Set the bucket name
      *
      * @param  string $bucket
+     *
      * @return S3RenameUpload
      */
     public function setBucket($bucket)
@@ -79,7 +80,8 @@ class S3RenameUpload extends RenameUpload
 
     /**
      * This method is overloaded so that the final target points to a URI using S3 protocol
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      */
     protected function getFinalTarget($uploadData)
     {

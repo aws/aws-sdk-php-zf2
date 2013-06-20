@@ -25,9 +25,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class S3RenameUploadFactory implements FactoryInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $parentLocator = $serviceLocator->getServiceLocator();

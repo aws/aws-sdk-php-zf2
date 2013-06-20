@@ -25,7 +25,7 @@ class CloudFrontLinkTest extends BaseModuleTest
     /**
      * @var CloudFrontClient
      */
-    protected $cloudFrontLink;
+    protected $cloudFrontClient;
 
     /**
      * @var CloudFrontLink
@@ -34,14 +34,12 @@ class CloudFrontLinkTest extends BaseModuleTest
 
     public function setUp()
     {
-        $this->cloudFrontLink = CloudFrontClient::factory(array(
-            'key'         => '1234',
-            'secret'      => '5678',
-            'key_pair_id' => 'my_key_pair_id',
-            'private_key' => 'my_private_key'
+        $this->cloudFrontClient = CloudFrontClient::factory(array(
+            'key'    => '1234',
+            'secret' => '5678',
         ));
 
-        $this->viewHelper = new CloudFrontLink($this->cloudFrontLink);
+        $this->viewHelper = new CloudFrontLink($this->cloudFrontClient);
     }
 
     public function testAssertDoesUseSslByDefault()
@@ -90,8 +88,51 @@ class CloudFrontLinkTest extends BaseModuleTest
 
     public function testCanUseCustomHostname()
     {
-        $link = $this->viewHelper->setHostname('example.com');
+        $this->viewHelper->setHostname('example.com');
+        $this->assertEquals('.example.com', $this->viewHelper->getHostname());
+
         $link = $this->viewHelper->__invoke('my-object', '123abc');
         $this->assertEquals('https://123abc.example.com/my-object', $link);
+    }
+
+    /**
+     * @expectedException \Aws\View\Exception\InvalidDomainNameException
+     */
+    public function testFailsWhenDomainIsInvalid()
+    {
+        $this->viewHelper->setDefaultDomain('');
+        $link = $this->viewHelper->__invoke('my-object');
+    }
+
+    public function testGenerateSignedLink()
+    {
+        if (!extension_loaded('openssl')) {
+            $this->markTestSkipped('OpenSSL is required for this test.');
+        }
+
+        $pemFile = sys_get_temp_dir() . '/aws-sdk-php-zf2-cloudfront-test.pem';
+        if (!file_exists($pemFile)) {
+            // Generate a new Certificate Signing Request and public/private keypair
+            $csr = openssl_csr_new(array(), $keypair);
+
+            // Create a self-signed certificate
+            $x509 = openssl_csr_sign($csr, null, $keypair, 1);
+            openssl_x509_export($x509, $certificate);
+
+            // Create and save a private key
+            $privateKey = openssl_get_privatekey($keypair);
+            openssl_pkey_export_to_file($privateKey, $pemFile);
+        }
+
+        $clientConfig = $this->cloudFrontClient->getConfig();
+        $clientConfig->set('key_pair_id', 'kpid');
+        $clientConfig->set('private_key', $pemFile);
+
+        $this->viewHelper->setHostname('example.com');
+        $link = $this->viewHelper->__invoke('my-object', '123abc', time() + 600);
+        $this->assertRegExp(
+            '#^https\:\/\/123abc\.example\.com\/my-object\?Expires\=(.*)\&Signature\=(.*)\&Key-Pair-Id\=kpid$#',
+            $link
+        );
     }
 }

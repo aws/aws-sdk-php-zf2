@@ -91,6 +91,14 @@ class S3LinkTest extends BaseModuleTest
         $this->assertEquals('https://s3.amazonaws.com/my.bucket/my-object', $link);
     }
 
+    /**
+     * @expectedException \Aws\View\Exception\InvalidDomainNameException
+     */
+    public function testFailsWhenNoBucketSpecified()
+    {
+        $link = $this->viewHelper->__invoke('my-object');
+    }
+
     public function testGenerateSignedLink()
     {
         $timeTest = time() + 10;
