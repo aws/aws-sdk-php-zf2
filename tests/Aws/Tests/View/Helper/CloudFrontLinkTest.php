@@ -87,4 +87,11 @@ class CloudFrontLinkTest extends BaseModuleTest
         $link = $this->viewHelper->__invoke('my-object', '123abc.cloudfront.net/');
         $this->assertEquals('https://123abc.cloudfront.net/my-object', $link);
     }
+
+    public function testCanUseCustomHostname()
+    {
+        $link = $this->viewHelper->setHostname('example.com');
+        $link = $this->viewHelper->__invoke('my-object', '123abc');
+        $this->assertEquals('https://123abc.example.com/my-object', $link);
+    }
 }

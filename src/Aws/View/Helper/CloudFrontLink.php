@@ -27,28 +27,26 @@ use Zend\View\Helper\AbstractHelper;
 class CloudFrontLink extends AbstractHelper
 {
     /**
-     * @var string
+     * @var string The hostname for CloudFront domains
      */
     protected $hostname = '.cloudfront.net';
 
     /**
-     * @var CloudFrontClient
+     * @var CloudFrontClient An instance of CloudFrontClient to be used by the helper
      */
     protected $client;
 
     /**
-     * @var bool
+     * @var bool Whether or not to use SSl
      */
     protected $useSsl = true;
 
     /**
-     * @var string
+     * @var string The default CloudFront domain to use
      */
     protected $defaultDomain = '';
 
     /**
-     * Constructor
-     *
      * @param CloudFrontClient $client
      */
     public function __construct(CloudFrontClient $client)
@@ -57,17 +55,24 @@ class CloudFrontLink extends AbstractHelper
     }
 
     /**
-     * Set Hostname
-     * 
+     * Set the CloudFront hostname to use if you are using a custom hostname
+     *
      * @param string $hostname
-     * @return CloudFrontLink
+     *
+     * @return self
      */
     public function setHostname($hostname)
     {
-        $this->hostname = $hostname;
+        $this->hostname = '.' . ltrim($hostname, '.');
+
         return $this;
     }
-    
+
+    /**
+     * Get the CloudFront hostname being used
+     *
+     * @return string
+     */
     public function getHostname()
     {
         return $this->hostname;
@@ -77,11 +82,13 @@ class CloudFrontLink extends AbstractHelper
      * Set if HTTPS should be used for generating URLs
      *
      * @param bool $useSsl
-     * @return CloudFrontLink
+     *
+     * @return self
      */
     public function setUseSsl($useSsl)
     {
         $this->useSsl = (bool) $useSsl;
+
         return $this;
     }
 
@@ -99,11 +106,13 @@ class CloudFrontLink extends AbstractHelper
      * Set the CloudFront domain to use if none is provided
      *
      * @param string $defaultDomain
-     * @return CloudFrontLink
+     *
+     * @return self
      */
     public function setDefaultDomain($defaultDomain)
     {
         $this->defaultDomain = (string) $defaultDomain;
+
         return $this;
     }
 
@@ -123,8 +132,9 @@ class CloudFrontLink extends AbstractHelper
      * @param  string     $object
      * @param  string     $domain
      * @param  string|int $expiration
-     * @throws InvalidDomainNameException
+     *
      * @return string
+     * @throws InvalidDomainNameException
      */
     public function __invoke($object, $domain = '', $expiration = '')
     {
