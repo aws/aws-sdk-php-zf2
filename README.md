@@ -139,6 +139,37 @@ You can also create signed URLs for private content by passing a third argument 
 <?php echo $this->cloudFrontLink('my-object', 'my-bucket', time() + 60);
 ```
 
+## Filters
+
+Starting from version 1.0.3, the AWS SDK ZF2 module provides a simple file filter that allow to directly upload to
+S3. The `S3RenameUpload` extends `RenameUpload` class, so please refer to [its documentation](http://framework.zend.com/manual/2.2/en/modules/zend.filter.file.rename-upload.html#zend-filter-file-rename-upload)
+for available options.
+
+This filter only adds one option to set the bucket name (through the `setBucket` method, or by passing a `bucket` key
+to the `setOptions` filter's method).
+
+Usage is simple:
+
+```php
+$request = new Request();
+$files   = $request->getFiles();
+// i.e. $files['my-upload']['tmp_name'] === '/tmp/php5Wx0aJ'
+// i.e. $files['my-upload']['name'] === 'profile-picture.jpg'
+
+// Fetch the filter from the Filter Plugin Manager to automatically handle dependencies
+$filter = $serviceLocator->get('FilterManager')->get('S3RenameUpload');
+
+$filter->setOptions(array(
+    'bucket'    => 'my-bucket',
+    'target'    => 'users/5/profile-picture.jpg',
+    'overwrite' => true
+));
+
+$filter->filter($files['my-upload']);
+
+// File has been renamed and moved to 'my-bucket' bucket, inside the users/5 path
+```
+
 ## Related Modules
 
 The following are some ZF2 modules that use the AWS SDK for PHP by including this module:
