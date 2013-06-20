@@ -13,7 +13,7 @@
         "zendframework/zend-view": "2.*"
     },
     "require-dev": {
-        "zendframework/zend-modulemanager": "2.*",
+        "zendframework/zend-modulemanager": "2.*"
     },
     "autoload": {
         "psr-0": {
