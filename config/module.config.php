@@ -3,7 +3,8 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'Aws' => 'Aws\Factory\AwsFactory'
+            'Aws'                              => 'Aws\Factory\AwsFactory',
+            'Aws\Session\SaveHandler\DynamoDb' => 'Aws\Factory\DynamoDbSessionSaveHandlerFactory'
         )
     ),
 
