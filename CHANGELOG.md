@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+## 1.1.0
+
+* Added ZF2 session save handler for Amazon DynamoDB
+* This module is now following [semver](http://semver.org/)
+
 ## 1.0.3
 
 * Added a file filter to upload to Amazon S3
