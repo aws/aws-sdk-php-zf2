@@ -89,7 +89,7 @@ public function indexAction()
 }
 ```
 
-## View Helpers
+### View Helpers
 
 Starting from version 1.0.2, the AWS SDK ZF2 Module now provides two view helpers to generate links for Amazon S3 and
 Amazon CloudFront resources.
@@ -98,7 +98,7 @@ Amazon CloudFront resources.
 please keep in mind that Amazon CloudFront charges more for HTTPS requests. You can turn SSL off by calling the
 `setUseSsl` method on both helpers.
 
-### S3Link View Helper
+#### S3Link View Helper
 
 To create a S3 link in your view:
 
@@ -120,7 +120,7 @@ You can also create signed URLs for private content by passing a third argument 
 <?php echo $this->s3Link('my-object', 'my-bucket', '+10 minutes');
 ```
 
-### CloudFrontLink View Helper
+#### CloudFrontLink View Helper
 
 To create CloudFront link in your view:
 
@@ -142,7 +142,7 @@ You can also create signed URLs for private content by passing a third argument 
 <?php echo $this->cloudFrontLink('my-object', 'my-bucket', time() + 60);
 ```
 
-## Filters
+### Filters
 
 Starting from version 1.0.3, the AWS SDK ZF2 module provides a simple file filter that allow to directly upload to S3.
 The `S3RenameUpload` extends `RenameUpload` class, so please refer to [its
@@ -172,13 +172,13 @@ $filter->filter($files['my-upload']);
 // File has been renamed and moved to 'my-bucket' bucket, inside the 'users/5' path
 ```
 
-## Session Save Handlers
+### Session Save Handlers
 
 Read the [session save handler section]
 (http://zf2.readthedocs.org/en/latest/modules/zend.session.save-handler.html) in
 the ZF2 documentation for more information.
 
-### DynamoDB
+#### DynamoDB
 
 To follow the [ZF2 examples]
 (http://zf2.readthedocs.org/en/latest/modules/zend.session.save-handler.html),
@@ -195,13 +195,12 @@ $manager = new SessionManager();
 $manager->setSaveHandler($saveHandler);
 ```
 
-You will probably want to further configure the save handler, which you can do
-in your application. You can copy the `config/aws_zf2.local.php.dist` file into
-your project's `config/autoload` directory (without the `.dist` of course).
+You will probably want to further configure the save handler, which you can do in your application. You can copy the
+`config/aws_zf2.local.php.dist` file into your project's `config/autoload` directory (without the `.dist` of course).
 
 See `config/aws_zf2.local.php.dist` and [the AWS session handler documentation]
-(http://docs.aws.amazon.com/aws-sdk-php-2/latest/class-Aws.DynamoDb.Session.SessionHandler.html#_factory)
-for more detailed configuration information.
+(http://docs.aws.amazon.com/aws-sdk-php-2/latest/class-Aws.DynamoDb.Session.SessionHandler.html#_factory) for more
+detailed configuration information.
 
 ## Related Modules
 
