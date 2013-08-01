@@ -172,6 +172,37 @@ $filter->filter($files['my-upload']);
 // File has been renamed and moved to 'my-bucket' bucket, inside the 'users/5' path
 ```
 
+## Session Save Handlers
+
+Read the [session save handler section]
+(http://zf2.readthedocs.org/en/latest/modules/zend.session.save-handler.html) in
+the ZF2 documentation for more information.
+
+### DynamoDB
+
+To follow the [ZF2 examples]
+(http://zf2.readthedocs.org/en/latest/modules/zend.session.save-handler.html),
+the DynamoDB session save handler might be used like this:
+
+```php
+use Zend\Session\SessionManager;
+
+// Assume we are in a context where $serviceLocator is a ZF2 service locator.
+
+$saveHandler = $serviceLocator->get('Aws\Session\SaveHandler\DynamoDb');
+
+$manager = new SessionManager();
+$manager->setSaveHandler($saveHandler);
+```
+
+You will probably want to further configure the save handler, which you can do
+in your application. You can copy the `config/aws_zf2.local.php.dist` file into
+your project's `config/autoload` directory (without the `.dist` of course).
+
+See `config/aws_zf2.local.php.dist` and [the AWS session handler documentation]
+(http://docs.aws.amazon.com/aws-sdk-php-2/latest/class-Aws.DynamoDb.Session.SessionHandler.html#_factory)
+for more detailed configuration information.
+
 ## Related Modules
 
 The following are some ZF2 modules that use the AWS SDK for PHP by including this module:
