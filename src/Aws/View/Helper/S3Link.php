@@ -17,32 +17,20 @@
 namespace Aws\View\Helper;
 
 use Aws\Common\Aws;
-use Aws\S3\BucketStyleListener;
 use Aws\S3\S3Client;
+use Aws\S3\BucketStyleListener;
 use Aws\View\Exception\InvalidDomainNameException;
-use Aws\View\Exception\InvalidSchemeException;
 use Guzzle\Common\Event;
-use Zend\View\Helper\AbstractHelper;
 
 /**
  * View helper that can render a link to a S3 object. It can also create signed URLs
  */
-class S3Link extends AbstractHelper
+class S3Link extends AbstractLinkHelper
 {
     /**
      * @var S3Client
      */
     protected $client;
-
-    /**
-     * @var string
-     */
-    protected $scheme = 'https';
-
-    /**
-     * @var array
-     */
-    protected $supportedSchemes = array('http', 'https', null);
 
     /**
      * @var string
@@ -55,64 +43,6 @@ class S3Link extends AbstractHelper
     public function __construct(S3Client $client)
     {
         $this->client = $client;
-    }
-
-    /**
-     * Set if HTTPS should be used for generating URLs
-     *
-     * @param bool $useSsl
-     *
-     * @return self
-     * @deprecated
-     */
-    public function setUseSsl($useSsl)
-    {
-        $this->setScheme($useSsl ? 'https': 'http');
-
-        return $this;
-    }
-
-    /**
-     * Get if HTTPS should be used for generating URLs
-     *
-     * @return bool
-     * @deprecated
-     */
-    public function getUseSsl()
-    {
-        return $this->getScheme() === 'https';
-    }
-
-    /**
-     * Set the scheme to use for generating URLs.  Supported schemes
-     * are http, https and null (see {@link $supportedSchemes}).
-     *
-     * @param string $scheme
-     * @throws InvalidDomainNameException
-     * @return self
-     */
-    public function setScheme($scheme)
-    {
-        if (!in_array($scheme, $this->supportedSchemes, true)) {
-            // Unsupported scheme
-            $schemes = implode(', ', $this->supportedSchemes);
-
-            throw new InvalidSchemeException('Schemes must be one of ' . $schemes);
-        }
-
-        $this->scheme = $scheme;
-
-        return $this;
-    }
-
-    /**
-     * Get the scheme to be used for generating URLs
-     *
-     * @return string
-     */
-    public function getScheme()
-    {
-        return $this->scheme;
     }
 
     /**

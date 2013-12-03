@@ -18,13 +18,14 @@ namespace Aws\View\Helper;
 
 use Aws\CloudFront\CloudFrontClient;
 use Aws\View\Exception\InvalidDomainNameException;
+use Aws\View\Exception\InvalidSchemeException;
 use Zend\View\Helper\AbstractHelper;
 
 /**
  * View helper that can render a link to a CloudFront object. It can also create signed URLs
  * using a canned policy
  */
-class CloudFrontLink extends AbstractHelper
+class CloudFrontLink extends AbstractLinkHelper
 {
     /**
      * @var string The hostname for CloudFront domains
@@ -79,30 +80,6 @@ class CloudFrontLink extends AbstractHelper
     }
 
     /**
-     * Set if HTTPS should be used for generating URLs
-     *
-     * @param bool $useSsl
-     *
-     * @return self
-     */
-    public function setUseSsl($useSsl)
-    {
-        $this->useSsl = (bool) $useSsl;
-
-        return $this;
-    }
-
-    /**
-     * Get if HTTPS should be used for generating URLs
-     *
-     * @return bool
-     */
-    public function getUseSsl()
-    {
-        return $this->useSsl;
-    }
-
-    /**
      * Set the CloudFront domain to use if none is provided
      *
      * @param string $defaultDomain
@@ -148,8 +125,8 @@ class CloudFrontLink extends AbstractHelper
         }
 
         $url = sprintf(
-            '%s://%s%s/%s',
-            $this->useSsl ? 'https' : 'http',
+            '%s//%s%s/%s',
+            ($this->scheme === null) ? null : $this->scheme . ':',
             // Remove hostname if provided as we include it already
             str_replace($this->hostname, '', rtrim($domain, '/')),
             $this->hostname,
@@ -158,6 +135,10 @@ class CloudFrontLink extends AbstractHelper
 
         if (empty($expiration)) {
             return $url;
+        }
+
+        if ($this->scheme === null) {
+            throw new InvalidSchemeException('Protocol relative URLs cannot be signed.');
         }
 
         return $this->client->getSignedUrl(array(
