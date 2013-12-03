@@ -20,6 +20,7 @@ use Aws\Common\Aws;
 use Aws\S3\BucketStyleListener;
 use Aws\S3\S3Client;
 use Aws\View\Exception\InvalidDomainNameException;
+use Aws\View\Exception\InvalidSchemeException;
 use Guzzle\Common\Event;
 use Zend\View\Helper\AbstractHelper;
 
@@ -34,9 +35,14 @@ class S3Link extends AbstractHelper
     protected $client;
 
     /**
-     * @var bool
+     * @var string
      */
-    protected $useSsl = true;
+    protected $scheme = 'https';
+
+    /**
+     * @var array
+     */
+    protected $supportedSchemes = array('http', 'https', null);
 
     /**
      * @var string
@@ -57,10 +63,11 @@ class S3Link extends AbstractHelper
      * @param bool $useSsl
      *
      * @return self
+     * @deprecated
      */
     public function setUseSsl($useSsl)
     {
-        $this->useSsl = (bool) $useSsl;
+        $this->setScheme($useSsl ? 'https': 'http');
 
         return $this;
     }
@@ -69,10 +76,43 @@ class S3Link extends AbstractHelper
      * Get if HTTPS should be used for generating URLs
      *
      * @return bool
+     * @deprecated
      */
     public function getUseSsl()
     {
-        return $this->useSsl;
+        return $this->getScheme() === 'https';
+    }
+
+    /**
+     * Set the scheme to use for generating URLs.  Supported schemes
+     * are http, https and null (see {@link $supportedSchemes}).
+     *
+     * @param string $scheme
+     * @throws InvalidDomainNameException
+     * @return self
+     */
+    public function setScheme($scheme)
+    {
+        if (!in_array($scheme, $this->supportedSchemes, true)) {
+            // Unsupported scheme
+            $schemes = implode(', ', $this->supportedSchemes);
+
+            throw new InvalidSchemeException('Schemes must be one of ' . $schemes);
+        }
+
+        $this->scheme = $scheme;
+
+        return $this;
+    }
+
+    /**
+     * Get the scheme to be used for generating URLs
+     *
+     * @return string
+     */
+    public function getScheme()
+    {
+        return $this->scheme;
     }
 
     /**
@@ -124,7 +164,7 @@ class S3Link extends AbstractHelper
         ));
 
         // Instead of executing the command, retrieve the request and make sure the scheme is set to what was specified
-        $request = $command->prepare()->setScheme($this->useSsl ? 'https' : 'http')->setPort(null);
+        $request = $command->prepare()->setScheme($this->getScheme())->setPort(null);
 
         // Ensure that the correct bucket URL style (virtual or path) is used based on the bucket name
         // This addresses a bug in versions of the SDK less than or equal to 2.3.4

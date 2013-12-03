@@ -47,6 +47,14 @@ class S3LinkTest extends BaseModuleTest
         $this->assertTrue($this->viewHelper->getUseSsl());
     }
 
+    /**
+     * @expectedException Aws\View\Exception\InvalidSchemeException
+     */
+    public function testAssertInvalidSchemesThrowExceptions()
+    {
+        $this->viewHelper->setScheme('nosuchscheme');
+    }
+
     public function testGenerateSimpleLink()
     {
         $link = $this->viewHelper->__invoke('my-object', 'my-bucket');
@@ -59,6 +67,14 @@ class S3LinkTest extends BaseModuleTest
 
         $link = $this->viewHelper->__invoke('my-object', 'my-bucket');
         $this->assertEquals('http://my-bucket.s3.amazonaws.com/my-object', $link);
+    }
+
+    public function testGenerateSimpleProtocolRelativeLink()
+    {
+        $this->viewHelper->setScheme(null);
+
+        $link = $this->viewHelper->__invoke('my-object', 'my-bucket');
+        $this->assertEquals('//my-bucket.s3.amazonaws.com/my-object', $link);
     }
 
     public function testCanUseDefaultBucket()
@@ -141,6 +157,32 @@ class S3LinkTest extends BaseModuleTest
 
         $expectedResult = sprintf(
             'http://my-bucket.s3.amazonaws.com/my-object?AWSAccessKeyId=%s&Expires=%s&Signature=%s',
+            $this->s3Client->getCredentials()->getAccessKeyId(),
+            $timeTest,
+            urlencode($signature)
+        );
+
+        $this->assertEquals($expectedResult, $link);
+    }
+
+    public function testGenerateSignedProtocolRelativeLink()
+    {
+        $this->viewHelper->setScheme(null);
+
+        $timeTest = time() + 10;
+
+        $link = $this->viewHelper->__invoke('my-object', 'my-bucket', $timeTest);
+
+        $request = $this->s3Client->get($this->viewHelper->__invoke('my-object', 'my-bucket'));
+
+        $signature = $this->s3Client->getSignature();
+        $signature = $signature->signString(
+            $signature->createCanonicalizedString($request, $timeTest),
+            $this->s3Client->getCredentials()
+        );
+
+        $expectedResult = sprintf(
+            '//my-bucket.s3.amazonaws.com/my-object?AWSAccessKeyId=%s&Expires=%s&Signature=%s',
             $this->s3Client->getCredentials()->getAccessKeyId(),
             $timeTest,
             urlencode($signature)
