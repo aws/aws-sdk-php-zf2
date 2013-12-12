@@ -47,6 +47,14 @@ class CloudFrontLinkTest extends BaseModuleTest
         $this->assertTrue($this->viewHelper->getUseSsl());
     }
 
+    /**
+     * @expectedException Aws\View\Exception\InvalidSchemeException
+     */
+    public function testAssertInvalidSchemesThrowExceptions()
+    {
+        $this->viewHelper->setScheme('nosuchscheme');
+    }
+
     public function testGenerateSimpleLink()
     {
         $link = $this->viewHelper->__invoke('my-object', 'my-domain');
@@ -59,6 +67,14 @@ class CloudFrontLinkTest extends BaseModuleTest
 
         $link = $this->viewHelper->__invoke('my-object', 'my-domain');
         $this->assertEquals('http://my-domain.cloudfront.net/my-object', $link);
+    }
+
+    public function testGenerateSimpleProtocolRelativeLink()
+    {
+        $this->viewHelper->setScheme(null);
+
+        $link = $this->viewHelper->__invoke('my-object', 'my-domain');
+        $this->assertEquals('//my-domain.cloudfront.net/my-object', $link);
     }
 
     public function testCanUseDefaultDomain()
@@ -134,5 +150,17 @@ class CloudFrontLinkTest extends BaseModuleTest
             '#^https\:\/\/123abc\.example\.com\/my-object\?Expires\=(.*)\&Signature\=(.*)\&Key-Pair-Id\=kpid$#',
             $link
         );
+    }
+
+    /**
+     * @expectedException Aws\View\Exception\InvalidSchemeException
+     */
+    public function testGenerateSignedProtocolRelativeLink()
+    {
+        $this->viewHelper
+            ->setHostname('example.com')
+            ->setScheme(null);
+
+        $link = $this->viewHelper->__invoke('my-object', '123abc', time() + 600);
     }
 }

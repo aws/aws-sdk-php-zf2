@@ -17,26 +17,20 @@
 namespace Aws\View\Helper;
 
 use Aws\Common\Aws;
-use Aws\S3\BucketStyleListener;
 use Aws\S3\S3Client;
+use Aws\S3\BucketStyleListener;
 use Aws\View\Exception\InvalidDomainNameException;
 use Guzzle\Common\Event;
-use Zend\View\Helper\AbstractHelper;
 
 /**
  * View helper that can render a link to a S3 object. It can also create signed URLs
  */
-class S3Link extends AbstractHelper
+class S3Link extends AbstractLinkHelper
 {
     /**
      * @var S3Client
      */
     protected $client;
-
-    /**
-     * @var bool
-     */
-    protected $useSsl = true;
 
     /**
      * @var string
@@ -49,30 +43,6 @@ class S3Link extends AbstractHelper
     public function __construct(S3Client $client)
     {
         $this->client = $client;
-    }
-
-    /**
-     * Set if HTTPS should be used for generating URLs
-     *
-     * @param bool $useSsl
-     *
-     * @return self
-     */
-    public function setUseSsl($useSsl)
-    {
-        $this->useSsl = (bool) $useSsl;
-
-        return $this;
-    }
-
-    /**
-     * Get if HTTPS should be used for generating URLs
-     *
-     * @return bool
-     */
-    public function getUseSsl()
-    {
-        return $this->useSsl;
     }
 
     /**
@@ -124,7 +94,7 @@ class S3Link extends AbstractHelper
         ));
 
         // Instead of executing the command, retrieve the request and make sure the scheme is set to what was specified
-        $request = $command->prepare()->setScheme($this->useSsl ? 'https' : 'http')->setPort(null);
+        $request = $command->prepare()->setScheme($this->getScheme())->setPort(null);
 
         // Ensure that the correct bucket URL style (virtual or path) is used based on the bucket name
         // This addresses a bug in versions of the SDK less than or equal to 2.3.4
