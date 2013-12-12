@@ -12,9 +12,9 @@ community on this module and recognize your expertise. We welcome the submission
    code.
 3. We maintain a high percentage of code coverage in our unit tests. If you make changes to the code, please add or
    update unit tests as appropriate.
-4. If your code does not conform to the PSR standards or does not include adequate tests, we may ask you to update your
-   pull requests before we accept them. We also reserve the right to deny any pull requests that do not align with our
-   standards or goals.
+4. If your pull request does not conform to the PSR standards, include adequate tests, or pass the TravisCI build, we
+   may ask you to update your pull request before we accept it. We also reserve the right to deny any pull requests that
+   do not align with our standards or goals.
 5. If you would like to implement support for a significant feature, please talk to us beforehand to avoid any
    unnecessary or duplicate effort.
 
