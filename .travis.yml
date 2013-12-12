@@ -7,4 +7,4 @@ before_script:
 - sh -c 'if [ $(php -r "echo PHP_MINOR_VERSION;") -le 4 ]; then echo "extension = apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi;'
 - cp phpunit.xml.dist phpunit.xml
 - composer install --dev
-script: vendor/bin/phpunit
+script: vendor/bin/phpunit --coverage-text

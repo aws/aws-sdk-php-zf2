@@ -48,7 +48,7 @@ class CloudFrontLinkTest extends BaseModuleTest
     }
 
     /**
-     * @expectedException Aws\View\Exception\InvalidSchemeException
+     * @expectedException \Aws\View\Exception\InvalidSchemeException
      */
     public function testAssertInvalidSchemesThrowExceptions()
     {
@@ -63,7 +63,7 @@ class CloudFrontLinkTest extends BaseModuleTest
 
     public function testGenerateSimpleNonSslLink()
     {
-        $this->viewHelper->setUseSsl(false);
+        $this->viewHelper->setScheme('http');
 
         $link = $this->viewHelper->__invoke('my-object', 'my-domain');
         $this->assertEquals('http://my-domain.cloudfront.net/my-object', $link);
@@ -153,7 +153,7 @@ class CloudFrontLinkTest extends BaseModuleTest
     }
 
     /**
-     * @expectedException Aws\View\Exception\InvalidSchemeException
+     * @expectedException \Aws\View\Exception\InvalidSchemeException
      */
     public function testGenerateSignedProtocolRelativeLink()
     {

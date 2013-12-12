@@ -44,11 +44,11 @@ class S3LinkTest extends BaseModuleTest
 
     public function testAssertUseSslByDefault()
     {
-        $this->assertTrue($this->viewHelper->getUseSsl());
+        $this->assertEquals('https', $this->viewHelper->getScheme());
     }
 
     /**
-     * @expectedException Aws\View\Exception\InvalidSchemeException
+     * @expectedException \Aws\View\Exception\InvalidSchemeException
      */
     public function testAssertInvalidSchemesThrowExceptions()
     {
@@ -115,79 +115,40 @@ class S3LinkTest extends BaseModuleTest
         $link = $this->viewHelper->__invoke('my-object');
     }
 
-    public function testGenerateSignedLink()
+    /**
+     * @dataProvider dataForLinkSigningTest
+     */
+    public function testGenerateSignedLink($scheme)
     {
-        $timeTest = time() + 10;
+        $this->viewHelper->setScheme($scheme);
+        $expires = time() + 10;
 
-        $link = $this->viewHelper->__invoke('my-object', 'my-bucket', $timeTest);
+        $actualResult = $this->viewHelper->__invoke('my-object', 'my-bucket', $expires);
 
+        // Build expected signature
         $request = $this->s3Client->get($this->viewHelper->__invoke('my-object', 'my-bucket'));
-
+        $request->getParams()->set('s3.resource', '/my-bucket/my-object');
         $signature = $this->s3Client->getSignature();
         $signature = $signature->signString(
-            $signature->createCanonicalizedString($request, $timeTest),
+            $signature->createCanonicalizedString($request, $expires),
             $this->s3Client->getCredentials()
         );
-
         $expectedResult = sprintf(
-            'https://my-bucket.s3.amazonaws.com/my-object?AWSAccessKeyId=%s&Expires=%s&Signature=%s',
+            ltrim("{$scheme}://my-bucket.s3.amazonaws.com/my-object?AWSAccessKeyId=%s&Expires=%s&Signature=%s", ':'),
             $this->s3Client->getCredentials()->getAccessKeyId(),
-            $timeTest,
+            $expires,
             urlencode($signature)
         );
 
-        $this->assertEquals($expectedResult, $link);
+        $this->assertEquals($expectedResult, $actualResult);
     }
 
-    public function testGenerateSignedNotSslLink()
+    public function dataForLinkSigningTest()
     {
-        $this->viewHelper->setUseSsl(false);
-
-        $timeTest = time() + 10;
-
-        $link = $this->viewHelper->__invoke('my-object', 'my-bucket', $timeTest);
-
-        $request = $this->s3Client->get($this->viewHelper->__invoke('my-object', 'my-bucket'));
-
-        $signature = $this->s3Client->getSignature();
-        $signature = $signature->signString(
-            $signature->createCanonicalizedString($request, $timeTest),
-            $this->s3Client->getCredentials()
+        return array(
+            array('https'),
+            array('http'),
+            array(NULL),
         );
-
-        $expectedResult = sprintf(
-            'http://my-bucket.s3.amazonaws.com/my-object?AWSAccessKeyId=%s&Expires=%s&Signature=%s',
-            $this->s3Client->getCredentials()->getAccessKeyId(),
-            $timeTest,
-            urlencode($signature)
-        );
-
-        $this->assertEquals($expectedResult, $link);
-    }
-
-    public function testGenerateSignedProtocolRelativeLink()
-    {
-        $this->viewHelper->setScheme(null);
-
-        $timeTest = time() + 10;
-
-        $link = $this->viewHelper->__invoke('my-object', 'my-bucket', $timeTest);
-
-        $request = $this->s3Client->get($this->viewHelper->__invoke('my-object', 'my-bucket'));
-
-        $signature = $this->s3Client->getSignature();
-        $signature = $signature->signString(
-            $signature->createCanonicalizedString($request, $timeTest),
-            $this->s3Client->getCredentials()
-        );
-
-        $expectedResult = sprintf(
-            '//my-bucket.s3.amazonaws.com/my-object?AWSAccessKeyId=%s&Expires=%s&Signature=%s',
-            $this->s3Client->getCredentials()->getAccessKeyId(),
-            $timeTest,
-            urlencode($signature)
-        );
-
-        $this->assertEquals($expectedResult, $link);
     }
 }
