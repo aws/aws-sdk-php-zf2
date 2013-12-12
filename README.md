@@ -2,6 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/aws/aws-sdk-php-zf2/v/stable.png)](https://packagist.org/packages/aws/aws-sdk-php-zf2)
 [![Total Downloads](https://poser.pugx.org/aws/aws-sdk-php-zf2/downloads.png)](https://packagist.org/packages/aws/aws-sdk-php-zf2)
+[![Build Status](https://travis-ci.org/aws/aws-sdk-php-zf2.png)](https://travis-ci.org/aws/aws-sdk-php-zf2)
 
 ## Introduction
 
