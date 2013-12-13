@@ -23,6 +23,8 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
  */
 class Module implements ConfigProviderInterface
 {
+    const VERSION = '1.2.0';
+
     /**
      * {@inheritdoc}
      */

@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## 1.2.0
+
+* Added the ability to create protocol-relative URLs with the S3 and CloudFront link view helpers
+* Added TravisCI configuration
+* Added PHPUnit as a development dependency
+
 ## 1.1.0
 
 * Added ZF2 session save handler for Amazon DynamoDB

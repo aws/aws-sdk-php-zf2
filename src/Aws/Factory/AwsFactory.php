@@ -18,6 +18,7 @@ namespace Aws\Factory;
 
 use Aws\Common\Aws;
 use Aws\Common\Client\UserAgentListener;
+use Aws\Module;
 use Guzzle\Common\Event;
 use Guzzle\Service\Client;
 use Zend\ServiceManager\FactoryInterface;
@@ -58,7 +59,7 @@ class AwsFactory implements FactoryInterface
         $clientConfig  = $event['client']->getConfig();
         $commandParams = $clientConfig->get(Client::COMMAND_PARAMS) ?: array();
         $clientConfig->set(Client::COMMAND_PARAMS, array_merge_recursive($commandParams, array(
-            UserAgentListener::OPTION => 'ZF2/' . Version::VERSION,
+            UserAgentListener::OPTION => 'ZF2/' . Version::VERSION . ' ZFMOD/' . Module::VERSION,
         )));
     }
 }

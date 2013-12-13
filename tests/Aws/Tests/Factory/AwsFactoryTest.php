@@ -52,6 +52,6 @@ class ModuleTest extends BaseModuleTest
         $clientParams = $client->getConfig()->get(Client::COMMAND_PARAMS);
 
         $this->assertArrayHasKey(UserAgentListener::OPTION, $clientParams);
-        $this->assertStringStartsWith('ZF2', $clientParams[UserAgentListener::OPTION]);
+        $this->assertRegExp('/ZF2\/.+ZFMOD\/.+/', $clientParams[UserAgentListener::OPTION]);
     }
 }

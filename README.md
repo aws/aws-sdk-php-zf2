@@ -96,8 +96,8 @@ Starting from version 1.0.2, the AWS SDK ZF2 Module now provides two view helper
 Amazon CloudFront resources.
 
 > **Note:** Both of the view helpers generate URLs with an HTTPS scheme by default. This is ideal for security, but
-please keep in mind that Amazon CloudFront charges more for HTTPS requests. You can turn SSL off by calling the
-`setUseSsl` method on both helpers.
+please keep in mind that Amazon CloudFront charges more for HTTPS requests. You can use a different scheme (e.g., HTTP)
+by calling the `setScheme` method on either helper.
 
 #### S3Link View Helper
 
