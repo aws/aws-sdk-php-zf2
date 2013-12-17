@@ -17,7 +17,7 @@ Install the module using Composer into your application's vendor directory. Add 
 ```json
 {
     "require": {
-        "aws/aws-sdk-php-zf2": "1.1.*"
+        "aws/aws-sdk-php-zf2": "1.2.*"
     }
 }
 ```
