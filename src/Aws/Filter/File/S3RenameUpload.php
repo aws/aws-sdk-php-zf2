@@ -90,7 +90,12 @@ class S3RenameUpload extends RenameUpload
             throw new MissingBucketException('No bucket was set when trying to upload a file to S3');
         }
 
-        $target = parent::getFinalTarget($uploadData);
-        return sprintf('s3://%s/%s', $this->options['bucket'], trim($target, '/'));
+        // Get the tmp file name and convert it to an S3 key
+        $key = trim(str_replace('\\', '/', parent::getFinalTarget($uploadData)), '/');
+        if (strpos($key, './') === 0) {
+            $key = substr($key, 2);
+        }
+
+        return "s3://{$this->options['bucket']}/{$key}";
     }
 }

@@ -60,7 +60,10 @@ class S3RenameUploadTest extends BaseModuleTest
         $this->filter->filter(array('tmp_name' => 'foo'));
     }
 
-    public function testAssertS3UriIsGenerated()
+    /**
+     * @dataProvider tmpNameProvider
+     */
+    public function testAssertS3UriIsGenerated($tmpName, $expectedKey)
     {
         $reflMethod = new ReflectionMethod($this->filter, 'getFinalTarget');
         $reflMethod->setAccessible(true);
@@ -68,9 +71,19 @@ class S3RenameUploadTest extends BaseModuleTest
         $this->filter->setBucket('my-bucket');
 
         $result = $reflMethod->invoke($this->filter, array(
-            'tmp_name' => 'temp/phptmpname'
+            'tmp_name' => $tmpName
         ));
 
-        $this->assertEquals('s3://my-bucket/temp/phptmpname', $result);
+        $this->assertEquals("s3://my-bucket/{$expectedKey}", $result);
+    }
+
+    public function tmpNameProvider()
+    {
+        return array(
+            array('temp/phptmpname', 'temp/phptmpname'),
+            array('temp/phptmpname/', 'temp/phptmpname'),
+            array('temp\\phptmpname', 'temp/phptmpname'),
+            array('temp\\phptmpname\\', 'temp/phptmpname'),
+        );
     }
 }
