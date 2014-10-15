@@ -4,9 +4,10 @@
     "type": "library",
     "license": "Apache",
     "keywords": ["aws", "zf2", "amazon", "zend", "s3", "dynamodb", "ec2"],
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
-        "aws/aws-sdk-php": "2.*",
+        "aws/aws-sdk-php": "3.*",
         "zendframework/zend-servicemanager": "2.*",
         "zendframework/zend-version": "2.*"
     },
@@ -14,7 +15,7 @@
         "zendframework/zend-modulemanager": "2.*"
     },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "Aws\\": "src/"
         },
         "classmap": [
