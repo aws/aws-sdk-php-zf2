@@ -38,15 +38,15 @@ class DynamoDbTest extends BaseModuleTest
 
         $this->sessionHandler = $this->getMock(
             'Aws\DynamoDb\Session\SessionHandler',
-            array(
+            [
                 'open',
                 'close',
                 'read',
                 'write',
                 'destroy',
                 'gc',
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );

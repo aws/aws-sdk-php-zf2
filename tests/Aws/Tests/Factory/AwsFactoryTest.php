@@ -33,7 +33,7 @@ class ModuleTest extends BaseModuleTest
         $awsFactory     = new AwsFactory();
         $serviceManager = $this->createServiceManagerForTest();
 
-        $serviceManager->setService('config', array());
+        $serviceManager->setService('config', []);
 
         /** @var $aws \Guzzle\Service\Builder\ServiceBuilder */
         $aws = $awsFactory->createService($serviceManager);
@@ -46,7 +46,7 @@ class ModuleTest extends BaseModuleTest
     {
         $factory = new AwsFactory();
         $client  = S3Client::factory();
-        $event   = new Event(array('client' => $client));
+        $event   = new Event(['client' => $client]);
 
         $factory->onCreateClient($event);
         $clientParams = $client->getConfig()->get(Client::COMMAND_PARAMS);

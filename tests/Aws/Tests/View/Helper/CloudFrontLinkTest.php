@@ -34,10 +34,10 @@ class CloudFrontLinkTest extends BaseModuleTest
 
     public function setUp()
     {
-        $this->cloudFrontClient = CloudFrontClient::factory(array(
+        $this->cloudFrontClient = CloudFrontClient::factory([
             'key'    => '1234',
             'secret' => '5678',
-        ));
+        ]);
 
         $this->viewHelper = new CloudFrontLink($this->cloudFrontClient);
     }
@@ -129,7 +129,7 @@ class CloudFrontLinkTest extends BaseModuleTest
         $pemFile = sys_get_temp_dir() . '/aws-sdk-php-zf2-cloudfront-test.pem';
         if (!file_exists($pemFile)) {
             // Generate a new Certificate Signing Request and public/private keypair
-            $csr = openssl_csr_new(array(), $keypair);
+            $csr = openssl_csr_new([], $keypair);
 
             // Create a self-signed certificate
             $x509 = openssl_csr_sign($csr, null, $keypair, 1);

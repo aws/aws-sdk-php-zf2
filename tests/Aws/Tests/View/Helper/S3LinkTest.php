@@ -34,10 +34,10 @@ class S3LinkTest extends BaseModuleTest
 
     public function setUp()
     {
-        $this->s3Client = S3Client::factory(array(
+        $this->s3Client = S3Client::factory([
             'key'    => '1234',
             'secret' => '5678'
-        ));
+        ]);
 
         $this->viewHelper = new S3Link($this->s3Client);
     }
@@ -145,10 +145,10 @@ class S3LinkTest extends BaseModuleTest
 
     public function dataForLinkSigningTest()
     {
-        return array(
-            array('https'),
-            array('http'),
-            array(NULL),
-        );
+        return [
+            ['https'],
+            ['http'],
+            [NULL],
+        ];
     }
 }

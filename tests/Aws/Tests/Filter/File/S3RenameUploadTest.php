@@ -30,10 +30,10 @@ class S3RenameUploadTest extends BaseModuleTest
 
     public function setUp()
     {
-        $s3Client = S3Client::factory(array(
+        $s3Client = S3Client::factory([
             'key'    => '1234',
             'secret' => '5678'
-        ));
+        ]);
 
         $this->filter = new S3RenameUpload($s3Client);
     }
@@ -48,16 +48,16 @@ class S3RenameUploadTest extends BaseModuleTest
         $this->filter->setBucket('/my-bucket/');
         $this->assertEquals('my-bucket', $this->filter->getBucket());
 
-        $this->filter->setOptions(array(
+        $this->filter->setOptions([
             'bucket' => '/my-bucket/'
-        ));
+        ]);
         $this->assertEquals('my-bucket', $this->filter->getBucket());
     }
 
     public function testThrowExceptionIfNoBucketIsSet()
     {
         $this->setExpectedException('Aws\Filter\Exception\MissingBucketException');
-        $this->filter->filter(array('tmp_name' => 'foo'));
+        $this->filter->filter(['tmp_name' => 'foo']);
     }
 
     /**
@@ -70,20 +70,20 @@ class S3RenameUploadTest extends BaseModuleTest
 
         $this->filter->setBucket('my-bucket');
 
-        $result = $reflMethod->invoke($this->filter, array(
+        $result = $reflMethod->invoke($this->filter, [
             'tmp_name' => $tmpName
-        ));
+        ]);
 
         $this->assertEquals("s3://my-bucket/{$expectedKey}", $result);
     }
 
     public function tmpNameProvider()
     {
-        return array(
-            array('temp/phptmpname', 'temp/phptmpname'),
-            array('temp/phptmpname/', 'temp/phptmpname'),
-            array('temp\\phptmpname', 'temp/phptmpname'),
-            array('temp\\phptmpname\\', 'temp/phptmpname'),
-        );
+        return [
+            ['temp/phptmpname', 'temp/phptmpname'],
+            ['temp/phptmpname/', 'temp/phptmpname'],
+            ['temp\\phptmpname', 'temp/phptmpname'],
+            ['temp\\phptmpname\\', 'temp/phptmpname'],
+        ];
     }
 }

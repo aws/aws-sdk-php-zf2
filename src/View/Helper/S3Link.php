@@ -88,10 +88,10 @@ class S3Link extends AbstractLinkHelper
 
         // Create a command representing the get request
         // Using a command will make sure the configured regional endpoint is used
-        $command = $this->client->getCommand('GetObject', array(
+        $command = $this->client->getCommand('GetObject', [
             'Bucket' => $bucket,
             'Key'    => $object,
-        ));
+        ]);
 
         // Instead of executing the command, retrieve the request and make sure the scheme is set to what was specified
         $request = $command->prepare()->setScheme($this->getScheme())->setPort(null);
@@ -101,7 +101,7 @@ class S3Link extends AbstractLinkHelper
         // @codeCoverageIgnoreStart
         if (version_compare(Aws::VERSION, '2.4.0', '<') && strpos($request->getHost(), $bucket) === false) {
             $bucketStyleListener = new BucketStyleListener();
-            $bucketStyleListener->onCommandBeforeSend(new Event(array('command' => $command)));
+            $bucketStyleListener->onCommandBeforeSend(new Event(['command' => $command]));
         }
         // @codeCoverageIgnoreEnd
 

@@ -29,18 +29,18 @@ class DynamoDbSessionSaveHandlerFactoryTest extends BaseModuleTest
         $saveHandlerFactory = new DynamoDbSessionSaveHandlerFactory();
         $serviceManager     = $this->createServiceManagerForTest();
 
-        $config = array(
-            'aws' => array(
+        $config = [
+            'aws' => [
                 'region' => 'us-east-1'
-            ),
-            'aws_zf2' => array(
-                'session' => array(
-                    'save_handler' => array(
-                        'dynamodb' => array()
-                    )
-                )
-            )
-        );
+            ],
+            'aws_zf2' => [
+                'session' => [
+                    'save_handler' => [
+                        'dynamodb' => []
+                    ]
+                ]
+            ]
+        ];
 
         $serviceManager->setService(
             'Config',
@@ -61,7 +61,7 @@ class DynamoDbSessionSaveHandlerFactoryTest extends BaseModuleTest
         $saveHandlerFactory = new DynamoDbSessionSaveHandlerFactory();
         $serviceManager     = $this->createServiceManagerForTest();
 
-        $serviceManager->setService('Config', array());
+        $serviceManager->setService('Config', []);
 
         /** @var $saveHandler \Aws\Session\SaveHandler\DynamoDb */
         $saveHandler = $serviceManager->get('Aws\Session\SaveHandler\DynamoDb');

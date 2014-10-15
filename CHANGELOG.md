@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## 2.0.0
+
+* [BC] Module is updated to AWS SDK v3
+
 ## 1.2.0
 
 * Added the ability to create protocol-relative URLs with the S3 and CloudFront link view helpers

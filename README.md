@@ -17,10 +17,13 @@ Install the module using Composer into your application's vendor directory. Add 
 ```json
 {
     "require": {
+        "aws/aws-sdk-php-zf2": "2.*"
         "aws/aws-sdk-php-zf2": "1.2.*"
     }
 }
 ```
+
+> If you are using AWS SDK v2, please use the 1.x branch of this module.
 
 ## Configuration
 

@@ -32,7 +32,7 @@ class AbstractLinkHelper extends AbstractHelper
     /**
      * @var array
      */
-    protected $supportedSchemes = array('http', 'https', null);
+    protected $supportedSchemes = ['http', 'https', null];
 
     /**
      * Set if HTTPS should be used for generating URLs
