@@ -14,22 +14,13 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws;
+namespace Aws\Filter\Exception;
 
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Aws\Common\Exception\InvalidArgumentException;
 
 /**
- * Zend Framework 2 module that allows easy consumption of the AWS SDK for PHP
+ * Exception thrown when no bucket is passed
  */
-class Module implements ConfigProviderInterface
+class MissingBucketException extends InvalidArgumentException
 {
-    const VERSION = '1.2.0';
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfig()
-    {
-        return include __DIR__ . '/config/module.config.php';
-    }
 }

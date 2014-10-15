@@ -14,22 +14,22 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws;
+namespace Aws\Factory;
 
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Aws\Filter\File\S3RenameUpload;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Zend Framework 2 module that allows easy consumption of the AWS SDK for PHP
+ * Factory used to instantiate a S3RenameUpload file filter
  */
-class Module implements ConfigProviderInterface
+class S3RenameUploadFactory implements FactoryInterface
 {
-    const VERSION = '1.2.0';
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfig()
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return include __DIR__ . '/config/module.config.php';
+        $parentLocator = $serviceLocator->getServiceLocator();
+        $s3Client      = $parentLocator->get('Aws')->get('S3');
+
+        return new S3RenameUpload($s3Client);
     }
 }

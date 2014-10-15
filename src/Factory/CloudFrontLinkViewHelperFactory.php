@@ -14,22 +14,26 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws;
+namespace Aws\Factory;
 
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Aws\View\Helper\CloudFrontLink;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Zend Framework 2 module that allows easy consumption of the AWS SDK for PHP
+ * Factory used to instantiate a CloudFront link view helper
  */
-class Module implements ConfigProviderInterface
+class CloudFrontLinkViewHelperFactory implements FactoryInterface
 {
-    const VERSION = '1.2.0';
-
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     * @return CloudFrontLink
      */
-    public function getConfig()
+    public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return include __DIR__ . '/config/module.config.php';
+        $parentLocator    = $serviceLocator->getServiceLocator();
+        $cloudFrontClient = $parentLocator->get('Aws')->get('CloudFront');
+
+        return new CloudFrontLink($cloudFrontClient);
     }
 }

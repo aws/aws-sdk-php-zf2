@@ -46,10 +46,10 @@ class ModuleTest extends BaseModuleTest
     {
         // Create the module and service manager, and register the module
         $serviceManager = $this->createServiceManagerForTest();
-        $serviceManager->setService('config', array('aws' => array(
+        $serviceManager->setService('config', ['aws' => [
             'key'    => 'your-aws-access-key-id',
             'secret' => 'your-aws-secret-access-key',
-        )));
+        ]]);
 
         // Make sure the service manager received the service configuration from the module
         $services = $serviceManager->getRegisteredServices();
@@ -70,8 +70,8 @@ class ModuleTest extends BaseModuleTest
         // Make sure the user agent contains "ZF2"
         $command = $s3->getCommand('ListBuckets');
         $request = $command->prepare();
-        $s3->dispatch('command.before_send', array('command' => $command));
-        $this->assertRegExp('/.+ZF2\/.+/', $request->getHeader('User-Agent', true));
+        $s3->dispatch('command.before_send', ['command' => $command]);
+        $this->assertRegExp('/.+ZF2\/.+/', (string) $request->getHeader('User-Agent'));
     }
 
     /**
@@ -96,9 +96,9 @@ class ModuleTest extends BaseModuleTest
      */
     public function dataForNoConfigTest()
     {
-        return array(
-            array(array()),
-            array(array('aws' => array())),
-        );
+        return [
+            [[]],
+            [['aws' => []]],
+        ];
     }
 }

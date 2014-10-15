@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2013 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2010-2013 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -14,22 +14,14 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws;
+namespace Aws\View\Exception;
 
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Aws\Common\Exception\AwsExceptionInterface;
+use InvalidArgumentException;
 
 /**
- * Zend Framework 2 module that allows easy consumption of the AWS SDK for PHP
+ * Exception thrown when an invalid CloudFront domain is passed
  */
-class Module implements ConfigProviderInterface
+class InvalidDomainNameException extends InvalidArgumentException implements AwsExceptionInterface
 {
-    const VERSION = '1.2.0';
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfig()
-    {
-        return include __DIR__ . '/config/module.config.php';
-    }
 }
