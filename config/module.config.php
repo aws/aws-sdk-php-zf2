@@ -1,31 +1,36 @@
 <?php
 
-return array(
-    'service_manager' => array(
-        'factories' => array(
-            'Aws'                              => 'Aws\Factory\AwsFactory',
-            'Aws\Session\SaveHandler\DynamoDb' => 'Aws\Factory\DynamoDbSessionSaveHandlerFactory'
-        )
-    ),
+use Aws\Factory\AwsFactory;
+use Aws\Factory\DynamoDbSessionSaveHandlerFactory;
+use Aws\Sdk as Aws;
+use Aws\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
 
-    'filters' => array(
-        'factories' => array(
+return [
+    'service_manager' => [
+        'factories' => [
+            Aws::class                 => AwsFactory::class,
+            DynamoDbSaveHandler::class => DynamoDbSessionSaveHandlerFactory::class
+        ]
+    ],
+
+    'filters' => [
+        'factories' => [
             'Aws\Filter\File\S3RenameUpload' => 'Aws\Factory\S3RenameUploadFactory'
-        ),
-        'aliases' => array(
+        ],
+        'aliases' => [
             's3renameupload' => 'Aws\Filter\File\S3RenameUpload'
-        )
-    ),
+        ]
+    ],
 
-    'view_helpers' => array(
-        'factories' => array(
+    'view_helpers' => [
+        'factories' => [
             'Aws\View\Helper\S3Link'         => 'Aws\Factory\S3LinkViewHelperFactory',
             'Aws\View\Helper\CloudFrontLink' => 'Aws\Factory\CloudFrontLinkViewHelperFactory'
-        ),
+        ],
 
-        'aliases' => array(
+        'aliases' => [
             'cloudfrontlink' => 'Aws\View\Helper\CloudFrontLink',
             's3link'         => 'Aws\View\Helper\S3Link'
-        )
-    ),
-);
+        ]
+    ],
+];
