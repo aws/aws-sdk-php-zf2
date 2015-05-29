@@ -16,13 +16,12 @@
 
 namespace Aws\View\Exception;
 
-use Aws\Common\Exception\AwsExceptionInterface;
 use InvalidArgumentException;
 
 /**
  * Exception thrown when an invalid scheme is passed for S3 or CloudFront
  * link generation.
  */
-class InvalidSchemeException extends InvalidArgumentException implements AwsExceptionInterface
+class InvalidSchemeException extends InvalidArgumentException
 {
 }

@@ -16,11 +16,10 @@
 
 namespace AwsTests\View\Helper;
 
-use Aws\Tests\BaseModuleTest;
 use Aws\CloudFront\CloudFrontClient;
 use Aws\View\Helper\CloudFrontLink;
 
-class CloudFrontLinkTest extends BaseModuleTest
+class CloudFrontLinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var CloudFrontClient
@@ -34,47 +33,22 @@ class CloudFrontLinkTest extends BaseModuleTest
 
     public function setUp()
     {
-        $this->cloudFrontClient = CloudFrontClient::factory(array(
-            'key'    => '1234',
-            'secret' => '5678',
-        ));
+        $this->cloudFrontClient = new CloudFrontClient([
+            'credentials' => [
+                'key'    => '1234',
+                'secret' => '5678',
+            ],
+            'region'  => 'us-east-1',
+            'version' => 'latest'
+        ]);
 
         $this->viewHelper = new CloudFrontLink($this->cloudFrontClient);
-    }
-
-    public function testAssertDoesUseSslByDefault()
-    {
-        $this->assertTrue($this->viewHelper->getUseSsl());
-    }
-
-    /**
-     * @expectedException \Aws\View\Exception\InvalidSchemeException
-     */
-    public function testAssertInvalidSchemesThrowExceptions()
-    {
-        $this->viewHelper->setScheme('nosuchscheme');
     }
 
     public function testGenerateSimpleLink()
     {
         $link = $this->viewHelper->__invoke('my-object', 'my-domain');
         $this->assertEquals('https://my-domain.cloudfront.net/my-object', $link);
-    }
-
-    public function testGenerateSimpleNonSslLink()
-    {
-        $this->viewHelper->setScheme('http');
-
-        $link = $this->viewHelper->__invoke('my-object', 'my-domain');
-        $this->assertEquals('http://my-domain.cloudfront.net/my-object', $link);
-    }
-
-    public function testGenerateSimpleProtocolRelativeLink()
-    {
-        $this->viewHelper->setScheme(null);
-
-        $link = $this->viewHelper->__invoke('my-object', 'my-domain');
-        $this->assertEquals('//my-domain.cloudfront.net/my-object', $link);
     }
 
     public function testCanUseDefaultDomain()
@@ -140,27 +114,11 @@ class CloudFrontLinkTest extends BaseModuleTest
             openssl_pkey_export_to_file($privateKey, $pemFile);
         }
 
-        $clientConfig = $this->cloudFrontClient->getConfig();
-        $clientConfig->set('key_pair_id', 'kpid');
-        $clientConfig->set('private_key', $pemFile);
-
         $this->viewHelper->setHostname('example.com');
-        $link = $this->viewHelper->__invoke('my-object', '123abc', time() + 600);
+        $link = $this->viewHelper->__invoke('my-object', '123abc', time() + 600, 'kpid', $pemFile);
         $this->assertRegExp(
             '#^https\:\/\/123abc\.example\.com\/my-object\?Expires\=(.*)\&Signature\=(.*)\&Key-Pair-Id\=kpid$#',
             $link
         );
-    }
-
-    /**
-     * @expectedException \Aws\View\Exception\InvalidSchemeException
-     */
-    public function testGenerateSignedProtocolRelativeLink()
-    {
-        $this->viewHelper
-            ->setHostname('example.com')
-            ->setScheme(null);
-
-        $link = $this->viewHelper->__invoke('my-object', '123abc', time() + 600);
     }
 }

@@ -14,56 +14,59 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws\Tests;
+namespace Aws\Tests\Factory;
 
 use Aws\Factory\DynamoDbSessionSaveHandlerFactory;
-use Aws\Tests\BaseModuleTest;
+use Aws\Sdk as AwsSdk;
+use Aws\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * DynamoDB-backed session save handler tests
  */
-class DynamoDbSessionSaveHandlerFactoryTest extends BaseModuleTest
+class DynamoDbSessionSaveHandlerFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCanFetchSaveHandlerFromServiceManager()
     {
+        $config = [
+            'aws' => [
+                'region'  => 'us-east-1',
+                'version' => 'latest'
+            ],
+            'aws_zf2' => [
+                'session' => [
+                    'save_handler' => [
+                        'dynamodb' => []
+                    ]
+                ]
+            ]
+        ];
+
+        $awsSdk = new AwsSdk($config['aws']);
+
+        $serviceLocator = $this->getMock(ServiceLocatorInterface::class);
+        $serviceLocator->expects($this->at(0))->method('get')->with('Config')->willReturn($config);
+        $serviceLocator->expects($this->at(1))->method('get')->with(AwsSdk::class)->willReturn($awsSdk);
+
+
         $saveHandlerFactory = new DynamoDbSessionSaveHandlerFactory();
-        $serviceManager     = $this->createServiceManagerForTest();
-
-        $config = array(
-            'aws' => array(
-                'region' => 'us-east-1'
-            ),
-            'aws_zf2' => array(
-                'session' => array(
-                    'save_handler' => array(
-                        'dynamodb' => array()
-                    )
-                )
-            )
-        );
-
-        $serviceManager->setService(
-            'Config',
-            $config
-        );
 
         /** @var $saveHandler \Aws\Session\SaveHandler\DynamoDb */
-        $saveHandler = $serviceManager->get('Aws\Session\SaveHandler\DynamoDb');
+        $saveHandler = $saveHandlerFactory->createService($serviceLocator);
 
-        $this->assertInstanceOf('Aws\Session\SaveHandler\DynamoDb', $saveHandler);
+        $this->assertInstanceOf(DynamoDbSaveHandler::class, $saveHandler);
     }
 
     /**
-     * @expectedException Zend\ServiceManager\Exception\ServiceNotCreatedException
+     * @expectedException \Zend\ServiceManager\Exception\ServiceNotCreatedException
      */
     public function testExceptionThrownWhenSaveHandlerConfigurationDoesNotExist()
     {
+        $serviceLocator = $this->getMock(ServiceLocatorInterface::class);
+        $serviceLocator->expects($this->once())->method('get')->with('Config')->willReturn([]);
+
         $saveHandlerFactory = new DynamoDbSessionSaveHandlerFactory();
-        $serviceManager     = $this->createServiceManagerForTest();
 
-        $serviceManager->setService('Config', array());
-
-        /** @var $saveHandler \Aws\Session\SaveHandler\DynamoDb */
-        $saveHandler = $serviceManager->get('Aws\Session\SaveHandler\DynamoDb');
+        $saveHandlerFactory->createService($serviceLocator);
     }
 }

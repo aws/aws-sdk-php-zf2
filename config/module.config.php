@@ -1,9 +1,15 @@
 <?php
 
 use Aws\Factory\AwsFactory;
+use Aws\Factory\CloudFrontLinkViewHelperFactory;
 use Aws\Factory\DynamoDbSessionSaveHandlerFactory;
+use Aws\Factory\S3LinkViewHelperFactory;
+use Aws\Factory\S3RenameUploadFactory;
+use Aws\Filter\File\S3RenameUpload;
 use Aws\Sdk as Aws;
 use Aws\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
+use Aws\View\Helper\CloudFrontLink;
+use Aws\View\Helper\S3Link;
 
 return [
     'service_manager' => [
@@ -15,22 +21,22 @@ return [
 
     'filters' => [
         'factories' => [
-            'Aws\Filter\File\S3RenameUpload' => 'Aws\Factory\S3RenameUploadFactory'
+            S3RenameUpload::class => S3RenameUploadFactory::class
         ],
         'aliases' => [
-            's3renameupload' => 'Aws\Filter\File\S3RenameUpload'
+            's3renameupload' => S3RenameUpload::class
         ]
     ],
 
     'view_helpers' => [
         'factories' => [
-            'Aws\View\Helper\S3Link'         => 'Aws\Factory\S3LinkViewHelperFactory',
-            'Aws\View\Helper\CloudFrontLink' => 'Aws\Factory\CloudFrontLinkViewHelperFactory'
+            S3Link::class         => S3LinkViewHelperFactory::class,
+            CloudFrontLink::class => CloudFrontLinkViewHelperFactory::class
         ],
 
         'aliases' => [
-            'cloudfrontlink' => 'Aws\View\Helper\CloudFrontLink',
-            's3link'         => 'Aws\View\Helper\S3Link'
+            'cloudfrontlink' => CloudFrontLink::class,
+            's3link'         => S3Link::class
         ]
     ],
 ];

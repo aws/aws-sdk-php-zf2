@@ -16,7 +16,7 @@
 
 namespace Aws\Filter\Exception;
 
-use Aws\Common\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 
 /**
  * Exception thrown when no bucket is passed

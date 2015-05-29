@@ -16,6 +16,7 @@
 
 namespace Aws\Factory;
 
+use Aws\Sdk as AwsSdk;
 use Aws\View\Helper\CloudFrontLink;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -31,9 +32,11 @@ class CloudFrontLinkViewHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $parentLocator    = $serviceLocator->getServiceLocator();
-        $cloudFrontClient = $parentLocator->get('Aws')->get('CloudFront');
+        $parentLocator = $serviceLocator->getServiceLocator();
 
-        return new CloudFrontLink($cloudFrontClient);
+        /** @var AwsSdk $awsSdk */
+        $awsSdk = $parentLocator->get(AwsSdk::class);
+
+        return new CloudFrontLink($awsSdk->createCloudFront());
     }
 }

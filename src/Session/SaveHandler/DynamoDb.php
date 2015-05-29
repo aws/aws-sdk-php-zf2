@@ -16,7 +16,7 @@
 
 namespace Aws\Session\SaveHandler;
 
-use Aws\Dynamodb\Session\SessionHandler;
+use Aws\Dynamodb\SessionHandler;
 use Zend\Session\SaveHandler\SaveHandlerInterface;
 
 /**

@@ -16,11 +16,10 @@
 
 namespace AwsTests\View\Helper;
 
-use Aws\Tests\BaseModuleTest;
 use Aws\S3\S3Client;
 use Aws\View\Helper\S3Link;
 
-class S3LinkTest extends BaseModuleTest
+class S3LinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var S3Client
@@ -34,47 +33,22 @@ class S3LinkTest extends BaseModuleTest
 
     public function setUp()
     {
-        $this->s3Client = S3Client::factory(array(
-            'key'    => '1234',
-            'secret' => '5678'
-        ));
+        $this->s3Client = new S3Client([
+            'credentials' => [
+                'key'    => '1234',
+                'secret' => '5678'
+            ],
+            'region'  => 'us-east-1',
+            'version' => 'latest'
+        ]);
 
         $this->viewHelper = new S3Link($this->s3Client);
-    }
-
-    public function testAssertUseSslByDefault()
-    {
-        $this->assertEquals('https', $this->viewHelper->getScheme());
-    }
-
-    /**
-     * @expectedException \Aws\View\Exception\InvalidSchemeException
-     */
-    public function testAssertInvalidSchemesThrowExceptions()
-    {
-        $this->viewHelper->setScheme('nosuchscheme');
     }
 
     public function testGenerateSimpleLink()
     {
         $link = $this->viewHelper->__invoke('my-object', 'my-bucket');
-        $this->assertEquals('https://my-bucket.s3.amazonaws.com/my-object', $link);
-    }
-
-    public function testGenerateSimpleNonSslLink()
-    {
-        $this->viewHelper->setUseSsl(false);
-
-        $link = $this->viewHelper->__invoke('my-object', 'my-bucket');
-        $this->assertEquals('http://my-bucket.s3.amazonaws.com/my-object', $link);
-    }
-
-    public function testGenerateSimpleProtocolRelativeLink()
-    {
-        $this->viewHelper->setScheme(null);
-
-        $link = $this->viewHelper->__invoke('my-object', 'my-bucket');
-        $this->assertEquals('//my-bucket.s3.amazonaws.com/my-object', $link);
+        $this->assertEquals('https://s3.amazonaws.com/my-bucket/my-object', $link);
     }
 
     public function testCanUseDefaultBucket()
@@ -82,7 +56,7 @@ class S3LinkTest extends BaseModuleTest
         $this->viewHelper->setDefaultBucket('my-default-bucket');
 
         $link = $this->viewHelper->__invoke('my-object');
-        $this->assertEquals('https://my-default-bucket.s3.amazonaws.com/my-object', $link);
+        $this->assertEquals('https://s3.amazonaws.com/my-default-bucket/my-object', $link);
     }
 
     public function testAssertGivenBucketOverrideDefaultBucket()
@@ -90,15 +64,24 @@ class S3LinkTest extends BaseModuleTest
         $this->viewHelper->setDefaultBucket('my-default-bucket');
 
         $link = $this->viewHelper->__invoke('my-object', 'my-overriden-bucket');
-        $this->assertEquals('https://my-overriden-bucket.s3.amazonaws.com/my-object', $link);
+        $this->assertEquals('https://s3.amazonaws.com/my-overriden-bucket/my-object', $link);
     }
 
     public function testCreatesUrlsForRegionalBuckets()
     {
-        $this->s3Client->setRegion('sa-east-1');
+        $s3Client = new S3Client([
+            'credentials' => [
+                'key'    => '1234',
+                'secret' => '5678'
+            ],
+            'region'  => 'sa-east-1',
+            'version' => 'latest'
+        ]);
 
-        $link = $this->viewHelper->__invoke('my-object', 'my-bucket');
-        $this->assertEquals('https://my-bucket.s3-sa-east-1.amazonaws.com/my-object', $link);
+        $viewHelper = new S3Link($s3Client);
+
+        $link = $viewHelper->__invoke('my-object', 'my-bucket');
+        $this->assertEquals('https://s3-sa-east-1.amazonaws.com/my-bucket/my-object', $link);
     }
 
     public function testCreatesUrlsForNonUrlCompatibleBucketNames()
@@ -115,12 +98,8 @@ class S3LinkTest extends BaseModuleTest
         $link = $this->viewHelper->__invoke('my-object');
     }
 
-    /**
-     * @dataProvider dataForLinkSigningTest
-     */
-    public function testGenerateSignedLink($scheme)
+    public function testGenerateSignedLink()
     {
-        $this->viewHelper->setScheme($scheme);
         $expires = time() + 10;
 
         $actualResult = $this->viewHelper->__invoke('my-object', 'my-bucket', $expires);
@@ -134,21 +113,12 @@ class S3LinkTest extends BaseModuleTest
             $this->s3Client->getCredentials()
         );
         $expectedResult = sprintf(
-            ltrim("{$scheme}://my-bucket.s3.amazonaws.com/my-object?AWSAccessKeyId=%s&Expires=%s&Signature=%s", ':'),
+            ltrim("https://my-bucket.s3.amazonaws.com/my-object?AWSAccessKeyId=%s&Expires=%s&Signature=%s", ':'),
             $this->s3Client->getCredentials()->getAccessKeyId(),
             $expires,
             urlencode($signature)
         );
 
         $this->assertEquals($expectedResult, $actualResult);
-    }
-
-    public function dataForLinkSigningTest()
-    {
-        return array(
-            array('https'),
-            array('http'),
-            array(NULL),
-        );
     }
 }

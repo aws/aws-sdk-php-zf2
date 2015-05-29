@@ -16,14 +16,9 @@
 
 namespace Aws\Factory;
 
-use Aws\Common\Aws;
-use Aws\Common\Client\UserAgentListener;
-use Aws\Module;
-use Guzzle\Common\Event;
-use Guzzle\Service\Client;
+use Aws\Sdk as AwsSdk;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Version\Version;
 
 /**
  * Factory used to instantiate an AWS client
@@ -32,34 +27,14 @@ class AwsFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
-     * @return Aws
+     * @return AwsSdk
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         // Instantiate the AWS SDK for PHP
         $config = $serviceLocator->get('Config');
-        $config = isset($config['aws']) ? $config['aws'] : array();
-        $aws    = Aws::factory($config);
+        $config = isset($config['aws']) ? $config['aws'] : [];
 
-        // Attach an event listener that will append the ZF2 version number in the user agent string
-        $aws->getEventDispatcher()->addListener('service_builder.create_client', array($this, 'onCreateClient'));
-
-        return $aws;
-    }
-
-    /**
-     * Add ZF2 version in UserAgent (used for metrics)
-     *
-     * @param  Event $event The event containing the instantiated client object
-     *
-     * @return void
-     */
-    public function onCreateClient(Event $event)
-    {
-        $clientConfig  = $event['client']->getConfig();
-        $commandParams = $clientConfig->get(Client::COMMAND_PARAMS) ?: array();
-        $clientConfig->set(Client::COMMAND_PARAMS, array_merge_recursive($commandParams, array(
-            UserAgentListener::OPTION => 'ZF2/' . Version::VERSION . ' ZFMOD/' . Module::VERSION,
-        )));
+        return new AwsSdk($config);
     }
 }

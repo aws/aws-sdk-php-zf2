@@ -33,20 +33,20 @@ class S3RenameUpload extends RenameUpload
     /**
      * @var array
      */
-    protected $options = array(
+    protected $options = [
         'bucket'               => null,
         'target'               => null,
         'use_upload_name'      => false,
         'use_upload_extension' => false,
         'overwrite'            => false,
         'randomize'            => false,
-    );
+    ];
 
     /**
      * @param S3Client $client
      * @param array    $options
      */
-    public function __construct(S3Client $client, $options = array())
+    public function __construct(S3Client $client, $options = [])
     {
         parent::__construct($options);
 

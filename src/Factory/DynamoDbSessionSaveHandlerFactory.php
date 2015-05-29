@@ -16,7 +16,8 @@
 
 namespace Aws\Factory;
 
-use Aws\DynamoDb\Session\SessionHandler;
+use Aws\Sdk as AwsSdk;
+use Aws\DynamoDb\SessionHandler;
 use Aws\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\FactoryInterface;
@@ -44,15 +45,11 @@ class DynamoDbSessionSaveHandlerFactory implements FactoryInterface
             );
         }
 
+        /** @var AwsSdk $awsSdk */
+        $awsSdk = $serviceLocator->get(AwsSdk::class);
+
         $saveHandlerConfig = $config['aws_zf2']['session']['save_handler']['dynamodb'];
-
-        if (!isset($saveHandlerConfig['dynamodb_client'])) {
-            $dynamoDbClient = $serviceLocator->get('Aws')->get('DynamoDb');
-
-            $saveHandlerConfig['dynamodb_client'] = $dynamoDbClient;
-        }
-
-        $sessionHandler = SessionHandler::factory($saveHandlerConfig);
+        $sessionHandler    = SessionHandler::fromClient($awsSdk->createDynamoDb(), $saveHandlerConfig);
 
         return new DynamoDbSaveHandler($sessionHandler);
     }

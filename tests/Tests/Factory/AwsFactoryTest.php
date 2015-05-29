@@ -14,44 +14,27 @@
  * permissions and limitations under the License.
  */
 
-namespace AwsTests;
+namespace AwsTests\Factory;
 
-use Aws\Common\Client\UserAgentListener;
 use Aws\Factory\AwsFactory;
-use Aws\S3\S3Client;
-use Aws\Tests\BaseModuleTest;
-use Guzzle\Common\Event;
-use Guzzle\Service\Client;
+use Aws\Sdk as AwsSdk;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * AWS Module test cases
  */
-class ModuleTest extends BaseModuleTest
+class AwsFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCanFetchAwsFromServiceManager()
     {
-        $awsFactory     = new AwsFactory();
-        $serviceManager = $this->createServiceManagerForTest();
+        $serviceLocator = $this->getMock(ServiceLocatorInterface::class);
+        $serviceLocator->expects($this->once())->method('get')->with('Config')->willReturn([]);
 
-        $serviceManager->setService('config', array());
+        $awsFactory = new AwsFactory();
 
-        /** @var $aws \Guzzle\Service\Builder\ServiceBuilder */
-        $aws = $awsFactory->createService($serviceManager);
+        /** @var $aws AwsSdk */
+        $aws = $awsFactory->createService($serviceLocator);
 
-        $this->assertInstanceOf('Guzzle\Service\Builder\ServiceBuilderInterface', $aws);
-        $this->assertTrue($aws->getEventDispatcher()->hasListeners('service_builder.create_client'));
-    }
-
-    public function testCanAddZf2ToUserAgent()
-    {
-        $factory = new AwsFactory();
-        $client  = S3Client::factory();
-        $event   = new Event(array('client' => $client));
-
-        $factory->onCreateClient($event);
-        $clientParams = $client->getConfig()->get(Client::COMMAND_PARAMS);
-
-        $this->assertArrayHasKey(UserAgentListener::OPTION, $clientParams);
-        $this->assertRegExp('/ZF2\/.+ZFMOD\/.+/', $clientParams[UserAgentListener::OPTION]);
+        $this->assertInstanceOf(AwsSdk::class, $aws);
     }
 }

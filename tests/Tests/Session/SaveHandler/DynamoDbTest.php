@@ -16,11 +16,10 @@
 
 namespace AwsTests\Session\SaveHandler;
 
-use Aws\DynamoDb\Session\SessionHandler;
+use Aws\DynamoDb\SessionHandler;
 use Aws\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
-use Aws\Tests\BaseModuleTest;
 
-class DynamoDbTest extends BaseModuleTest
+class DynamoDbTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var SessionHandler
@@ -37,16 +36,16 @@ class DynamoDbTest extends BaseModuleTest
         parent::setUp();
 
         $this->sessionHandler = $this->getMock(
-            'Aws\DynamoDb\Session\SessionHandler',
-            array(
+            SessionHandler::class,
+            [
                 'open',
                 'close',
                 'read',
                 'write',
                 'destroy',
                 'gc',
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );

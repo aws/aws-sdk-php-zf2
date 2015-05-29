@@ -25,7 +25,7 @@ use Zend\View\Helper\AbstractHelper;
  * View helper that can render a link to a CloudFront object. It can also create signed URLs
  * using a canned policy
  */
-class CloudFrontLink extends AbstractLinkHelper
+class CloudFrontLink extends AbstractHelper
 {
     /**
      * @var string The hostname for CloudFront domains
@@ -36,11 +36,6 @@ class CloudFrontLink extends AbstractLinkHelper
      * @var CloudFrontClient An instance of CloudFrontClient to be used by the helper
      */
     protected $client;
-
-    /**
-     * @var bool Whether or not to use SSl
-     */
-    protected $useSsl = true;
 
     /**
      * @var string The default CloudFront domain to use
@@ -109,11 +104,13 @@ class CloudFrontLink extends AbstractLinkHelper
      * @param  string     $object
      * @param  string     $domain
      * @param  string|int $expiration
+     * @param  string     $keyPairId
+     * @param  string     $privateKey
      *
      * @return string
      * @throws InvalidDomainNameException
      */
-    public function __invoke($object, $domain = '', $expiration = '')
+    public function __invoke($object, $domain = '', $expiration = '', $keyPairId = '', $privateKey = '')
     {
         if (empty($domain)) {
             $domain = $this->getDefaultDomain();
@@ -125,9 +122,7 @@ class CloudFrontLink extends AbstractLinkHelper
         }
 
         $url = sprintf(
-            '%s//%s%s/%s',
-            ($this->scheme === null) ? null : $this->scheme . ':',
-            // Remove hostname if provided as we include it already
+            'https://%s%s/%s',
             str_replace($this->hostname, '', rtrim($domain, '/')),
             $this->hostname,
             ltrim($object, '/')
@@ -137,13 +132,11 @@ class CloudFrontLink extends AbstractLinkHelper
             return $url;
         }
 
-        if ($this->scheme === null) {
-            throw new InvalidSchemeException('Protocol relative URLs cannot be signed.');
-        }
-
-        return $this->client->getSignedUrl(array(
-            'url'     => $url,
-            'expires' => $expiration
-        ));
+        return $this->client->getSignedUrl([
+            'url'         => $url,
+            'expires'     => $expiration,
+            'key_pair_id' => $keyPairId,
+            'private_key' => $privateKey
+        ]);
     }
 }
