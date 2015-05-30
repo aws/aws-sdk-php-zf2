@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws\Factory;
+namespace AwsModule\Factory;
 
 use Aws\Sdk as AwsSdk;
 use Zend\ServiceManager\FactoryInterface;

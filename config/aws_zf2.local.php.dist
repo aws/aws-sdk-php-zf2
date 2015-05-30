@@ -12,7 +12,7 @@ return [
             'save_handler' => [
                 'dynamodb' => [
                     // Locking strategy used for doing session locking.
-                    // 'locking_strategy' => null,
+                    // 'locking' => null,
 
                     // Name of the DynamoDB table in which to store the
                     // sessions.

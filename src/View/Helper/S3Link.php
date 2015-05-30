@@ -14,10 +14,10 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws\View\Helper;
+namespace AwsModule\View\Helper;
 
 use Aws\S3\S3Client;
-use Aws\View\Exception\InvalidDomainNameException;
+use AwsModule\View\Exception\InvalidDomainNameException;
 use Zend\View\Helper\AbstractHelper;
 
 /**

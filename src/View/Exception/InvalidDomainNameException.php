@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws\View\Exception;
+namespace AwsModule\View\Exception;
 
 use InvalidArgumentException;
 

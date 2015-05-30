@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Aws\\": "src/"
+            "AwsModule\\": "src/"
         },
         "classmap": [
             "./Module.php"
@@ -27,7 +27,7 @@
     },
     "autoload-dev": {
       "psr-4": {
-        "AwsTest\\": "tests/"
+        "AwsModuleTests\\": "tests/"
       }
     }
 }

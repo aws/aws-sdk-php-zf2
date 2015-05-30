@@ -14,10 +14,10 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws\Filter\File;
+namespace AwsModule\Filter\File;
 
 use Aws\S3\S3Client;
-use Aws\Filter\Exception\MissingBucketException;
+use AwsModule\Filter\Exception\MissingBucketException;
 use Zend\Filter\File\RenameUpload;
 
 /**

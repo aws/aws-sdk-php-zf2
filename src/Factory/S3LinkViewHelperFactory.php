@@ -14,10 +14,10 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws\Factory;
+namespace AwsModule\Factory;
 
 use Aws\Sdk as AwsSdk;
-use Aws\View\Helper\S3Link;
+use AwsModule\View\Helper\S3Link;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

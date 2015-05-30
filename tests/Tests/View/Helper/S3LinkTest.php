@@ -14,10 +14,10 @@
  * permissions and limitations under the License.
  */
 
-namespace AwsTests\View\Helper;
+namespace AwsModuleTests\View\Helper;
 
 use Aws\S3\S3Client;
-use Aws\View\Helper\S3Link;
+use AwsModule\View\Helper\S3Link;
 
 class S3LinkTest extends \PHPUnit_Framework_TestCase
 {
@@ -91,7 +91,7 @@ class S3LinkTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Aws\View\Exception\InvalidDomainNameException
+     * @expectedException \AwsModule\View\Exception\InvalidDomainNameException
      */
     public function testFailsWhenNoBucketSpecified()
     {

@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws\Session\SaveHandler;
+namespace AwsModule\Session\SaveHandler;
 
 use Aws\Dynamodb\SessionHandler;
 use Zend\Session\SaveHandler\SaveHandlerInterface;

@@ -14,10 +14,10 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws\Factory;
+namespace AwsModule\Factory;
 
 use Aws\Sdk as AwsSdk;
-use Aws\View\Helper\CloudFrontLink;
+use AwsModule\View\Helper\CloudFrontLink;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

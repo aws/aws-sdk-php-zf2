@@ -14,11 +14,11 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws\Factory;
+namespace AwsModule\Factory;
 
 use Aws\Sdk as AwsSdk;
 use Aws\DynamoDb\SessionHandler;
-use Aws\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
+use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

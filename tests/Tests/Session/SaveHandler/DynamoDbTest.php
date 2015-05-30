@@ -14,10 +14,10 @@
  * permissions and limitations under the License.
  */
 
-namespace AwsTests\Session\SaveHandler;
+namespace AwsModuleTests\Session\SaveHandler;
 
 use Aws\DynamoDb\SessionHandler;
-use Aws\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
+use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
 
 class DynamoDbTest extends \PHPUnit_Framework_TestCase
 {

@@ -14,11 +14,11 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws\Tests\Factory;
+namespace AwsModuleTests\Tests\Factory;
 
-use Aws\Factory\DynamoDbSessionSaveHandlerFactory;
+use AwsModule\Factory\DynamoDbSessionSaveHandlerFactory;
 use Aws\Sdk as AwsSdk;
-use Aws\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
+use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -51,7 +51,7 @@ class DynamoDbSessionSaveHandlerFactoryTest extends \PHPUnit_Framework_TestCase
 
         $saveHandlerFactory = new DynamoDbSessionSaveHandlerFactory();
 
-        /** @var $saveHandler \Aws\Session\SaveHandler\DynamoDb */
+        /** @var $saveHandler \AwsModule\Session\SaveHandler\DynamoDb */
         $saveHandler = $saveHandlerFactory->createService($serviceLocator);
 
         $this->assertInstanceOf(DynamoDbSaveHandler::class, $saveHandler);

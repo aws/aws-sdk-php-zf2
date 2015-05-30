@@ -14,9 +14,9 @@
  * permissions and limitations under the License.
  */
 
-namespace AwsTests\Factory;
+namespace AwsModuleTests\Factory;
 
-use Aws\Factory\AwsFactory;
+use AwsModule\Factory\AwsFactory;
 use Aws\Sdk as AwsSdk;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

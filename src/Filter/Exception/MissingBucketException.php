@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws\Filter\Exception;
+namespace AwsModule\Filter\Exception;
 
 use InvalidArgumentException;
 

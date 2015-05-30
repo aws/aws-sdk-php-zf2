@@ -14,10 +14,10 @@
  * permissions and limitations under the License.
  */
 
-namespace AwsTests\Filter\File;
+namespace AwsModuleTests\Filter\File;
 
-use Aws\Filter\Exception\MissingBucketException;
-use Aws\Filter\File\S3RenameUpload;
+use AwsModule\Filter\Exception\MissingBucketException;
+use AwsModule\Filter\File\S3RenameUpload;
 use Aws\S3\S3Client;
 use ReflectionMethod;
 

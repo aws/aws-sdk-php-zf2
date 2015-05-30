@@ -14,10 +14,10 @@
  * permissions and limitations under the License.
  */
 
-namespace AwsTests\View\Helper;
+namespace AwsModuleTests\View\Helper;
 
 use Aws\CloudFront\CloudFrontClient;
-use Aws\View\Helper\CloudFrontLink;
+use AwsModule\View\Helper\CloudFrontLink;
 
 class CloudFrontLinkTest extends \PHPUnit_Framework_TestCase
 {
@@ -86,7 +86,7 @@ class CloudFrontLinkTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Aws\View\Exception\InvalidDomainNameException
+     * @expectedException \AwsModule\View\Exception\InvalidDomainNameException
      */
     public function testFailsWhenDomainIsInvalid()
     {

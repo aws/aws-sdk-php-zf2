@@ -14,11 +14,10 @@
  * permissions and limitations under the License.
  */
 
-namespace Aws\View\Helper;
+namespace AwsModule\View\Helper;
 
 use Aws\CloudFront\CloudFrontClient;
-use Aws\View\Exception\InvalidDomainNameException;
-use Aws\View\Exception\InvalidSchemeException;
+use AwsModule\View\Exception\InvalidDomainNameException;
 use Zend\View\Helper\AbstractHelper;
 
 /**

@@ -15,6 +15,6 @@ if (!isset($loader)) {
 }
 
 /* @var $loader \Composer\Autoload\ClassLoader */
-$loader->add('Aws\\Tests\\', __DIR__);
+$loader->add('AwsModule\\Tests\\', __DIR__);
 
 unset($files, $file, $loader);

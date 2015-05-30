@@ -1,15 +1,15 @@
 <?php
 
-use Aws\Factory\AwsFactory;
-use Aws\Factory\CloudFrontLinkViewHelperFactory;
-use Aws\Factory\DynamoDbSessionSaveHandlerFactory;
-use Aws\Factory\S3LinkViewHelperFactory;
-use Aws\Factory\S3RenameUploadFactory;
-use Aws\Filter\File\S3RenameUpload;
+use AwsModule\Factory\AwsFactory;
+use AwsModule\Factory\CloudFrontLinkViewHelperFactory;
+use AwsModule\Factory\DynamoDbSessionSaveHandlerFactory;
+use AwsModule\Factory\S3LinkViewHelperFactory;
+use AwsModule\Factory\S3RenameUploadFactory;
+use AwsModule\Filter\File\S3RenameUpload;
 use Aws\Sdk as Aws;
-use Aws\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
-use Aws\View\Helper\CloudFrontLink;
-use Aws\View\Helper\S3Link;
+use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
+use AwsModule\View\Helper\CloudFrontLink;
+use AwsModule\View\Helper\S3Link;
 
 return [
     'service_manager' => [
