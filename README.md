@@ -17,10 +17,12 @@ Install the module using Composer into your application's vendor directory. Add 
 ```json
 {
     "require": {
-        "aws/aws-sdk-php-zf2": "1.2.*"
+        "aws/aws-sdk-php-zf2": "2.*"
     }
 }
 ```
+
+> If you are using AWS SDK v2, please use the 1.2.* version of the ZF2 module.
 
 ## Configuration
 
@@ -29,7 +31,7 @@ Enable the module in your `application.config.php` file.
 ```php
 return array(
     'modules' => array(
-        'Aws'
+        'AwsModule'
     )
 );
 ```
@@ -41,13 +43,15 @@ the following:
 ```php
 <?php
 
-return array(
-    'aws' => array(
-        'key'    => '<your-aws-access-key-id>',
-        'secret' => '<your-aws-secret-access-key>',
+return [
+    'aws' => [
+        'credentials' => [
+            'key'    => '<your-aws-access-key-id>',
+            'secret' => '<your-aws-secret-access-key>',
+        ]
         'region' => 'us-west-2'
-    )
-);
+    ]
+];
 ```
 
 > NOTE: If you are using [IAM Instance Profile
@@ -61,10 +65,12 @@ You can get the AWS service builder object from anywhere that the ZF2 service lo
 classes). The following example instantiates an Amazon DynamoDB client and creates a table in DynamoDB.
 
 ```php
+use Aws\Sdk as Aws;
+
 public function indexAction()
 {
-    $aws    = $this->getServiceLocator()->get('aws');
-    $client = $aws->get('dynamodb');
+    $aws    = $this->getServiceLocator()->get(Aws::class);
+    $client = $aws->create('DynamoDb');
 
     $table = 'posts';
 
@@ -92,12 +98,10 @@ public function indexAction()
 
 ### View Helpers
 
-Starting from version 1.0.2, the AWS SDK ZF2 Module now provides two view helpers to generate links for Amazon S3 and
-Amazon CloudFront resources.
+The AWS SDK ZF2 Module now provides two view helpers to generate links for Amazon S3 and Amazon CloudFront resources.
 
-> **Note:** Both of the view helpers generate URLs with an HTTPS scheme by default. This is ideal for security, but
-please keep in mind that Amazon CloudFront charges more for HTTPS requests. You can use a different scheme (e.g., HTTP)
-by calling the `setScheme` method on either helper.
+> **Note:** Starting from v2 of the AWS module, all URLs for both S3 and CloudFront are using HTTPS and this cannot
+be modified.
 
 #### S3Link View Helper
 
@@ -145,7 +149,7 @@ You can also create signed URLs for private content by passing a third argument 
 
 ### Filters
 
-Starting from version 1.0.3, the AWS SDK ZF2 module provides a simple file filter that allow to directly upload to S3.
+The AWS SDK ZF2 module provides a simple file filter that allow to directly upload to S3.
 The `S3RenameUpload` extends `RenameUpload` class, so please refer to [its
 documentation](http://framework.zend.com/manual/2.2/en/modules/zend.filter.file.rename-upload.html#zend-filter-file-rename-upload)
 for available options.
@@ -162,11 +166,11 @@ $files   = $request->getFiles();
 // Fetch the filter from the Filter Plugin Manager to automatically handle dependencies
 $filter = $serviceLocator->get('FilterManager')->get('S3RenameUpload');
 
-$filter->setOptions(array(
+$filter->setOptions(’[
     'bucket'    => 'my-bucket',
     'target'    => 'users/5/profile-picture.jpg',
     'overwrite' => true
-));
+]);
 
 $filter->filter($files['my-upload']);
 
@@ -186,11 +190,12 @@ To follow the [ZF2 examples]
 the DynamoDB session save handler might be used like this:
 
 ```php
+use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
 use Zend\Session\SessionManager;
 
 // Assume we are in a context where $serviceLocator is a ZF2 service locator.
 
-$saveHandler = $serviceLocator->get('Aws\Session\SaveHandler\DynamoDb');
+$saveHandler = $serviceLocator->get(DynamoDbSaveHandler::class);
 
 $manager = new SessionManager();
 $manager->setSaveHandler($saveHandler);
