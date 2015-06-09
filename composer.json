@@ -6,7 +6,7 @@
     "keywords": ["aws", "zf2", "amazon", "zend", "s3", "dynamodb", "ec2", "cloudfront"],
     "require": {
         "php": ">=5.3.3",
-        "aws/aws-sdk-php": "2.*",
+        "aws/aws-sdk-php": "3.*",
         "zendframework/zend-filter": "2.*",
         "zendframework/zend-servicemanager": "2.*",
         "zendframework/zend-session": "2.*",
