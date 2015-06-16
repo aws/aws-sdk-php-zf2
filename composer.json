@@ -27,7 +27,7 @@
     },
     "autoload-dev": {
       "psr-4": {
-        "AwsModuleTests\\": "tests/"
+        "AwsModule\\Tests\\": "tests/"
       }
     }
 }
