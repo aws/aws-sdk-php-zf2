@@ -1,19 +1,24 @@
 <?php
 
-return array(
+return [
     /**
      * You can define global configuration settings for the SDK as an array. Typically, you will want to a provide your
      * credentials (key and secret key) and the region (e.g. us-west-2) in which you would like to use your services.
+     * You can also override the setting on a per service basic.
+     *
+     * To avoid breaking in your code when updating the SDK, we always recommend you to manually select a version for
+     * each service instead of relying on the 'latest' keyword
      */
-    // 'aws' => array(
-    //     'key'    => 'change_me',
-    //     'secret' => 'change_me',
-    //     'region' => 'change_me'
-    // )
-
-    /**
-     * You can alternatively provide a path to an AWS SDK for PHP config file containing your configuration settings.
-     * Config files can allow you to have finer-grained control over the configuration settings for each service client.
-     */
-    // 'aws' => 'path/to/your/aws-config.php'
-);
+    // 'aws' => [
+    //     'credentials' => [
+    //         'key'    => 'change_me',
+    //         'secret' => 'change_me'
+    //     ]
+    //     'region'   => 'change_me',
+    //     'version'  => 'latest',
+    //     'DynamoDb' => [
+    //         'region'  => 'another_region',
+    //         'version' => 'latest'
+    //     ]
+    // ]
+];

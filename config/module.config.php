@@ -1,31 +1,42 @@
 <?php
 
-return array(
-    'service_manager' => array(
-        'factories' => array(
-            'Aws'                              => 'Aws\Factory\AwsFactory',
-            'Aws\Session\SaveHandler\DynamoDb' => 'Aws\Factory\DynamoDbSessionSaveHandlerFactory'
-        )
-    ),
+use AwsModule\Factory\AwsFactory;
+use AwsModule\Factory\CloudFrontLinkViewHelperFactory;
+use AwsModule\Factory\DynamoDbSessionSaveHandlerFactory;
+use AwsModule\Factory\S3LinkViewHelperFactory;
+use AwsModule\Factory\S3RenameUploadFactory;
+use AwsModule\Filter\File\S3RenameUpload;
+use Aws\Sdk as Aws;
+use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
+use AwsModule\View\Helper\CloudFrontLink;
+use AwsModule\View\Helper\S3Link;
 
-    'filters' => array(
-        'factories' => array(
-            'Aws\Filter\File\S3RenameUpload' => 'Aws\Factory\S3RenameUploadFactory'
-        ),
-        'aliases' => array(
-            's3renameupload' => 'Aws\Filter\File\S3RenameUpload'
-        )
-    ),
+return [
+    'service_manager' => [
+        'factories' => [
+            Aws::class                 => AwsFactory::class,
+            DynamoDbSaveHandler::class => DynamoDbSessionSaveHandlerFactory::class
+        ]
+    ],
 
-    'view_helpers' => array(
-        'factories' => array(
-            'Aws\View\Helper\S3Link'         => 'Aws\Factory\S3LinkViewHelperFactory',
-            'Aws\View\Helper\CloudFrontLink' => 'Aws\Factory\CloudFrontLinkViewHelperFactory'
-        ),
+    'filters' => [
+        'factories' => [
+            S3RenameUpload::class => S3RenameUploadFactory::class
+        ],
+        'aliases' => [
+            's3renameupload' => S3RenameUpload::class
+        ]
+    ],
 
-        'aliases' => array(
-            'cloudfrontlink' => 'Aws\View\Helper\CloudFrontLink',
-            's3link'         => 'Aws\View\Helper\S3Link'
-        )
-    ),
-);
+    'view_helpers' => [
+        'factories' => [
+            S3Link::class         => S3LinkViewHelperFactory::class,
+            CloudFrontLink::class => CloudFrontLinkViewHelperFactory::class
+        ],
+
+        'aliases' => [
+            'cloudfrontlink' => CloudFrontLink::class,
+            's3link'         => S3Link::class
+        ]
+    ],
+];

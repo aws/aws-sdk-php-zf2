@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+## 2.0.0
+
+* [BC] PHP minimum version is now 5.5
+* [BC] Now require Aws SDK v3
+* [BC] To avoid name clashes, module name has been renamed from `Aws` to `AwsModule`.
+
 ## 1.2.0
 
 * Added the ability to create protocol-relative URLs with the S3 and CloudFront link view helpers

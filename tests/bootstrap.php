@@ -14,7 +14,4 @@ if (!isset($loader)) {
     throw new RuntimeException('The vendor/autoload.php could not be found. Did you run `php composer.phar install`?');
 }
 
-/* @var $loader \Composer\Autoload\ClassLoader */
-$loader->add('Aws\\Tests\\', __DIR__);
-
 unset($files, $file, $loader);
