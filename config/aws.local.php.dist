@@ -13,7 +13,7 @@ return [
     //     'credentials' => [
     //         'key'    => 'change_me',
     //         'secret' => 'change_me'
-    //     ]
+    //     ],
     //     'region'   => 'change_me',
     //     'version'  => 'latest',
     //     'DynamoDb' => [

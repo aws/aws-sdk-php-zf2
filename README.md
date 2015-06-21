@@ -115,7 +115,7 @@ The default bucket can be set globally by using the `setDefaultBucket` method:
 
 ```php
 <?php
-    $this->s3Link->setDefaultBucket('my-bucket');
+    $this->plugin('s3Link')->setDefaultBucket('my-bucket');
     echo $this->s3Link('my-object');
 ```
 
@@ -137,7 +137,7 @@ The default domain can be set globally by using the `setDefaultDomain` method:
 
 ```php
 <?php
-    $this->cloudFrontLink->setDefaultDomain('my-domain');
+    $this->plugin('cloudFrontLink')->setDefaultDomain('my-domain');
     echo $this->cloudFrontLink('my-object');
 ```
 
