@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## 2.0.1 - 2015-08-05
+
+* Added a makefile to build releases
+
 ## 2.0.0
 
 * [BC] PHP minimum version is now 5.5
