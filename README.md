@@ -65,12 +65,12 @@ You can get the AWS service builder object from anywhere that the ZF2 service lo
 classes). The following example instantiates an Amazon DynamoDB client and creates a table in DynamoDB.
 
 ```php
-use Aws\Sdk as Aws;
+use Aws\Sdk;
 
 public function indexAction()
 {
-    $aws    = $this->getServiceLocator()->get(Aws::class);
-    $client = $aws->create('DynamoDb');
+    $aws    = $this->getServiceLocator()->get(Sdk::class);
+    $client = $aws->createDynamoDb();
 
     $table = 'posts';
 
