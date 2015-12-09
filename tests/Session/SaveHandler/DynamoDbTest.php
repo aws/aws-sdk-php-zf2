@@ -103,7 +103,8 @@ class DynamoDbTest extends \PHPUnit_Framework_TestCase
     public function testSessionHandlerGcIsCalled()
     {
         $this->sessionHandler->expects($this->once())
-            ->method('garbageCollect')
+            ->method('gc')
+            ->with($this->equalTo(420))
             ->will($this->returnValue(true));
 
         $result = $this->saveHandler->gc(420);
