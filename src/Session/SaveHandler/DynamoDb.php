@@ -99,6 +99,9 @@ class DynamoDb implements SaveHandlerInterface
      * Trigger garbage collection on expired sessions
      *
      * Part of the standard PHP session handler interface
+     * 
+     * On aws v3, the gc method does nothing, please use garbageCollect()
+     * @see http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.DynamoDb.SessionHandler.html#_garbageCollect
      *
      * @param int $maxlifetime The value of `session.gc_maxlifetime`. Ignored.
      *
@@ -106,18 +109,19 @@ class DynamoDb implements SaveHandlerInterface
      */
     public function gc($maxlifetime)
     {
-        return $this->sessionHandler->gc($maxlifetime);
+        $this->sessionHandler->garbageCollect();
+        return true;
     }
     
     /**
      * Manually trigger garbage collection on expired sessions.
      * 
-     * Recommended way if auto garbage collection if off.
+     * On v3, this must be used for garbage collection, as the "gc" method does nothing.
      * 
-     * @see https://docs.aws.amazon.com/aws-sdk-php/v2/api/class-Aws.DynamoDb.Session.SessionHandler.html#_garbageCollect
+     * @see http://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.DynamoDb.SessionHandler.html#_garbageCollect
      */
     public function garbageCollect()
     {
-        return $this->sessionHandler->garbageCollect();
+        $this->sessionHandler->garbageCollect();
     }
 }
