@@ -11,6 +11,15 @@ use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
 use AwsModule\View\Helper\CloudFrontLink;
 use AwsModule\View\Helper\S3Link;
 
+$s3RenameUploadMetaData = [
+    'bucket' => 'string',
+    'overwrite' => 'bool',
+    'randomize' => 'bool',
+    'target' => 'string',
+    'use_upload_extension' => 'bool',
+    'use_upload_name' => 'bool',
+];
+
 return [
     'service_manager' => [
         'factories' => [
@@ -41,13 +50,7 @@ return [
     ],
     
     'filter_metadata' => [
-        's3renameupload' => [
-            'bucket' => 'string',
-            'overwrite' => 'bool',
-            'randomize' => 'bool',
-            'target' => 'string',
-            'use_upload_extension' => 'bool',
-            'use_upload_name' => 'bool',
-        ]
+        's3renameupload' => $s3RenameUploadMetaData,
+        'AwsModule\Filter\File\S3RenameUpload' => $s3RenameUploadMetaData,
     ],
 ];
