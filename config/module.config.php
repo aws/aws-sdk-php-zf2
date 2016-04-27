@@ -39,4 +39,15 @@ return [
             's3link'         => S3Link::class
         ]
     ],
+    
+    'filter_metadata' => [
+        's3renameupload' => [
+            'bucket' => 'string',
+            'overwrite' => 'bool',
+            'randomize' => 'bool',
+            'target' => 'string',
+            'use_upload_extension' => 'bool',
+            'use_upload_name' => 'bool',
+        ]
+    ],
 ];
