@@ -5,6 +5,7 @@ namespace AwsModule\Factory;
 use Aws\Sdk as AwsSdk;
 use Aws\DynamoDb\SessionHandler;
 use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -15,13 +16,14 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class DynamoDbSessionSaveHandlerFactory implements FactoryInterface
 {
     /**
-     * {@inheritDoc}
+     * @param ContainerInterface $container
+     * @param string             $requestedName
+     * @param array|null         $options
      * @return DynamoDbSaveHandler
-     * @throws ServiceNotCreatedException if "dynamodb" configuration is not set up correctly
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $serviceLocator->get('Config');
+        $config = $container->get('Config');
 
         if (!isset($config['aws_zf2']['session']['save_handler']['dynamodb'])) {
             throw new ServiceNotCreatedException(
@@ -32,11 +34,21 @@ class DynamoDbSessionSaveHandlerFactory implements FactoryInterface
         }
 
         /** @var AwsSdk $awsSdk */
-        $awsSdk = $serviceLocator->get(AwsSdk::class);
+        $awsSdk = $container->get(AwsSdk::class);
 
         $saveHandlerConfig = $config['aws_zf2']['session']['save_handler']['dynamodb'];
         $sessionHandler    = SessionHandler::fromClient($awsSdk->createDynamoDb(), $saveHandlerConfig);
 
         return new DynamoDbSaveHandler($sessionHandler);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return DynamoDbSaveHandler
+     * @throws ServiceNotCreatedException if "dynamodb" configuration is not set up correctly
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this($serviceLocator, DynamoDbSaveHandler::class);
     }
 }

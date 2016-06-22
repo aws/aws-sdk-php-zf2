@@ -4,6 +4,7 @@ namespace AwsModule\Factory;
 
 use Aws\Sdk as AwsSdk;
 use AwsModule\Module;
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Version\Version;
@@ -14,13 +15,15 @@ use Zend\Version\Version;
 class AwsFactory implements FactoryInterface
 {
     /**
-     * {@inheritDoc}
+     * @param ContainerInterface $container
+     * @param string             $requestedName
+     * @param array|null         $options
      * @return AwsSdk
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         // Instantiate the AWS SDK for PHP
-        $config = $serviceLocator->get('Config');
+        $config = $container->get('Config');
         $config = isset($config['aws']) ? $config['aws'] : [];
         $config += [
             'ua_append' => [
@@ -30,5 +33,14 @@ class AwsFactory implements FactoryInterface
         ];
 
         return new AwsSdk($config);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @return AwsSdk
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this($serviceLocator, AwsSdk::class);
     }
 }

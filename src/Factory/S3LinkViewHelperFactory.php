@@ -4,6 +4,7 @@ namespace AwsModule\Factory;
 
 use Aws\Sdk as AwsSdk;
 use AwsModule\View\Helper\S3Link;
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -13,6 +14,20 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class S3LinkViewHelperFactory implements FactoryInterface
 {
     /**
+     * @param ContainerInterface $container
+     * @param string             $requestedName
+     * @param array|null         $options
+     * @return S3Link
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        /** @var AwsSdk $awsSdk */
+        $awsSdk = $container->get(AwsSdk::class);
+
+        return new S3Link($awsSdk->createS3());
+    }
+
+    /**
      * {@inheritDoc}
      * @return S3Link
      */
@@ -20,9 +35,6 @@ class S3LinkViewHelperFactory implements FactoryInterface
     {
         $parentLocator = $serviceLocator->getServiceLocator();
 
-        /** @var AwsSdk $awsSdk */
-        $awsSdk = $parentLocator->get(AwsSdk::class);
-
-        return new S3Link($awsSdk->createS3());
+        $this($parentLocator, S3Link::class);
     }
 }
