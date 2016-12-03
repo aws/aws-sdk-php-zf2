@@ -5,7 +5,7 @@ namespace AwsModule\Factory;
 use Aws\Sdk as AwsSdk;
 use AwsModule\View\Helper\S3Link;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**

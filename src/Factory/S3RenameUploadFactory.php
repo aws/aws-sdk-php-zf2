@@ -5,7 +5,7 @@ namespace AwsModule\Factory;
 use Aws\Sdk as AwsSdk;
 use AwsModule\Filter\File\S3RenameUpload;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
