@@ -28,8 +28,8 @@ class AwsFactory implements FactoryInterface
         if (isset($config['aws_zf2']['zend_framework_version'])) {
             $config += [
                 'ua_append' => [
-                    'ZF2/' . Version::VERSION,
-                    'ZFMOD/' . Module::VERSION,
+                    'ZF2/' . $config['aws_zf2']['zend_framework_version'],
+                    'ZFMOD/' . $config['aws_zf2']['zend_framework_version'],
                 ]
             ];
         }
