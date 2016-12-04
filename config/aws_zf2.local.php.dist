@@ -8,6 +8,7 @@
 
 return [
     'aws_zf2' => [
+        'zend_framework_version' => '3.0'
         'session' => [
             'save_handler' => [
                 'dynamodb' => [

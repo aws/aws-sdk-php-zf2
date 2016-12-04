@@ -20,7 +20,6 @@
     "zendframework/zend-filter": "2.*",
     "zendframework/zend-servicemanager": "2.7.* || 3.*",
     "zendframework/zend-session": "2.7.*",
-    "zendframework/zend-version": "2.*",
     "zendframework/zend-view": "^2.8"
   },
   "require-dev": {
