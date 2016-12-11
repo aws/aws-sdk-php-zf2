@@ -1,5 +1,5 @@
 {
-  "name": "firelike/aws-sdk-php-zf2",
+  "name": "aws/aws-sdk-php-zf2",
   "description": "Zend Framework 2 Module that allows easy integration the AWS SDK for PHP",
   "type": "library",
   "license": "Apache",
