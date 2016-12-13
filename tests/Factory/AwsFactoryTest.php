@@ -25,16 +25,7 @@ class AwsFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testProvidesVersionInformationForSdkUserAgent()
     {
-        $config = [
-            'aws_zf2' => [
-                'zend_framework_version' => '3.0'
-            ]
-        ];
-
         $serviceLocator = $this->getMockServiceLocator();
-
-        $serviceLocator->expects($this->at(0))->method('get')->with('Config')->willReturn($config);
-
         $awsFactory = new AwsFactory();
         $aws = $awsFactory->createService($serviceLocator);
         $argsProperty = (new \ReflectionClass($aws))->getProperty('args');
@@ -47,11 +38,6 @@ class AwsFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($args['ua_append']);
         $this->assertNotEmpty(array_filter($args['ua_append'], function ($ua) {
             return false !== strpos($ua, Module::VERSION);
-        }));
-
-
-        $this->assertNotEmpty(array_filter($args['ua_append'], function ($ua) use ($config) {
-            return false !== strpos($ua, $config['aws_zf2']['zend_framework_version']);
         }));
     }
 

@@ -25,10 +25,9 @@ class AwsFactory implements FactoryInterface
         $config = $container->get('Config');
         $config = isset($config['aws']) ? $config['aws'] : [];
 
-        $zend_framework_version = isset($config['aws_zf2']['zend_framework_version']) ? $config['aws_zf2']['zend_framework_version'] : '3.0';
         $config += [
             'ua_append' => [
-                'ZF2/' . $zend_framework_version,
+                'ZF2/' . Module::VERSION,
                 'ZFMOD/' . Module::VERSION,
             ]
         ];
