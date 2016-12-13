@@ -9,7 +9,7 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
  */
 class Module implements ConfigProviderInterface
 {
-    const VERSION = '2.1.0';
+    const VERSION = '4.0.0';
 
     /**
      * {@inheritdoc}

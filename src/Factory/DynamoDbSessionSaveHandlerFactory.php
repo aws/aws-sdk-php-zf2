@@ -7,7 +7,7 @@ use Aws\DynamoDb\SessionHandler;
 use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
