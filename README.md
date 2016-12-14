@@ -14,6 +14,18 @@ ZF2 service manager, making it easily accessible anywhere in your application.
 Install the module using Composer into your application's vendor directory. Add the following line to your
 `composer.json`. This will also install the AWS SDK for PHP.
 
+If you want to use `ZF3` and your PHP version >= 5.6, use
+
+```json
+{
+    "require": {
+        "aws/aws-sdk-php-zf2": "4.*"
+    }
+}
+```
+
+Otherwise,
+
 ```json
 {
     "require": {
