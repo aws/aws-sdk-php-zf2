@@ -30,6 +30,7 @@ class DynamoDbTest extends \PHPUnit_Framework_TestCase
                 'write',
                 'destroy',
                 'gc',
+                'garbageCollect',
             ],
             [],
             '',
@@ -109,5 +110,16 @@ class DynamoDbTest extends \PHPUnit_Framework_TestCase
         $result = $this->saveHandler->gc(420);
 
         $this->assertTrue($result);
+    }
+
+    public function testSessionHandlerGarbageCollectIsCalled()
+    {
+        $this->sessionHandler->expects($this->once())
+        ->method('garbageCollect')
+        ->will($this->returnValue(null));
+
+        $result = $this->saveHandler->garbageCollect();
+
+        $this->assertNull($result);
     }
 }

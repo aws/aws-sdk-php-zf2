@@ -108,4 +108,16 @@ class DynamoDb implements SaveHandlerInterface
     {
         return $this->sessionHandler->gc($maxlifetime);
     }
+
+    /**
+     * Manually trigger garbage collection on expired sessions.
+     *
+     * Recommended way if auto garbage collection if off.
+     *
+     * @see https://docs.aws.amazon.com/aws-sdk-php/v2/api/class-Aws.DynamoDb.Session.SessionHandler.html#_garbageCollect
+     */
+    public function garbageCollect()
+    {
+        return $this->sessionHandler->garbageCollect();
+    }
 }
