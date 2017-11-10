@@ -6,8 +6,9 @@ use AwsModule\Filter\Exception\MissingBucketException;
 use AwsModule\Filter\File\S3RenameUpload;
 use Aws\S3\S3Client;
 use ReflectionMethod;
+use PHPUnit\Framework\TestCase;
 
-class S3RenameUploadTest extends \PHPUnit_Framework_TestCase
+class S3RenameUploadTest extends TestCase
 {
     /**
      * @var S3RenameUpload

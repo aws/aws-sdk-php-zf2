@@ -6,11 +6,12 @@ use AwsModule\Factory\AwsFactory;
 use Aws\Sdk as AwsSdk;
 use AwsModule\Module;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * AWS Module test cases
  */
-class AwsFactoryTest extends \PHPUnit_Framework_TestCase
+class AwsFactoryTest extends TestCase
 {
     public function testCanFetchAwsFromServiceManager()
     {

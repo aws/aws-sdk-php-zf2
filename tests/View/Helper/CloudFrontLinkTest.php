@@ -4,8 +4,9 @@ namespace AwsModule\Tests\View\Helper;
 
 use Aws\CloudFront\CloudFrontClient;
 use AwsModule\View\Helper\CloudFrontLink;
+use PHPUnit\Framework\TestCase;
 
-class CloudFrontLinkTest extends \PHPUnit_Framework_TestCase
+class CloudFrontLinkTest extends TestCase
 {
     /**
      * @var CloudFrontClient
