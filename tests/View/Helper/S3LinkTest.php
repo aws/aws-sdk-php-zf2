@@ -34,7 +34,7 @@ class S3LinkTest extends \PHPUnit_Framework_TestCase
     public function testGenerateSimpleLink()
     {
         $link = $this->viewHelper->__invoke('my-object', 'my-bucket');
-        $this->assertEquals('https://s3.amazonaws.com/my-bucket/my-object', $link);
+        $this->assertEquals('https://my-bucket.s3.amazonaws.com/my-object', $link);
     }
 
     public function testCanUseDefaultBucket()
@@ -42,7 +42,7 @@ class S3LinkTest extends \PHPUnit_Framework_TestCase
         $this->viewHelper->setDefaultBucket('my-default-bucket');
 
         $link = $this->viewHelper->__invoke('my-object');
-        $this->assertEquals('https://s3.amazonaws.com/my-default-bucket/my-object', $link);
+        $this->assertEquals('https://my-default-bucket.s3.amazonaws.com/my-object', $link);
     }
 
     public function testAssertGivenBucketOverrideDefaultBucket()
@@ -50,7 +50,7 @@ class S3LinkTest extends \PHPUnit_Framework_TestCase
         $this->viewHelper->setDefaultBucket('my-default-bucket');
 
         $link = $this->viewHelper->__invoke('my-object', 'my-overriden-bucket');
-        $this->assertEquals('https://s3.amazonaws.com/my-overriden-bucket/my-object', $link);
+        $this->assertEquals('https://my-overriden-bucket.s3.amazonaws.com/my-object', $link);
     }
 
     public function testCreatesUrlsForRegionalBuckets()
@@ -67,7 +67,7 @@ class S3LinkTest extends \PHPUnit_Framework_TestCase
         $viewHelper = new S3Link($s3Client);
 
         $link = $viewHelper->__invoke('my-object', 'my-bucket');
-        $this->assertEquals('https://s3-sa-east-1.amazonaws.com/my-bucket/my-object', $link);
+        $this->assertEquals('https://my-bucket.s3.sa-east-1.amazonaws.com/my-object', $link);
     }
 
     /**
@@ -95,7 +95,7 @@ class S3LinkTest extends \PHPUnit_Framework_TestCase
 
         $url = $viewHelper->__invoke('my-object', 'my-bucket', $expires);
 
-        $this->assertStringStartsWith('https://s3-sa-east-1.amazonaws.com/my-bucket/my-object?', $url);
+        $this->assertStringStartsWith('https://my-bucket.s3.sa-east-1.amazonaws.com/my-object?', $url);
         $this->assertContains('X-Amz-Security-Token=999', $url);
         $this->assertContains('X-Amz-Content-Sha256=', $url);
         $this->assertContains('X-Amz-Expires=', $url);
