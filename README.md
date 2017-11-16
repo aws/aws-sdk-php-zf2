@@ -39,15 +39,19 @@ Otherwise,
 
 ## Configuration
 
-Enable the module in your `application.config.php` file.
+Add the module name to your project's `config/application.config.php` or `config/modules.config.php`:
 
 ```php
 return array(
+    /* ... */
     'modules' => array(
+        /* ... */
         'AwsModule'
-    )
+    ),
+    /* ... */
 );
 ```
+
 
 Copy and paste the `aws.local.php.dist` file to your `config/autoload` folder and customize it with your credentials and
 other configuration settings. Make sure to remove `.dist` from your file. Your `aws.local.php` might look something like

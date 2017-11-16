@@ -39,5 +39,10 @@
     "psr-4": {
       "AwsModule\\Tests\\": "tests/"
     }
+  },
+  "extra": {
+    "zf": {
+      "module": "AwsModule"
+    }
   }
 }
