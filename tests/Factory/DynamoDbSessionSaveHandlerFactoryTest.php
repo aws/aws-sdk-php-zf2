@@ -6,11 +6,12 @@ use AwsModule\Factory\DynamoDbSessionSaveHandlerFactory;
 use Aws\Sdk as AwsSdk;
 use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * DynamoDB-backed session save handler tests
  */
-class DynamoDbSessionSaveHandlerFactoryTest extends \PHPUnit_Framework_TestCase
+class DynamoDbSessionSaveHandlerFactoryTest extends TestCase
 {
     public function testCanFetchSaveHandlerFromServiceManager()
     {

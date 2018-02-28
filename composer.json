@@ -23,7 +23,7 @@
     "zendframework/zend-view": "^2.8"
   },
   "require-dev": {
-    "phpunit/phpunit": "4.*",
+    "phpunit/phpunit": "^4.8.35",
     "zendframework/zend-modulemanager": "2.7.*",
     "squizlabs/php_codesniffer": "~2.3"
   },

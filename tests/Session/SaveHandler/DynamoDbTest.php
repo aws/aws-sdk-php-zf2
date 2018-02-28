@@ -4,8 +4,9 @@ namespace AwsModule\Tests\Session\SaveHandler;
 
 use Aws\DynamoDb\SessionHandler;
 use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
+use PHPUnit\Framework\TestCase;
 
-class DynamoDbTest extends \PHPUnit_Framework_TestCase
+class DynamoDbTest extends TestCase
 {
     /**
      * @var SessionHandler

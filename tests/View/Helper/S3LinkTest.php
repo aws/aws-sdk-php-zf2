@@ -4,8 +4,9 @@ namespace AwsModule\Tests\View\Helper;
 
 use Aws\S3\S3Client;
 use AwsModule\View\Helper\S3Link;
+use PHPUnit\Framework\TestCase;
 
-class S3LinkTest extends \PHPUnit_Framework_TestCase
+class S3LinkTest extends TestCase
 {
     /**
      * @var S3Client
