@@ -69,7 +69,7 @@ class S3RenameUpload extends RenameUpload
      *
      * {@inheritdoc}
      */
-    protected function getFinalTarget($uploadData)
+    protected function getFinalTarget($source, $clientFileName)
     {
         // We cannot upload without a bucket
         if (null === $this->options['bucket']) {
@@ -77,7 +77,7 @@ class S3RenameUpload extends RenameUpload
         }
 
         // Get the tmp file name and convert it to an S3 key
-        $key = trim(str_replace('\\', '/', parent::getFinalTarget($uploadData)), '/');
+        $key = trim(str_replace('\\', '/', parent::getFinalTarget($source, $clientFileName)), '/');
         if (strpos($key, './') === 0) {
             $key = substr($key, 2);
         }
