@@ -30,7 +30,7 @@ class DynamoDbSessionSaveHandlerFactoryTest extends \PHPUnit_Framework_TestCase
 
         $awsSdk = new AwsSdk($config['aws']);
 
-        $serviceLocator = $this->getMock(ServiceLocatorInterface::class);
+        $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
         $serviceLocator->expects($this->at(0))->method('get')->with('Config')->willReturn($config);
         $serviceLocator->expects($this->at(1))->method('get')->with(AwsSdk::class)->willReturn($awsSdk);
 
@@ -48,7 +48,7 @@ class DynamoDbSessionSaveHandlerFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWhenSaveHandlerConfigurationDoesNotExist()
     {
-        $serviceLocator = $this->getMock(ServiceLocatorInterface::class);
+        $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
         $serviceLocator->expects($this->once())->method('get')->with('Config')->willReturn([]);
 
         $saveHandlerFactory = new DynamoDbSessionSaveHandlerFactory();

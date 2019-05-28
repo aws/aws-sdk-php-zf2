@@ -43,7 +43,7 @@ class AwsFactoryTest extends \PHPUnit_Framework_TestCase
 
     private function getMockServiceLocator()
     {
-        $serviceLocator = $this->getMock(ServiceLocatorInterface::class);
+        $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
         $serviceLocator
             ->expects($this->once())
             ->method('get')

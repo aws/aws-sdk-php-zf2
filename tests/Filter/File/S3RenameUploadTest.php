@@ -47,7 +47,7 @@ class S3RenameUploadTest extends \PHPUnit_Framework_TestCase
     public function testThrowExceptionIfNoBucketIsSet()
     {
         $this->setExpectedException(MissingBucketException::class);
-        $this->filter->filter(['tmp_name' => 'foo']);
+        $this->filter->filter(['tmp_name' => 'foo', 'name' => 'foo']);
     }
 
     /**
@@ -60,9 +60,7 @@ class S3RenameUploadTest extends \PHPUnit_Framework_TestCase
 
         $this->filter->setBucket('my-bucket');
 
-        $result = $reflMethod->invoke($this->filter, [
-            'tmp_name' => $tmpName
-        ]);
+        $result = $reflMethod->invokeArgs($this->filter, [$tmpName, $tmpName]);
 
         $this->assertEquals("s3://my-bucket/{$expectedKey}", $result);
     }

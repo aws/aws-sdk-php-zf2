@@ -21,7 +21,7 @@ class DynamoDbTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->sessionHandler = $this->getMock(
+        $this->sessionHandler = $this->createMock(
             SessionHandler::class,
             [
                 'open',
