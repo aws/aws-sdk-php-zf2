@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+## 4.2.0 - 2019-08-05
+
+* Relaxes Zend framework package constraints
+* Added compatibility for `zend-filter` 2.9
+
 ## 4.1.0 - 2018-02-13
 
 * Relaxes the version constraint on `zend-session`.
