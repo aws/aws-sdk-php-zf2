@@ -1,6 +1,19 @@
 CHANGELOG
 =========
 
+## 4.1.0 - 2018-02-13
+
+* Relaxes the version constraint on `zend-session`.
+
+## 4.0.0 - 2016-12-13
+
+* Adds support for ZF3, requires PHP version >= 5.6
+
+## 3.0.0 - 2016-07-22
+
+* Fix composer dependency for ZF2 service manager to 2.7.* | 3.*
+* Update README.md with instructions.
+
 ## 2.0.1 - 2015-08-05
 
 * Added a makefile to build releases
