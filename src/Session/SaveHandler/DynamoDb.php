@@ -3,7 +3,7 @@
 namespace AwsModule\Session\SaveHandler;
 
 use Aws\Dynamodb\SessionHandler;
-use Zend\Session\SaveHandler\SaveHandlerInterface;
+use Laminas\Session\SaveHandler\SaveHandlerInterface;
 
 /**
  * DynamoDB session save handler

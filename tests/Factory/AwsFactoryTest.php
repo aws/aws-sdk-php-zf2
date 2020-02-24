@@ -5,7 +5,7 @@ namespace AwsModule\Tests\Factory;
 use AwsModule\Factory\AwsFactory;
 use Aws\Sdk as AwsSdk;
 use AwsModule\Module;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * AWS Module test cases

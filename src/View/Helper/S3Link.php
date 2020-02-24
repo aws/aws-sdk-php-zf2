@@ -4,7 +4,7 @@ namespace AwsModule\View\Helper;
 
 use Aws\S3\S3Client;
 use AwsModule\View\Exception\InvalidDomainNameException;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper that can render a link to a S3 object. It can also create signed URLs

@@ -208,7 +208,7 @@ the DynamoDB session save handler might be used like this:
 
 ```php
 use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
-use Zend\Session\SessionManager;
+use Laminas\Session\SessionManager;
 
 // Assume we are in a context where $serviceLocator is a ZF2 service locator.
 
@@ -239,4 +239,4 @@ The following are some ZF2 modules that use the AWS SDK for PHP by including thi
 * [AWS SDK for PHP website](http://aws.amazon.com/sdkforphp/)
 * [AWS on Packagist](https://packagist.org/packages/aws)
 * [License](http://aws.amazon.com/apache2.0/)
-* [ZF2 website](http://framework.zend.com)
+* [Laminas (ZF2) website](https://getlaminas.org/)

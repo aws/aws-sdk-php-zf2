@@ -6,9 +6,9 @@ use Aws\Sdk as AwsSdk;
 use Aws\DynamoDb\SessionHandler;
 use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Factory used to instantiate a DynamoDB-backed session save handler
