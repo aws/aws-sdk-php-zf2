@@ -4,12 +4,19 @@
 [![Total Downloads](https://poser.pugx.org/aws/aws-sdk-php-zf2/downloads.png)](https://packagist.org/packages/aws/aws-sdk-php-zf2)
 [![Build Status](https://travis-ci.org/aws/aws-sdk-php-zf2.png)](https://travis-ci.org/aws/aws-sdk-php-zf2)
 
-## Introduction
-
 This module provides a simple wrapper for the AWS SDK for PHP. It registers the AWS service builder as a service in the
 ZF2 service manager, making it easily accessible anywhere in your application.
 
-## Installation
+Jump To:
+* [Getting Started](_#Getting-Started_)
+* [Getting Help](_#Getting-Help_)
+* [Contributing](_#Contributing_)
+* [Related Modules](_#Related-Modules_)
+* [More Resources](_#Resources_)
+
+## Getting Started
+
+### Installation
 
 Install the module using Composer into your application's vendor directory. Add the following line to your
 `composer.json`. This will also install the AWS SDK for PHP.
@@ -37,7 +44,7 @@ Otherwise,
 
 > If you are using AWS SDK v2, please use the 1.2.* version of the ZF2 module.
 
-## Configuration
+### Configuration
 
 Add the module name to your project's `config/application.config.php` or `config/modules.config.php`:
 
@@ -76,7 +83,7 @@ credentials](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UsingIAM.html#Us
 (also referred to as IAM Roles for instances), you can omit your `key` and `secret` parameters since they will be
 fetched from the Amazon EC2 instance automatically.
 
-## Usage
+### Usage
 
 You can get the AWS service builder object from anywhere that the ZF2 service locator is available (e.g. controller
 classes). The following example instantiates an Amazon DynamoDB client and creates a table in DynamoDB.
@@ -225,6 +232,27 @@ See `config/aws_zf2.local.php.dist` and [the AWS session handler documentation]
 (http://docs.aws.amazon.com/aws-sdk-php-2/latest/class-Aws.DynamoDb.Session.SessionHandler.html#_factory) for more
 detailed configuration information.
 
+## Getting Help
+
+Please use these community resources for getting help. We use the GitHub issues for tracking bugs and feature requests and have limited bandwidth to address them.
+
+* Ask a question on [StackOverflow](https://stackoverflow.com/) and tag it with [`aws-php-sdk`](http://stackoverflow.com/questions/tagged/aws-php-sdk)
+* Come join the AWS SDK for PHP [gitter](https://gitter.im/aws/aws-sdk-php)
+* Open a support ticket with [AWS Support](https://console.aws.amazon.com/support/home/)
+* If it turns out that you may have found a bug, please [open an issue](https://github.com/aws/aws-sdk-php-zf2/issues/new/choose)
+
+This SDK implements AWS service APIs. For general issues regarding the AWS services and their limitations, you may also take a look at the [Amazon Web Services Discussion Forums](https://forums.aws.amazon.com/).
+
+### Opening Issues
+
+If you encounter a bug with `aws-sdk-php-zf2` we would like to hear about it. Search the existing issues and try to make sure your problem doesn’t already exist before opening a new issue. It’s helpful if you include the version of `aws-sdk-php-zf2`, PHP version and OS you’re using. Please include a stack trace and reduced repro case when appropriate, too.
+
+The GitHub issues are intended for bug reports and feature requests. For help and questions with using `aws-sdk-php` please make use of the resources listed in the Getting Help section. There are limited resources available for handling issues and by keeping the list of open issues lean we can respond in a timely manner.
+
+## Contributing
+
+We work hard to provide a high-quality and useful SDK for our AWS services, and we greatly value feedback and contributions from our community. Please review our [contributing guidelines](./CONTRIBUTING.md) before submitting any issues or pull requests to ensure we have all the necessary information to effectively respond to your bug report or contribution.
+
 ## Related Modules
 
 The following are some ZF2 modules that use the AWS SDK for PHP by including this module:
@@ -233,7 +261,7 @@ The following are some ZF2 modules that use the AWS SDK for PHP by including thi
   (including Amazon SES)
 * [SlmQueueSqs](https://github.com/juriansluiman/SlmQueueSqs) – Module that simplifies the use of Amazon SQS
 
-## Links
+## Resources
 
 * [AWS SDK for PHP on Github](http://github.com/aws/aws-sdk-php)
 * [AWS SDK for PHP website](http://aws.amazon.com/sdkforphp/)
