@@ -1,9 +1,81 @@
 # Contributing to the AWS SDK ZF2 Module
 
-We work hard to provide a high-quality and useful SDK. We greatly value feedback and contributions from the ZF2
-community on this module and recognize your expertise. We welcome the submission of [issues][] and [pull requests][].
+We work hard to provide a high-quality and useful SDK. We work hard to provide a high-quality and useful SDK for our AWS services, and 
+we greatly value feedback and contributions from our community. Whether it's a 
+new feature, correction, or additional documentation, we welcome your pull requests. 
+Please submit your [issues][] or [pull requests][] through GitHub.
 
-## What you should keep in mind
+Jump To:
+
+* [Bug Reports](_#Bug-Reports_)
+* [Feature Requests](_#Feature-Requests_)
+* [Code Contributions](_#Code-Contributions_)
+
+## How to contribute
+
+*Before you send us a pull request, please be sure that:*
+
+1. You're working from the latest source on the master branch.
+2. You check existing open, and recently closed, pull requests to be sure that 
+   someone else hasn't already addressed the problem.
+3. You create an issue before working on a contribution that will take a significant 
+   amount of your time.
+
+*Creating a Pull Request*
+
+1. Fork the repository.
+2. In your fork, make your change in a branch that's based on this repo's master branch.
+3. Commit the change to your fork, using a clear and descriptive commit message.
+4. Create a pull request, answering any questions in the pull request form.
+
+For contributions that will take a significant amount of time, open a new issue to pitch 
+your idea before you get started. Explain the problem and describe the content you want to 
+see added to the documentation. Let us know if you'll write it yourself or if you'd like us 
+to help. We'll discuss your proposal with you and let you know whether we're likely to 
+accept it.   
+
+## Bug Reports
+
+Bug reports are accepted through the [Issues][] page.
+
+Before Submitting:
+
+* Do a search through the existing issues to make sure it has not already been reported. 
+   If it has, comment your experience or +1 so we prioritize it.
+* If possible, upgrade to the latest release of the SDK. It's possible the bug has 
+   already been fixed in the latest version.
+
+Writing the Bug Report:
+
+Please ensure that your bug report has the following:
+
+* A short, descriptive title. Ideally, other community members should be able to get a 
+   good idea of the issue just from reading the title.
+* A detailed description of the problem you're experiencing. This should include:
+    * Expected behavior of the SDK and the actual behavior exhibited.
+    * Any details of your application environment that may be relevant.
+    * Debug information, stack trace or logs.
+*  If you are able to create one, include a Minimal Working Example that reproduces the issue.
+* Use Markdown to make the report easier to read; i.e. use code blocks when pasting a 
+   code snippet.
+
+## Feature Requests
+
+Open an [issue][issues] with the following:
+
+* A short, descriptive title. Ideally, other community members should be able to get a 
+   good idea of the feature just from reading the title.
+* A detailed description of the the proposed feature. 
+    * Why it should be added to the SDK.
+    *  If possible, example code to illustrate how it should work.
+* Use Markdown to make the request easier to read;
+* If you intend to implement this feature, indicate that you'd like to the issue to be assigned to you.
+
+## Code Contributions
+
+Code contributions to the SDK are done through [Pull Requests][pull-requests]. The list below are guidelines to use when submitting pull requests. These are the 
+same set of guidelines that the core contributors use when submitting changes, and 
+we ask the same of all community contributions as well:
 
 1. The AWS SDK for PHP and the AWS SDK ZF2 Module are released under the [Apache license][license]. Any code you submit
    will be released under that license. For substantial contributions, we may ask you to sign a [Contributor
@@ -19,7 +91,7 @@ community on this module and recognize your expertise. We welcome the submission
 5. If you would like to implement support for a significant feature, please talk to us beforehand to avoid any
    unnecessary or duplicate effort.
 
-## Running the unit tests
+### Running the unit tests
 
 The AWS SDK ZF2 Module uses unit tests built for PHPUnit. You can run the unit tests of the SDK after copying
 `phpunit.xml.dist` to `phpunit.xml`:
