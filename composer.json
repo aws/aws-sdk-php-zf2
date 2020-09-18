@@ -42,7 +42,8 @@
   },
   "extra": {
     "zf": {
-      "module": "AwsModule"
+      "component": "AwsModule",
+      "config-provider": "AwsModule\\ConfigProvider"
     }
   }
 }

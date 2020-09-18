@@ -16,6 +16,12 @@ class Module implements ConfigProviderInterface
      */
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        $provider = new ConfigProvider();
+
+        return [
+            'service_manager' => $provider->getDependencyConfig(),
+            'filters' => $provider->getFiltersConfig(),
+            'view_helpers' => $provider->getViewHelpersConfig(),
+        ];
     }
 }
