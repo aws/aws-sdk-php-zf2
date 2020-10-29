@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## 4.3.0 - 2020-10-29
+
+* Migrated to the [Laminas project](https://www.zend.com/blog/evolution-zend-framework-laminas-project)
+
 ## 4.2.0 - 2019-08-05
 
 * Relaxes Zend framework package constraints

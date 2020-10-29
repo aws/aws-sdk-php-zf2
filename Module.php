@@ -9,7 +9,7 @@ use Laminas\ModuleManager\Feature\ConfigProviderInterface;
  */
 class Module implements ConfigProviderInterface
 {
-    const VERSION = '4.2.0';
+    const VERSION = '4.3.0';
 
     /**
      * {@inheritdoc}
