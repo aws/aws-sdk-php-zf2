@@ -4,7 +4,7 @@ namespace AwsModule\Filter\File;
 
 use Aws\S3\S3Client;
 use AwsModule\Filter\Exception\MissingBucketException;
-use Zend\Filter\File\RenameUpload;
+use Laminas\Filter\File\RenameUpload;
 
 /**
  * File filter that allow to directly upload to Amazon S3, and optionally rename the file

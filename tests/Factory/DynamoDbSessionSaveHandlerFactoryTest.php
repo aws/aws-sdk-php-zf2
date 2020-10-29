@@ -5,7 +5,7 @@ namespace AwsModule\Tests\Factory;
 use AwsModule\Factory\DynamoDbSessionSaveHandlerFactory;
 use Aws\Sdk as AwsSdk;
 use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * DynamoDB-backed session save handler tests
@@ -44,7 +44,7 @@ class DynamoDbSessionSaveHandlerFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Zend\ServiceManager\Exception\ServiceNotCreatedException
+     * @expectedException \Laminas\ServiceManager\Exception\ServiceNotCreatedException
      */
     public function testExceptionThrownWhenSaveHandlerConfigurationDoesNotExist()
     {

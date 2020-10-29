@@ -5,8 +5,8 @@ namespace AwsModule\Factory;
 use Aws\Sdk as AwsSdk;
 use AwsModule\View\Helper\CloudFrontLink;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Factory used to instantiate a CloudFront link view helper

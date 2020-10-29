@@ -2,7 +2,7 @@
 
 namespace AwsModule;
 
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Laminas\ModuleManager\Feature\ConfigProviderInterface;
 
 /**
  * Zend Framework 2 module that allows easy consumption of the AWS SDK for PHP

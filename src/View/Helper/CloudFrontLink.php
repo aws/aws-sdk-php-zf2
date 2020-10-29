@@ -4,7 +4,7 @@ namespace AwsModule\View\Helper;
 
 use Aws\CloudFront\CloudFrontClient;
 use AwsModule\View\Exception\InvalidDomainNameException;
-use Zend\View\Helper\AbstractHelper;
+use Laminas\View\Helper\AbstractHelper;
 
 /**
  * View helper that can render a link to a CloudFront object. It can also create signed URLs
