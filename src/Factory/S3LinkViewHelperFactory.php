@@ -33,7 +33,7 @@ class S3LinkViewHelperFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $parentLocator = $serviceLocator->getServiceLocator();
+        $parentLocator = $serviceLocator;
 
         return $this($parentLocator, S3Link::class);
     }
