@@ -29,7 +29,7 @@ class S3RenameUploadFactory implements FactoryInterface
 
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $parentLocator = $serviceLocator->getServiceLocator();
+        $parentLocator = $serviceLocator;
 
         return $this($parentLocator, S3RenameUpload::class);
     }
