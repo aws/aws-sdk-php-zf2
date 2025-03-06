@@ -5,16 +5,17 @@ namespace AwsModule\Tests\Filter\File;
 use AwsModule\Filter\Exception\MissingBucketException;
 use AwsModule\Filter\File\S3RenameUpload;
 use Aws\S3\S3Client;
+use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 
-class S3RenameUploadTest extends \PHPUnit_Framework_TestCase
+class S3RenameUploadTest extends TestCase
 {
     /**
      * @var S3RenameUpload
      */
     protected $filter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $s3Client = new S3Client([
             'credentials' => [
@@ -46,7 +47,7 @@ class S3RenameUploadTest extends \PHPUnit_Framework_TestCase
 
     public function testThrowExceptionIfNoBucketIsSet()
     {
-        $this->setExpectedException(MissingBucketException::class);
+        $this->expectException(MissingBucketException::class);
         $this->filter->filter(['tmp_name' => 'foo', 'name' => 'foo']);
     }
 

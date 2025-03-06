@@ -15,17 +15,16 @@
         "sqs"
     ],
     "require": {
-        "php": "^5.6 || ^7.0",
-        "aws/aws-sdk-php": "3.*",
+        "php": ">=8.1",
+        "aws/aws-sdk-php": "^3.338.0",
         "laminas/laminas-filter": "^2.9.0",
-        "laminas/laminas-servicemanager": "^2.7.0 || ^3.0",
+        "laminas/laminas-servicemanager": "^3.0 || ^4.0",
         "laminas/laminas-session": "^2.7.0",
         "laminas/laminas-view": "^2.8"
     },
     "require-dev": {
-        "phpunit/phpunit": "5.*",
-        "laminas/laminas-modulemanager": "2.7.*",
-        "squizlabs/php_codesniffer": "~2.3"
+        "phpunit/phpunit": "^8.5 || ^9.5",
+        "laminas/laminas-modulemanager": "^2.11"
     },
     "autoload": {
         "psr-4": {

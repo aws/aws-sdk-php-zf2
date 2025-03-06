@@ -3,9 +3,11 @@
 namespace AwsModule\Tests\View\Helper;
 
 use Aws\S3\S3Client;
+use AwsModule\View\Exception\InvalidDomainNameException;
 use AwsModule\View\Helper\S3Link;
+use PHPUnit\Framework\TestCase;
 
-class S3LinkTest extends \PHPUnit_Framework_TestCase
+class S3LinkTest extends TestCase
 {
     /**
      * @var S3Client
@@ -17,7 +19,7 @@ class S3LinkTest extends \PHPUnit_Framework_TestCase
      */
     protected $viewHelper;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->s3Client = new S3Client([
             'credentials' => [
@@ -70,11 +72,9 @@ class S3LinkTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('https://my-bucket.s3.sa-east-1.amazonaws.com/my-object', $link);
     }
 
-    /**
-     * @expectedException \AwsModule\View\Exception\InvalidDomainNameException
-     */
     public function testFailsWhenNoBucketSpecified()
     {
+        $this->expectException(InvalidDomainNameException::class);
         $link = $this->viewHelper->__invoke('my-object');
     }
 
@@ -96,8 +96,8 @@ class S3LinkTest extends \PHPUnit_Framework_TestCase
         $url = $viewHelper->__invoke('my-object', 'my-bucket', $expires);
 
         $this->assertStringStartsWith('https://my-bucket.s3.sa-east-1.amazonaws.com/my-object?', $url);
-        $this->assertContains('X-Amz-Security-Token=999', $url);
-        $this->assertContains('X-Amz-Content-Sha256=', $url);
-        $this->assertContains('X-Amz-Expires=', $url);
+        $this->assertStringContainsString('X-Amz-Security-Token=999', $url);
+        $this->assertStringContainsString('X-Amz-Content-Sha256=', $url);
+        $this->assertStringContainsString('X-Amz-Expires=', $url);
     }
 }

@@ -35,6 +35,7 @@ class DynamoDb implements SaveHandlerInterface
      *
      * @return bool Whether or not the operation succeeded
      */
+    #[\ReturnTypeWillChange]
     public function open($savePath, $name)
     {
         return $this->sessionHandler->open($savePath, $name);
@@ -47,6 +48,7 @@ class DynamoDb implements SaveHandlerInterface
      *
      * @return bool Whether or not the operation succeeded
      */
+    #[\ReturnTypeWillChange]
     public function close()
     {
         return $this->sessionHandler->close();
@@ -61,6 +63,7 @@ class DynamoDb implements SaveHandlerInterface
      *
      * @return string Session data
      */
+    #[\ReturnTypeWillChange]
     public function read($id)
     {
         return $this->sessionHandler->read($id);
@@ -76,6 +79,7 @@ class DynamoDb implements SaveHandlerInterface
      *
      * @return bool Whether or not the operation succeeded
      */
+    #[\ReturnTypeWillChange]
     public function write($id, $data)
     {
         return $this->sessionHandler->write($id, $data);
@@ -90,6 +94,7 @@ class DynamoDb implements SaveHandlerInterface
      *
      * @return bool Whether or not the operation succeeded
      */
+    #[\ReturnTypeWillChange]
     public function destroy($id)
     {
         return $this->sessionHandler->destroy($id);
@@ -104,6 +109,7 @@ class DynamoDb implements SaveHandlerInterface
      *
      * @return bool Whether or not the operation succeeded
      */
+    #[\ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
         return $this->sessionHandler->gc($maxlifetime);

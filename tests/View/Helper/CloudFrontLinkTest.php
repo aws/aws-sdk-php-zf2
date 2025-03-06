@@ -3,9 +3,11 @@
 namespace AwsModule\Tests\View\Helper;
 
 use Aws\CloudFront\CloudFrontClient;
+use AwsModule\View\Exception\InvalidDomainNameException;
 use AwsModule\View\Helper\CloudFrontLink;
+use PHPUnit\Framework\TestCase;
 
-class CloudFrontLinkTest extends \PHPUnit_Framework_TestCase
+class CloudFrontLinkTest extends TestCase
 {
     /**
      * @var CloudFrontClient
@@ -17,7 +19,7 @@ class CloudFrontLinkTest extends \PHPUnit_Framework_TestCase
      */
     protected $viewHelper;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->cloudFrontClient = new CloudFrontClient([
             'credentials' => [
@@ -71,11 +73,9 @@ class CloudFrontLinkTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('https://123abc.example.com/my-object', $link);
     }
 
-    /**
-     * @expectedException \AwsModule\View\Exception\InvalidDomainNameException
-     */
     public function testFailsWhenDomainIsInvalid()
     {
+        $this->expectException(InvalidDomainNameException::class);
         $this->viewHelper->setDefaultDomain('');
         $link = $this->viewHelper->__invoke('my-object');
     }
@@ -102,7 +102,7 @@ class CloudFrontLinkTest extends \PHPUnit_Framework_TestCase
 
         $this->viewHelper->setHostname('example.com');
         $link = $this->viewHelper->__invoke('my-object', '123abc', time() + 600, 'kpid', $pemFile);
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '#^https\:\/\/123abc\.example\.com\/my-object\?Expires\=(.*)\&Signature\=(.*)\&Key-Pair-Id\=kpid$#',
             $link
         );

@@ -2,15 +2,18 @@
 
 namespace AwsModule\Tests\Factory;
 
+use Aws\DynamoDb\Exception\DynamoDbException;
 use AwsModule\Factory\DynamoDbSessionSaveHandlerFactory;
 use Aws\Sdk as AwsSdk;
 use AwsModule\Session\SaveHandler\DynamoDb as DynamoDbSaveHandler;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * DynamoDB-backed session save handler tests
  */
-class DynamoDbSessionSaveHandlerFactoryTest extends \PHPUnit_Framework_TestCase
+class DynamoDbSessionSaveHandlerFactoryTest extends TestCase
 {
     public function testCanFetchSaveHandlerFromServiceManager()
     {
@@ -31,8 +34,15 @@ class DynamoDbSessionSaveHandlerFactoryTest extends \PHPUnit_Framework_TestCase
         $awsSdk = new AwsSdk($config['aws']);
 
         $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
-        $serviceLocator->expects($this->at(0))->method('get')->with('Config')->willReturn($config);
-        $serviceLocator->expects($this->at(1))->method('get')->with(AwsSdk::class)->willReturn($awsSdk);
+        $serviceLocator->method('get')
+            ->withConsecutive(
+                ['Config'],
+                [AwsSdk::class]
+            )
+            ->willReturnOnConsecutiveCalls(
+                $config,
+                $awsSdk
+            );
 
 
         $saveHandlerFactory = new DynamoDbSessionSaveHandlerFactory();
@@ -43,11 +53,9 @@ class DynamoDbSessionSaveHandlerFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(DynamoDbSaveHandler::class, $saveHandler);
     }
 
-    /**
-     * @expectedException \Laminas\ServiceManager\Exception\ServiceNotCreatedException
-     */
     public function testExceptionThrownWhenSaveHandlerConfigurationDoesNotExist()
     {
+        $this->expectException(ServiceNotCreatedException::class);
         $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
         $serviceLocator->expects($this->once())->method('get')->with('Config')->willReturn([]);
 
