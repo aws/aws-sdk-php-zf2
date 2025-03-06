@@ -6,11 +6,12 @@ use AwsModule\Factory\AwsFactory;
 use Aws\Sdk as AwsSdk;
 use AwsModule\Module;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * AWS Module test cases
  */
-class AwsFactoryTest extends \PHPUnit_Framework_TestCase
+class AwsFactoryTest extends TestCase
 {
     public function testCanFetchAwsFromServiceManager()
     {
@@ -34,7 +35,7 @@ class AwsFactoryTest extends \PHPUnit_Framework_TestCase
 
 
         $this->assertArrayHasKey('ua_append', $args);
-        $this->assertInternalType('array', $args['ua_append']);
+        $this->assertIsArray($args['ua_append']);
         $this->assertNotEmpty($args['ua_append']);
         $this->assertNotEmpty(array_filter($args['ua_append'], function ($ua) {
             return false !== strpos($ua, Module::VERSION);
